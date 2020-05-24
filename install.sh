@@ -13,8 +13,8 @@ echo "[✔] Checking directories...";
 if [ -d "/usr/share/doc/phisherprice" ] ;
 then
 echo "[◉] A directory phisherprice was found! Do you want to replace it? [Y/n]:" ; 
-read installop
-if [ $installop == "y" ] ; 
+read mama
+if [ $mama == "y" ] ; 
 then
  rm -R "/usr/share/doc/phisherprice"
 else
@@ -24,11 +24,10 @@ fi
 
  echo "[✔] Installing ...";
  echo "";
- git clone https://github.com/SirCryptic/phisherprice /usr/share/doc/phisherprice;
+ git clone https://github.com/sircryptic/phisherprice.git /usr/share/doc/phisherprice;
  echo "#!/bin/bash 
  bash /usr/share/doc/phisherprice/phisherprice.sh" '${1+"$@"}' > phisherprice;
- chmod +x phisherprice.sh;
- sudo cp phisherprice /usr/bin/;
+ chmod +x phisherprice;
  sudo cp phisherprice /usr/bin/;
  rm phisherprice;
 
@@ -36,10 +35,10 @@ fi
 if [ -d "/usr/share/doc/phisherprice" ] ;
 then
 echo "";
-echo "[✔]Script istalled with success![✔]";
+echo "[✔]Tool istalled with success![✔]";
 echo "";
   echo "[✔]====================================================================[✔]";
-  echo "[✔]   You can execute the tool by typing  sudo phisherprice.sh  !      [✔]"; 
+  echo "[✔]      All is done!! You can execute tool by typing phisherprice  !  [✔]"; 
   echo "[✔]====================================================================[✔]";
   echo "";
 else
