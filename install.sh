@@ -26,7 +26,7 @@ fi
  echo "";
  git clone https://github.com/SirCryptic/phisherprice /usr/share/doc/phisherprice;
  echo "#!/bin/bash 
-  /usr/share/doc/phisherprice/phisherprice.sh" '${1+"$@"}' > phisherprice;
+  /usr/share/doc/phisherprice/phisherprice" '${1+"$@"}' > phisherprice;
  sudo chmod +x phisherprice;
  sudo cp phisherprice /usr/bin/;
  sudo cp sshscan.py /usr/bin/;
