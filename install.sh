@@ -27,10 +27,10 @@ fi
  git clone https://github.com/SirCryptic/phisherprice /usr/share/doc/phisherprice;
  echo "#!/bin/bash 
  bash /usr/share/doc/phisherprice/phisherprice.sh" '${1+"$@"}' > phisherprice;
- chmod +x phisherprice;
+ sudo chmod +x phisherprice;
  sudo cp phisherprice /usr/bin/;
  sudo cp sshscan /usr/bin/;
- rm phisherprice;
+ sudo rm phisherprice;
 
 
 if [ -d "/usr/share/doc/phisherprice" ] ;
