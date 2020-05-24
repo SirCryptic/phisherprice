@@ -26,8 +26,8 @@ fi
  echo "";
  git clone https://github.com/SirCryptic/phisherprice /usr/share/doc/phisherprice;
  echo "#!/bin/bash 
- bash /usr/share/doc/phisherprice/phisherprice" '${1+"$@"}' > phisherprice;
- chmod +x phisherprice;
+ bash /usr/share/doc/phisherprice/phisherprice.sh" '${1+"$@"}' > phisherprice;
+ chmod +x phisherprice.sh;
  sudo cp phisherprice /usr/bin/;
  sudo cp phisherprice /usr/bin/;
  rm phisherprice;
