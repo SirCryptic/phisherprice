@@ -1,4 +1,10 @@
 #!/bin/bash
+
+red="\e[0;31m"
+green="\e[0;32m"
+off="\e[0m"
+
+function banner() {
 clear
 echo -e '\e[1;33m
  _______   ____ ___.____    .____       _________              
@@ -8,53 +14,110 @@ echo -e '\e[1;33m
 \____|__  /______/ |_______ \_______ \/_______  /\___  >\___  >
         \/NULLSecurity Team\/       \/        \/     \/     \/ \e[1;34m
 '
-sudo apt-get install exif libimage-exiftool-perl libstring-crc32-perl libgd-perl -y
-echo "[✔] Checking directories...";
-if [ -d "/usr/share/doc/phisherprice" ] ;
-then
-echo "[◉] A directory phisherprice was found! Do you want to replace it? [Y/n]:" ; 
-read selection
-if [ $selection == "y" ] ; 
-then
- rm -r "/usr/share/doc/phisherprice"
+}
+
+function termux() {
+  echo -e "$red [$green+$red]$off Installing Perl ...";
+pkg install -y perl
+echo -e "$red [$green+$red]$off Installing JSON Module ...";
+cpan install JSON
+  echo -e "$red [$green+$red]$off Checking directories ..."
+
+if [ -e "/data/data/com.termux/files/usr/share/phisherprice" ]; then
+  echo -e "$red [$green+$red]$off A previous installation was found Do you want to replace it? [Y/n]: "
+read replace
+if [ "$replace" == "y" ] || [ "$replace" == "Y" ] || [ -z "$replace" ]; then
+ rm -r "/data/data/com.termux/files/usr/share/phisherprice"
+ rm "/data/data/com.termux/files/usr/bin/phisherprice"
 else
+  echo -e "$red [$green✘$red]$off If You Want To Install You Must Remove Previous Installations";
+  echo -e "$red [$green✘$red]$off Installation Failed";
  exit
 fi
 fi
 
-echo "[✔] Installing ...";
-echo "";
-git clone https://github.com/SirCryptic/phisherprice /usr/share/doc/phisherprice;
-echo "#!/bin/bash /usr/share/doc/phisherprice/phisherprice.sh" '${1+"$@"}' > phisherprice;
-chmod +x phisherprice/phisherprice.sh;
-sudo cp phisherprice/phisherprice.sh /usr/bin/;
-sudo cp phisherprice/sshscan.py /usr/bin/
-rm phisherprice;
-
-
-if [ -d "/usr/share/doc/phisherprice" ] ;
+  echo -e "$red [$green+$red]$off Installing ...";
+ mkdir "/data/data/com.termux/files/usr/share/phisherprice" 
+ cp "phisherprice.sh" "/data/data/com.termux/files/usr/share/phisherprice"
+ cp "install.sh" "/data/data/com.termux/files/usr/share/phisherprice"
+ cp "update.sh" "/data/data/com.termux/files/usr/share/phisherprice"
+ chmod +x /data/data/com.termux/files/usr/share/phisherprice/update.sh
+  echo -e "$red [$green+$red]$off Creating Symbolic Link ...";
+  echo "#!/data/data/com.termux/files/usr/bin/bash 
+perl /data/data/com.termux/files/usr/share/phisherprice/phisherprice.sh" '${1+"$@"}' > "phisherprice";
+ cp "phisherprice" "/data/data/com.termux/files/usr/bin"
+ chmod +x "/data/data/com.termux/files/usr/bin/phisherprice"
+ rm "phisherprice";
+ if [ -d "/data/data/com.termux/files/usr/share/phisherprice" ] ;
 then
-echo -e '\e[1;33m
-__________.__    .__       .__                __________        .__              
-\______   \  |__ |__| _____|  |__   __________\______   \_______|__| ____  ____  
- |     ___/  |  \|  |/  ___/  |  \_/ __ \_  __ \     ___/\_  __ \  |/ ___\/ __ \ 
- |    |   |   Y  \  |\___ \|   Y  \  ___/|  | \/    |     |  | \/  \  \__\  ___/ 
- |____|   |___|  /__/____  >___|  /\___  >__|  |____|     |__|  |__|\___  >___  >
-               \/        \/     \/     \/ PhisherPrice || Version 2.1   \/    \/\e[1;34m
-                                
-                                Created by "Sir Cryptic ~ NULLSec"
-                    NULL Security Forums | https://nullsec.online\e[1;31m
-  Usage of PhisherPrice for attacking targets without prior mutual consent is ILLEGAL. 
-  The Developer is NOT responsible for any damage caused by this script.
-  PhisherPrice is intented FOR EDUCATIONAL PURPOSES ONLY!
-[✔]====================================================================[✔]
-[✔]               phisherprice installed successfully!                 [✔]
-[✔]====================================================================[✔]
-[✔] ✔✔✔  You can execute the script by typing phisherprice   !       [✔]
-[✔]====================================================================[✔]
-\e[1;36m
-'
+echo -e "$red [$green+$red]$off Tool successfully installed and will start in 5s!";
+echo -e "$red [$green+$red]$off You can execute tool by typing phisherprice"
+sleep 5;
+phisherprice
 else
-  echo "[✘] Installation failed![✘] ";
-  exit
+echo -e "$red [$green✘$red]$off Tool Cannot Be Installed On Your System! Use It As Portable !";
+    exit
+fi
+}
+
+function linux() {
+echo -e "$red [$green+$red]$off Installing Perl ...";
+sudo apt-get install -y perl
+echo -e "$red [$green+$red]$off Installing JSON Module ...";
+cpan install JSON
+  echo -e "$red [$green+$red]$off Checking directories..."
+if [ -d "/usr/share/phisherprice" ]; then
+    echo -e "$red [$green+$red]$off A Directory phisherprice Was Found! Do You Want To Replace It? [Y/n]:" ;
+    read replace
+    if [ "$replace" = "y" ]; then
+      sudo rm -r "/usr/share/phisherprice"
+      sudo rm "/usr/share/icons/phisherprice.png"
+      sudo rm "/usr/share/applications/phisherprice.desktop"
+      sudo rm "/usr/local/bin/phisherprice"
+
+else
+echo -e "$red [$green✘$red]$off If You Want To Install You Must Remove Previous Installations";
+echo -e "$red [$green✘$red]$off Installation Failed";
+        exit
+    fi
+fi 
+
+echo -e "$red [$green+$red]$off Installing ...";
+echo -e "$red [$green+$red]$off Creating Symbolic Link ...";
+echo -e "#!/bin/bash
+perl /usr/share/phisherprice/phisherprice.sh" '${1+"$@"}' > "phisherprice";
+    chmod +x "phisherprice";
+    sudo mkdir "/usr/share/phisherprice"
+    sudo cp "install.sh" "/usr/share/phisherprice"
+    sudo cp "update.sh" "/usr/share/phisherprice"
+    sudo chmod +x /usr/share/phisherprice/update.sh
+    sudo cp "phisherprice.sh" "/usr/share/phisherprice"
+    sudo cp "config/phisherprice.png" "/usr/share/icons"
+    sudo cp "config/phisherprice.desktop" "/usr/share/applications"
+    sudo cp "phisherprice" "/usr/local/bin/"
+    rm "phisherprice";
+
+if [ -d "/usr/share/phisherprice" ] ;
+then
+echo -e "$red [$green+$red]$off Tool Successfully Installed And Will Start In 5s!";
+echo -e "$red [$green+$red]$off You can execute tool by typing phisherprice"
+sleep 5;
+phisherprice
+else
+echo -e "$red [$green✘$red]$off Tool Cannot Be Installed On Your System! Use It As Portable !";
+    exit
+fi 
+}
+
+if [ -d "/data/data/com.termux/files/usr/" ]; then
+banner
+echo -e "$red [$green+$red]$off phisherprice Will Be Installed In Your System";
+termux
+elif [ -d "/usr/bin/" ];then
+banner
+echo -e "$red [$green+$red]$off phisherprice Will Be Installed In Your System";
+linux
+else
+echo -e "$red [$green✘$red]$off Tool Cannot Be Installed On Your System! Use It As Portable !";
+    exit
 fi
