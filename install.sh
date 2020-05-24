@@ -26,7 +26,7 @@ fi
  echo "";
  git clone https://github.com/SirCryptic/phisherprice /usr/share/doc/phisherprice;
  echo "#!/bin/bash 
- bash /usr/share/doc/phisherprice/phisherprice.sh" '${1+"$@"}' > phisherprice;
+ bash /usr/share/doc/phisherprice.sh" '${1+"$@"}' > phisherprice;
  chmod +x phisherprice.sh;
  sudo cp phisherprice /usr/bin/;
  sudo cp phisherprice /usr/bin/;
@@ -39,7 +39,7 @@ echo "";
 echo "[✔]Script istalled with success![✔]";
 echo "";
   echo "[✔]====================================================================[✔]";
-  echo "[✔]   You can execute the tool by typing  sudo phisherprice  !         [✔]"; 
+  echo "[✔]   You can execute the tool by typing  sudo phisherprice.sh  !      [✔]"; 
   echo "[✔]====================================================================[✔]";
   echo "";
 else
