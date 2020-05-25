@@ -18,7 +18,7 @@ Multi-Functional Pentest Tool, Command Them All From One Script.
 
 **- [ x ] How do i run the script?**
 
--  Type `sudo phisherprice.sh` in any terminal
+-  Type `sudo phisherprice` in any terminal
 
 **- [ x ] How do i Remove the old script?**
 - cd /usr/local/sbin/
