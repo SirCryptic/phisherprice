@@ -344,7 +344,7 @@ echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  
 '
-
+clear
 python sshscan.py -t $subop9
 
 echo -e '
@@ -546,7 +546,7 @@ echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 '
 
-curl https://api.hackertarget.com/analyticslookup/?q=$subop16
+curl https://api.telnyx.com/anonymous/v2/number_lookup/$subop16
 
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
