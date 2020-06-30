@@ -31,7 +31,6 @@ clear
 echo "added kali repo, were good to go ladies & gents"
 sudo apt install -y curl
 sudo apt install -y python
-sudo apt install -y pip
 sudo apt install -y postgresql
 sudo apt install -y hash-identifier
 sudo apt install -y nmap
