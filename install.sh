@@ -70,7 +70,7 @@ cd
 git clone https://github.com/Moham3dRiahi/Th3inspector.git
 cd Th3inspector
 chmod +x install.sh && ./install.sh
-git clone https://github.com/SirCryptic/phisherprice /usr/share/doc/phisherprice;
+git clone https://github.com/NULL-Security-Team/phisherprice /usr/share/doc/phisherprice;
 sudo cp /usr/share/doc/phisherprice/sshscan.py /usr/bin/;
 echo "#!/bin/bash 
 bash /usr/share/doc/phisherprice/phisherprice.sh" '${1+"$@"}' > phisherprice;
