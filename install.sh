@@ -29,6 +29,7 @@ wget -q -O - archive.kali.org/archive-key.asc | sudo apt-key add -
 sudo apt update
 clear
 echo "added kali repo, were good to go ladies & gents"
+sudo apt install -y libjson-perl
 sudo apt install -y curl
 sudo apt install -y python
 sudo apt install -y postgresql
