@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # PhiserPrice2.0
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 
@@ -11,6 +10,18 @@ clear
 while [ $i -lt 1 ]
 do
 clear
+
+#COLOUR
+cyan='\e[0;36m'
+green='\e[0;34m'
+okegreen='\033[92m'
+lightgreen='\e[1;32m'
+white='\e[1;37m'
+red='\e[1;31m'
+yellow='\e[0;33m'
+BlueF='\e[1;34m' #Biru
+RESET="\033[00m" #normal
+orange='\e[38;5;166m'
 
 ip=$(ip addr show wlan0 | awk '/inet / {print $2}' | cut -d/ -f 1)
 
@@ -55,7 +66,8 @@ option8='8'
 update='u'
 contact='c'
 
-read x
+echo -e $BlueF" ┌─["$red"PhisherPrice$BlueF]──[$red~$BlueF]─["$yellow"ToolSet$BlueF]:"
+echo -e $BlueF" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$option1" ]; then                    #Option1
 clear
@@ -114,7 +126,8 @@ sub17='s17'
 sub18='s18'
 sub19='s19'
 
-read x
+echo -e $BlueF" ┌─["$red"PhisherPrice$BlueF]──[$red~$BlueF]─["$yellow"Recon & Audit$BlueF]:"
+echo -e $BlueF" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$sub1" ]; then                    #Sub-Option-1
 clear
@@ -682,7 +695,8 @@ subk='c6'
 
 
 wait
-read x
+echo -e $BlueF" ┌─["$red"PhisherPrice$BlueF]──[$red~$BlueF]─["$yellow"Auto Brute$BlueF]:"
+echo -e $BlueF" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$subf" ]; then                    #Sub-Option-f
 clear
@@ -722,7 +736,8 @@ hynull8='h8'
 newoption1='h9'
 
 
-read x
+echo -e $BlueF" ┌─["$red"PhisherPrice$BlueF]──[$red~$BlueF]─["$yellow"Auto Brute$BlueF]:"
+echo -e $BlueF" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$hynull1" ]; then                    #hynull-Option-1
 clear
@@ -1097,7 +1112,8 @@ auto17='a17'
 auto18='a18'
 
 wait
-read x
+echo -e $BlueF" ┌─["$red"PhisherPrice$BlueF]──[$red~$BlueF]─["$yellow"Auto Xsploit$BlueF]:"
+echo -e $BlueF" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$auto1" ]; then                    #auto-Option-1
 clear
@@ -1346,7 +1362,8 @@ kissmet1='w10'
 whoney='w11'
 
 wait
-read x
+echo -e $BlueF" ┌─["$red"PhisherPrice$BlueF]──[$red~$BlueF]─["$yellow"ToolSet$BlueF]:"
+echo -e $BlueF" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$suba" ]; then                    #Sub-Option-a
 clear
@@ -1422,7 +1439,8 @@ cisco2='r2'
 
 
 wait
-read x
+echo -e $BlueF" ┌─["$red"PhisherPrice$BlueF]──[$red~$BlueF]─["$yellow"Cisco Routers$BlueF]:"
+echo -e $BlueF" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$cisco1" ]; then                    #cisco-Option-1
 clear
@@ -1795,7 +1813,8 @@ cyouro12='x12'
 cyouro13='x13'
 
 wait
-read x
+echo -e $BlueF" ┌─["$red"PhisherPrice$BlueF]──[$red~$BlueF]─["$yellow"CYO Xsploit$BlueF]:"
+echo -e $BlueF" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$cyouro1" ]; then                    #cyouro-Option-1
 clear
@@ -1940,7 +1959,8 @@ help='i'
 
 
 
-read x
+echo -e $BlueF" ┌─["$red"PhisherPrice$BlueF]──[$red~$BlueF]─["$yellow"AutoExif$BlueF]:"
+echo -e $BlueF" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$autoexiftool1" ]; then                    #readmetadata basic
 echo "enter image name followed by its file type eg: /home/username/Pictures/lulz.png"
