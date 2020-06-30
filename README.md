@@ -11,7 +11,7 @@ Multi-Functional Pentest Tool, Command Them All From One Script.
 
 **- [ x ] How To Install**
 
-- `git clone https://github.com/SirCryptic/phisherprice
+- `git clone https://github.com/NULL-Security-Team/phisherprice
 - `cd phisherprice`
 -  `sudo bash install.sh`
 
@@ -43,4 +43,4 @@ ADDED- SUB MENU DEDICATED TO HYDRA || SUN/24/MAY/2020
 Complete Overhaul / re-write
 added tons more features too many to list
 
-[WIKI](https://github.com/SirCryptic/phisherprice/wiki)
+[WIKI](https://github.com/NULL-Security-Team/phisherprice/wiki)
