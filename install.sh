@@ -59,7 +59,6 @@ sudo python get-pip.py -y
 rm get-pip.py
 pip install psycopg2 -y
 sudo apt install arp-scan
-sudo apt install -y set
 git clone https://github.com/trustedsec/social-engineer-toolkit/ set/
 cd set
 pip install -r requirements.txt
