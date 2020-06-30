@@ -2235,7 +2235,7 @@ echo -e '
  
 '
 
-$pi9host setoolkit
+$pi9host sudo setoolkit
 
 elif [ "$x" == "$option8" ]; then                          #Option9
 clear
