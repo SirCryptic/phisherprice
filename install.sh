@@ -24,6 +24,52 @@ fi
 
 echo "[✔] Installing ...";
 echo "";
+sudo echo "deb http://http.kali.org/kali kali-rolling main contrib non-free" >> /etc/apt/sources.list
+wget -q -O - archive.kali.org/archive-key.asc | sudo apt-key add -
+sudo apt update
+clear
+echo "added kali repo, were good to go ladies & gents"
+sudo apt install -y curl
+sudo apt install -y python
+sudo apt install -y pip
+sudo apt install -y postgresql
+sudo apt install -y hash-identifier
+sudo apt install -y nmap
+sudo apt install -y yersinia
+sudo apt install -y hashcat
+sudo apt install -y hydra
+sudo apt install -y sqlmap
+sudo apt install -y wifite
+sudo apt install -y kismet
+sudo apt install -y aircrack-ng
+sudo apt install -y sqldict
+sudo apt install -y john
+curl -k -L "https://raw.githubusercontent.com/g0tmi1k/mpc/master/msfpc.sh" > /usr/local/bin/msfpc
+chmod 0755 /usr/local/bin/msfpc
+git clone https://github.com/ZerBea/hcxtools.git
+cd hcxtools
+make
+sudo make install
+echo "Alomost Done."
+cd
+sudo apt-get install python-dev -y
+sudo apt-get install libssl-dev libz-dev libpcap-dev -y
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py -y
+sudo python get-pip.py -y
+rm get-pip.py
+pip install psycopg2 -y
+sudo apt install arp-scan
+git clone https://github.com/trustedsec/social-engineer-toolkit/ set/
+cd set
+pip install -r requirements.txt
+cd
+curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && \
+  chmod 755 msfinstall && \
+  ./msfinstall
+cd
+git clone https://github.com/Moham3dRiahi/Th3inspector.git
+cd Th3inspector
+chmod +x install.sh && ./install.sh
 git clone https://github.com/SirCryptic/phisherprice /usr/share/doc/phisherprice;
 sudo cp /usr/share/doc/phisherprice/sshscan.py /usr/bin/;
 echo "#!/bin/bash 
