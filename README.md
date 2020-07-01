@@ -14,7 +14,7 @@ Multi-Functional Pentest Tool, Command Them All From One Script.
 
 -  Type `sudo phisherprice.sh` in any terminal
 
- **- [ x ] contact info
+ **- [ x ] contact info**
 -' website: https://nullsec.online ' email:
 -' no-reply@nullsec.online '
 
