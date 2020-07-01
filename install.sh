@@ -37,6 +37,8 @@ chmod +x phisherprice.sh;
 sudo cp phisherprice.sh /usr/bin/;
 sudo cp sshscan.py /usr/bin/;
 rm phisherprice;
+sudo apt install -y python3-pip
+sudo pip3 install h8mail
 sudo apt install -y libjson-perl
 sudo apt install -y curl
 sudo apt install -y python
@@ -52,6 +54,7 @@ sudo apt install -y kismet
 sudo apt install -y aircrack-ng
 sudo apt install -y sqldict
 sudo apt install -y john
+sudo apt install -y fern-wifi-cracker
 sudo apt install -y enum4linux
 sudo apt install -y tlssled
 sudo apt install -y whois
