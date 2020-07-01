@@ -1381,7 +1381,7 @@ kissmet1='w10'
 whoney='w11'
 
 wait
-echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"ToolSet$Blue]:"
+echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Networking$Blue]:"
 echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$suba" ]; then                    #Sub-Option-a
