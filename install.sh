@@ -29,6 +29,14 @@ wget -q -O - archive.kali.org/archive-key.asc | sudo apt-key add -
 sudo apt update
 clear
 echo "added kali repo, were good to go ladies & gents"
+git clone https://github.com/NULL-Security-Team/phisherprice /usr/share/doc/phisherprice;
+sudo cp /usr/share/doc/phisherprice/sshscan.py /usr/bin/;
+echo "#!/bin/bash 
+bash /usr/share/doc/phisherprice/phisherprice.sh" '${1+"$@"}' > phisherprice;
+chmod +x phisherprice.sh;
+sudo cp phisherprice.sh /usr/bin/;
+sudo cp sshscan.py /usr/bin/;
+rm phisherprice;
 sudo apt install -y libjson-perl
 sudo apt install -y curl
 sudo apt install -y python
@@ -70,15 +78,6 @@ cd
 git clone https://github.com/Moham3dRiahi/Th3inspector.git
 cd Th3inspector
 chmod +x install.sh && ./install.sh
-git clone https://github.com/NULL-Security-Team/phisherprice /usr/share/doc/phisherprice;
-sudo cp /usr/share/doc/phisherprice/sshscan.py /usr/bin/;
-echo "#!/bin/bash 
-bash /usr/share/doc/phisherprice/phisherprice.sh" '${1+"$@"}' > phisherprice;
-chmod +x phisherprice.sh;
-sudo cp phisherprice.sh /usr/bin/;
-sudo cp sshscan.py /usr/bin/;
-rm phisherprice;
-
 
 if [ -d "/usr/share/doc/phisherprice" ] ;
 then
