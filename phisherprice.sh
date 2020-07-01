@@ -54,7 +54,6 @@ I DO NOT CONDONE THIS TYPE OF BEHAVIOUR, You need consent before attacking a tar
 (c) Contact Information
 CTRL + C To Exit
 '
-service postgresql start
 option1='1'
 option2='2'
 option3='3'
@@ -1058,6 +1057,7 @@ fi
 
 elif [ "$x" == "$option3" ]; then                          #Option3
 clear
+service postgresql start
 echo -e '\e[1;33m
 __________.__    .__       .__                __________        .__              
 \______   \  |__ |__| _____|  |__   __________\______   \_______|__| ____  ____  
