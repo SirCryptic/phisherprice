@@ -1,5 +1,5 @@
 #!/bin/bash
-# PhiserPrice2.0
+# PhiserPrice2.5
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 
    echo "You Forgot To Say The Magic Word, bRuHhh cmon" 
@@ -12,16 +12,9 @@ do
 clear
 
 #COLOUR
-cyan='\e[0;36m'
-green='\e[0;34m'
-okegreen='\033[92m'
-lightgreen='\e[1;32m'
-white='\e[1;37m'
 red='\e[1;31m'
 yellow='\e[0;33m'
-BlueF='\e[1;34m' #Biru
-RESET="\033[00m" #normal
-orange='\e[38;5;166m'
+Blue='\e[1;34m'
 
 ip=$(ip addr show wlan0 | awk '/inet / {print $2}' | cut -d/ -f 1)
 
@@ -31,7 +24,7 @@ __________.__    .__       .__                __________        .__
  |     ___/  |  \|  |/  ___/  |  \_/ __ \_  __ \     ___/\_  __ \  |/ ___\/ __ \ 
  |    |   |   Y  \  |\___ \|   Y  \  ___/|  | \/    |     |  | \/  \  \__\  ___/ 
  |____|   |___|  /__/____  >___|  /\___  >__|  |____|     |__|  |__|\___  >___  >
-               \/        \/     \/     \/ PhisherPrice ||  Version 2.1  \/    \/\e[1;34m
+               \/        \/     \/     \/ PhisherPrice ||  Version 2.5  \/    \/\e[1;34m
 '
  echo -e '\e[1;31m Happy Hour Playset            
 \e[3;34m
@@ -65,8 +58,8 @@ option8='8'
 update='u'
 contact='c'
 
-echo -e $BlueF" ┌─["$red"PhisherPrice$BlueF]──[$red~$BlueF]─["$yellow"ToolSet$BlueF]:"
-echo -e $BlueF" └─────► " ;read -p " CHOOSE: " x
+echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"ToolSet$Blue]:"
+echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$option1" ]; then                    #Option1
 clear
@@ -76,7 +69,7 @@ __________.__    .__       .__                __________        .__
  |     ___/  |  \|  |/  ___/  |  \_/ __ \_  __ \     ___/\_  __ \  |/ ___\/ __ \ 
  |    |   |   Y  \  |\___ \|   Y  \  ___/|  | \/    |     |  | \/  \  \__\  ___/ 
  |____|   |___|  /__/____  >___|  /\___  >__|  |____|     |__|  |__|\___  >___  >
-               \/        \/     \/     \/ PhisherPrice ||  Version 2.1  \/    \/\e[1;34m
+               \/        \/     \/     \/ PhisherPrice ||  Version 2.5  \/    \/\e[1;34m
 '
 echo "Happy Hour Playset"
  echo -e '\e[0m \e[1;31m
@@ -125,8 +118,8 @@ sub17='s17'
 sub18='s18'
 sub19='s19'
 
-echo -e $BlueF" ┌─["$red"PhisherPrice$BlueF]──[$red~$BlueF]─["$yellow"Recon & Audit$BlueF]:"
-echo -e $BlueF" └─────► " ;read -p " CHOOSE: " x
+echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Recon & Audit$Blue]:"
+echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$sub1" ]; then                    #Sub-Option-1
 clear
@@ -357,7 +350,7 @@ echo -e '
  
 '
 clear
-python sshscan.py -t $subop9
+sshscan.py -t $subop9
 
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -670,7 +663,7 @@ __________.__    .__       .__                __________        .__
  |     ___/  |  \|  |/  ___/  |  \_/ __ \_  __ \     ___/\_  __ \  |/ ___\/ __ \ 
  |    |   |   Y  \  |\___ \|   Y  \  ___/|  | \/    |     |  | \/  \  \__\  ___/ 
  |____|   |___|  /__/____  >___|  /\___  >__|  |____|     |__|  |__|\___  >___  >
-               \/        \/     \/     \/ PhisherPrice ||  Version 2.1  \/    \/\e[1;34m
+               \/        \/     \/     \/ PhisherPrice ||  Version 2.5  \/    \/\e[1;34m
 '
  echo -e '\e[0m \e[1;31m
 Cracking / Brute Force
@@ -694,8 +687,8 @@ subk='c6'
 
 
 wait
-echo -e $BlueF" ┌─["$red"PhisherPrice$BlueF]──[$red~$BlueF]─["$yellow"Auto Brute$BlueF]:"
-echo -e $BlueF" └─────► " ;read -p " CHOOSE: " x
+echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Auto Brute$Blue]:"
+echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$subf" ]; then                    #Sub-Option-f
 clear
@@ -705,7 +698,7 @@ __________.__    .__       .__                __________        .__
  |     ___/  |  \|  |/  ___/  |  \_/ __ \_  __ \     ___/\_  __ \  |/ ___\/ __ \ 
  |    |   |   Y  \  |\___ \|   Y  \  ___/|  | \/    |     |  | \/  \  \__\  ___/ 
  |____|   |___|  /__/____  >___|  /\___  >__|  |____|     |__|  |__|\___  >___  >
-               \/        \/     \/     \/ PhisherPrice ||  Version 2.1  \/    \/\e[1;34m
+               \/        \/     \/     \/ PhisherPrice ||  Version 2.5  \/    \/\e[1;34m
 '
 echo -e '\e[0m \e[1;31m
 Hydra Brute Force
@@ -735,8 +728,8 @@ hynull8='h8'
 newoption1='h9'
 
 
-echo -e $BlueF" ┌─["$red"PhisherPrice$BlueF]──[$red~$BlueF]─["$yellow"Auto Brute$BlueF]:"
-echo -e $BlueF" └─────► " ;read -p " CHOOSE: " x
+echo -e $Blue" ┌─["$red"PhisherPrice$BlueF]──[$red~$Blue]─["$yellow"Auto Brute$Blue]:"
+echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$hynull1" ]; then                    #hynull-Option-1
 clear
@@ -1064,7 +1057,7 @@ __________.__    .__       .__                __________        .__
  |     ___/  |  \|  |/  ___/  |  \_/ __ \_  __ \     ___/\_  __ \  |/ ___\/ __ \ 
  |    |   |   Y  \  |\___ \|   Y  \  ___/|  | \/    |     |  | \/  \  \__\  ___/ 
  |____|   |___|  /__/____  >___|  /\___  >__|  |____|     |__|  |__|\___  >___  >
-               \/        \/     \/     \/ PhisherPrice ||  Version 2.1  \/    \/\e[1;34m
+               \/        \/     \/     \/ PhisherPrice ||  Version 2.5  \/    \/\e[1;34m
 '
 echo -e '\e[0m \e[1;31m
 Auto Xsploit
@@ -1112,8 +1105,8 @@ auto17='a17'
 auto18='a18'
 
 wait
-echo -e $BlueF" ┌─["$red"PhisherPrice$BlueF]──[$red~$BlueF]─["$yellow"Auto Xsploit$BlueF]:"
-echo -e $BlueF" └─────► " ;read -p " CHOOSE: " x
+echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Auto Xsploit$Blue]:"
+echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$auto1" ]; then                    #auto-Option-1
 clear
@@ -1328,7 +1321,7 @@ __________.__    .__       .__                __________        .__
  |     ___/  |  \|  |/  ___/  |  \_/ __ \_  __ \     ___/\_  __ \  |/ ___\/ __ \ 
  |    |   |   Y  \  |\___ \|   Y  \  ___/|  | \/    |     |  | \/  \  \__\  ___/ 
  |____|   |___|  /__/____  >___|  /\___  >__|  |____|     |__|  |__|\___  >___  >
-               \/        \/     \/     \/ PhisherPrice ||  Version 2.1  \/    \/\e[1;34m
+               \/        \/     \/     \/ PhisherPrice ||  Version 2.5  \/    \/\e[1;34m
 '
 echo "Happy Hour Playset"
  echo -e '\e[0m \e[1;31m
@@ -1362,8 +1355,8 @@ kissmet1='w10'
 whoney='w11'
 
 wait
-echo -e $BlueF" ┌─["$red"PhisherPrice$BlueF]──[$red~$BlueF]─["$yellow"ToolSet$BlueF]:"
-echo -e $BlueF" └─────► " ;read -p " CHOOSE: " x
+echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"ToolSet$Blue]:"
+echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$suba" ]; then                    #Sub-Option-a
 clear
@@ -1813,8 +1806,8 @@ cyouro12='x12'
 cyouro13='x13'
 
 wait
-echo -e $BlueF" ┌─["$red"PhisherPrice$BlueF]──[$red~$BlueF]─["$yellow"CYO Xsploit$BlueF]:"
-echo -e $BlueF" └─────► " ;read -p " CHOOSE: " x
+echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"CYO Xsploit$Blue]:"
+echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$cyouro1" ]; then                    #cyouro-Option-1
 clear
@@ -1959,8 +1952,8 @@ help='i'
 
 
 
-echo -e $BlueF" ┌─["$red"PhisherPrice$BlueF]──[$red~$BlueF]─["$yellow"AutoExif$BlueF]:"
-echo -e $BlueF" └─────► " ;read -p " CHOOSE: " x
+echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"AutoExif$Blue]:"
+echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$autoexiftool1" ]; then                    #readmetadata basic
 echo "enter image name followed by its file type eg: /home/username/Pictures/lulz.png"
