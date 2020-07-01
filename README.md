@@ -42,3 +42,6 @@ https://github.com/SirCryptic
 
 - Evict , SSH Scanner
 https://github.com/evict/SSHScan
+
+
+PhisherPrice Version 2.5 <tagname>
