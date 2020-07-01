@@ -679,7 +679,7 @@ echo -e '\e[1;33m
 Cracking / Brute Force
 \e[3;39m
 (c1) Auto-Brute (Hydra)
-(c2) Jhon-The-Ripper
+(c2) John-The-Ripper
 (c3) Hash-Identifier
 (c4) Hashcat
 (c5) Aircrack-ng (Crack Wifi Pass)
