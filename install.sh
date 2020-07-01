@@ -52,6 +52,7 @@ sudo apt install -y kismet
 sudo apt install -y aircrack-ng
 sudo apt install -y sqldict
 sudo apt install -y john
+sudo apt install -y fern-wifi-cracker
 sudo apt install -y enum4linux
 sudo apt install -y tlssled
 sudo apt install -y whois
