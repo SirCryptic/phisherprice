@@ -37,6 +37,8 @@ chmod +x phisherprice.sh;
 sudo cp phisherprice.sh /usr/bin/;
 sudo cp sshscan.py /usr/bin/;
 rm phisherprice;
+sudo apt install -y python3-pip
+sudo pip3 install h8mail
 sudo apt install -y libjson-perl
 sudo apt install -y curl
 sudo apt install -y python
