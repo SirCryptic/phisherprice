@@ -14,7 +14,7 @@
 
 -  Type `sudo phisherprice.sh` in any terminal
 
-###  **- [ x ] contact info
+### **-[ x ] contact info**
 -' website: https://nullsec.online ' email:
 -' no-reply@nullsec.online '
 
@@ -35,8 +35,9 @@
 
 
 **-Credits**
-Sir Crypic , Phisherprice Tool
+
+- Sir Crypic , Phisherprice Tool
 https://github.com/SirCryptic
 
-Evict , SSH Scanner
+- Evict , SSH Scanner
 https://github.com/evict/SSHScan
