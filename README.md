@@ -3,6 +3,7 @@
 
 ![Capture](https://user-images.githubusercontent.com/48811414/86183623-58bca500-bb2a-11ea-9e4b-7a23e3a45302.PNG)
 
+![badge](https://user-images.githubusercontent.com/48811414/86191653-8233fb80-bb3f-11ea-8b2c-5e8737da4464.png)
 ### **- [ x ] How To Install**
 
 - `git clone https://github.com/NULL-Security-Team/phisherprice`
