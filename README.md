@@ -1,5 +1,5 @@
 # PhisherPrice v2.5
-git tag -a "v2.5" -m "version v2.5"
+git tag -a "v1.5.0-beta" -m "version v1.5.0-beta"
 
 
 - Multi-Functional Pentest Tool, Command Them All From One Script.
