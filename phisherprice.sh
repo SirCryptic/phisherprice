@@ -19,22 +19,20 @@ Blue='\e[1;34m'
 ip=$(ip addr show wlan0 | awk '/inet / {print $2}' | cut -d/ -f 1)
 
 echo -e '\e[1;33m
-__________.__    .__       .__                __________        .__              
-\______   \  |__ |__| _____|  |__   __________\______   \_______|__| ____  ____  
- |     ___/  |  \|  |/  ___/  |  \_/ __ \_  __ \     ___/\_  __ \  |/ ___\/ __ \ 
- |    |   |   Y  \  |\___ \|   Y  \  ___/|  | \/    |     |  | \/  \  \__\  ___/ 
- |____|   |___|  /__/____  >___|  /\___  >__|  |____|     |__|  |__|\___  >___  >
-               \/        \/     \/     \/ PhisherPrice ||  Version 2.5  \/    \/\e[1;34m
+///,        ////
+\  /,      /  >.
+ \  /,   _/  /.
+  \_  /_/   /.
+   \__/_   <    PhisherPrice
+   /<<< \_\_  Happy Hour Playset
+  /,)^>>_._ \ Version 2.5 
+  (/   \\ /\\\
+       // //```
+======((`((====\e[1;34m
 '
- echo -e '\e[1;31m Happy Hour Playset            
-\e[3;34m
-Created by "Sir Cryptic"
-https://nullsec.online
-\e[0m \e[1;31m
-This Is For EDUCATIONAL PURPOSE ONLY
-Exploiting A Target Without Permision Is Illegal & Can Face Imprisonment
-I DO NOT CONDONE THIS TYPE OF BEHAVIOUR, You need consent before attacking a target.
-\e[3;39m
+ echo -e '\e[3;34m Created by "Sir Cryptic"                 
+                   https://nullsec.online
+\e[0m\e[3;39m
 (1) Recon
 (2) Cracking
 (3) AutoxSploits
@@ -65,15 +63,20 @@ echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
 if [ "$x" == "$option1" ]; then                    #Option1
 clear
 echo -e '\e[1;33m
-__________.__    .__       .__                __________        .__              
-\______   \  |__ |__| _____|  |__   __________\______   \_______|__| ____  ____  
- |     ___/  |  \|  |/  ___/  |  \_/ __ \_  __ \     ___/\_  __ \  |/ ___\/ __ \ 
- |    |   |   Y  \  |\___ \|   Y  \  ___/|  | \/    |     |  | \/  \  \__\  ___/ 
- |____|   |___|  /__/____  >___|  /\___  >__|  |____|     |__|  |__|\___  >___  >
-               \/        \/     \/     \/ PhisherPrice ||  Version 2.5  \/    \/\e[1;34m
+///,        ////
+\  /,      /  >.
+ \  /,   _/  /.
+  \_  /_/   /.
+   \__/_   <    PhisherPrice
+   /<<< \_\_  Happy Hour Playset
+  /,)^>>_._ \ Version 2.5 
+  (/   \\ /\\\
+       // //```
+======((`((====\e[1;34m
 '
-echo "Happy Hour Playset"
- echo -e '\e[0m \e[1;31m
+ echo -e '\e[3;34m Created by "Sir Cryptic"                 
+                   https://nullsec.online
+\e[0m\e[3;39m \e[1;31m
 Recon & Auditing
 \e[3;39m
 (s1) Stealth Ping
@@ -659,14 +662,20 @@ fi
 elif [ "$x" == "$option2" ]; then                          #Option2
 clear
 echo -e '\e[1;33m
-__________.__    .__       .__                __________        .__              
-\______   \  |__ |__| _____|  |__   __________\______   \_______|__| ____  ____  
- |     ___/  |  \|  |/  ___/  |  \_/ __ \_  __ \     ___/\_  __ \  |/ ___\/ __ \ 
- |    |   |   Y  \  |\___ \|   Y  \  ___/|  | \/    |     |  | \/  \  \__\  ___/ 
- |____|   |___|  /__/____  >___|  /\___  >__|  |____|     |__|  |__|\___  >___  >
-               \/        \/     \/     \/ PhisherPrice ||  Version 2.5  \/    \/\e[1;34m
+///,        ////
+\  /,      /  >.
+ \  /,   _/  /.
+  \_  /_/   /.
+   \__/_   <    PhisherPrice
+   /<<< \_\_  Happy Hour Playset
+  /,)^>>_._ \ Version 2.5 
+  (/   \\ /\\\
+       // //```
+======((`((====\e[1;34m
 '
- echo -e '\e[0m \e[1;31m
+ echo -e '\e[3;34m Created by "Sir Cryptic"                 
+                   https://nullsec.online
+\e[0m\e[3;39m \e[1;31m
 Cracking / Brute Force
 \e[3;39m
 (c1) Auto-Brute (Hydra)
@@ -688,20 +697,26 @@ subk='c6'
 
 
 wait
-echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Auto Brute$Blue]:"
+echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Cracking/Brute$Blue]:"
 echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$subf" ]; then                    #Sub-Option-f
 clear
 echo -e '\e[1;33m
-__________.__    .__       .__                __________        .__              
-\______   \  |__ |__| _____|  |__   __________\______   \_______|__| ____  ____  
- |     ___/  |  \|  |/  ___/  |  \_/ __ \_  __ \     ___/\_  __ \  |/ ___\/ __ \ 
- |    |   |   Y  \  |\___ \|   Y  \  ___/|  | \/    |     |  | \/  \  \__\  ___/ 
- |____|   |___|  /__/____  >___|  /\___  >__|  |____|     |__|  |__|\___  >___  >
-               \/        \/     \/     \/ PhisherPrice ||  Version 2.5  \/    \/\e[1;34m
+///,        ////
+\  /,      /  >.
+ \  /,   _/  /.
+  \_  /_/   /.
+   \__/_   <    PhisherPrice
+   /<<< \_\_  Happy Hour Playset
+  /,)^>>_._ \ Version 2.5 
+  (/   \\ /\\\
+       // //```
+======((`((====\e[1;34m
 '
-echo -e '\e[0m \e[1;31m
+ echo -e '\e[3;34m Created by "Sir Cryptic"                 
+                   https://nullsec.online
+\e[0m\e[3;39m \e[1;31m
 Hydra Brute Force
 \e[3;39m
 (h1) Email Crack (SMTP)
@@ -729,7 +744,7 @@ hynull8='h8'
 newoption1='h9'
 
 
-echo -e $Blue" ┌─["$red"PhisherPrice$BlueF]──[$red~$Blue]─["$yellow"Auto Brute$Blue]:"
+echo -e $Blue" ┌─["$red"PhisherPrice$BlueF]──[$red~$Blue]─["$yellow"Hydra$Blue]:"
 echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$hynull1" ]; then                    #hynull-Option-1
@@ -1052,14 +1067,20 @@ fi
 elif [ "$x" == "$option3" ]; then                          #Option3
 clear
 echo -e '\e[1;33m
-__________.__    .__       .__                __________        .__              
-\______   \  |__ |__| _____|  |__   __________\______   \_______|__| ____  ____  
- |     ___/  |  \|  |/  ___/  |  \_/ __ \_  __ \     ___/\_  __ \  |/ ___\/ __ \ 
- |    |   |   Y  \  |\___ \|   Y  \  ___/|  | \/    |     |  | \/  \  \__\  ___/ 
- |____|   |___|  /__/____  >___|  /\___  >__|  |____|     |__|  |__|\___  >___  >
-               \/        \/     \/     \/ PhisherPrice ||  Version 2.5  \/    \/\e[1;34m
+///,        ////
+\  /,      /  >.
+ \  /,   _/  /.
+  \_  /_/   /.
+   \__/_   <    PhisherPrice
+   /<<< \_\_  Happy Hour Playset
+  /,)^>>_._ \ Version 2.5 
+  (/   \\ /\\\
+       // //```
+======((`((====\e[1;34m
 '
-echo -e '\e[0m \e[1;31m
+ echo -e '\e[3;34m Created by "Sir Cryptic"                 
+                   https://nullsec.online
+\e[0m\e[3;39m \e[1;31m
 Auto Xsploit
 \e[3;39m
 (a1) Test Target If They are Vulnerable To (ms17_010)
@@ -1316,15 +1337,20 @@ fi
 elif [ "$x" == "$option4" ]; then                          #Option4
 clear
 echo -e '\e[1;33m
-__________.__    .__       .__                __________        .__              
-\______   \  |__ |__| _____|  |__   __________\______   \_______|__| ____  ____  
- |     ___/  |  \|  |/  ___/  |  \_/ __ \_  __ \     ___/\_  __ \  |/ ___\/ __ \ 
- |    |   |   Y  \  |\___ \|   Y  \  ___/|  | \/    |     |  | \/  \  \__\  ___/ 
- |____|   |___|  /__/____  >___|  /\___  >__|  |____|     |__|  |__|\___  >___  >
-               \/        \/     \/     \/ PhisherPrice ||  Version 2.5  \/    \/\e[1;34m
+///,        ////
+\  /,      /  >.
+ \  /,   _/  /.
+  \_  /_/   /.
+   \__/_   <    PhisherPrice
+   /<<< \_\_  Happy Hour Playset
+  /,)^>>_._ \ Version 2.5 
+  (/   \\ /\\\
+       // //```
+======((`((====\e[1;34m
 '
-echo "Happy Hour Playset"
- echo -e '\e[0m \e[1;31m
+ echo -e '\e[3;34m Created by "Sir Cryptic"                 
+                   https://nullsec.online
+\e[0m\e[3;39m \e[1;31m
 WI-FI xSploits
 \e[3;39m
 (w1) Stealth ARP Scan
@@ -1411,14 +1437,20 @@ read
 elif [ "$x" == "$subc" ]; then                    #Sub-Option-c
 clear
 echo -e '\e[1;33m
-__________.__    .__       .__                __________        .__              
-\______   \  |__ |__| _____|  |__   __________\______   \_______|__| ____  ____  
- |     ___/  |  \|  |/  ___/  |  \_/ __ \_  __ \     ___/\_  __ \  |/ ___\/ __ \ 
- |    |   |   Y  \  |\___ \|   Y  \  ___/|  | \/    |     |  | \/  \  \__\  ___/ 
- |____|   |___|  /__/____  >___|  /\___  >__|  |____|     |__|  |__|\___  >___  >
-               \/        \/     \/     \/ PhisherPrice ||  Version 2.1  \/    \/\e[1;34m
+///,        ////
+\  /,      /  >.
+ \  /,   _/  /.
+  \_  /_/   /.
+   \__/_   <    PhisherPrice
+   /<<< \_\_  Happy Hour Playset
+  /,)^>>_._ \ Version 2.5 
+  (/   \\ /\\\
+       // //```
+======((`((====\e[1;34m
 '
-echo -e '\e[0m \e[1;31m
+ echo -e '\e[3;34m Created by "Sir Cryptic"                 
+                   https://nullsec.online
+\e[0m\e[3;39m \e[1;31m
 Cisco Wifi Routers
 \e[3;39m
 (r1) Cisco GE xPloit
@@ -1764,14 +1796,20 @@ fi
 elif [ "$x" == "$option5" ]; then                          #Option5
 clear
 echo -e '\e[1;33m
-__________.__    .__       .__                __________        .__              
-\______   \  |__ |__| _____|  |__   __________\______   \_______|__| ____  ____  
- |     ___/  |  \|  |/  ___/  |  \_/ __ \_  __ \     ___/\_  __ \  |/ ___\/ __ \ 
- |    |   |   Y  \  |\___ \|   Y  \  ___/|  | \/    |     |  | \/  \  \__\  ___/ 
- |____|   |___|  /__/____  >___|  /\___  >__|  |____|     |__|  |__|\___  >___  >
-               \/        \/     \/     \/ PhisherPrice ||  Version 2.1  \/    \/\e[1;34m
+///,        ////
+\  /,      /  >.
+ \  /,   _/  /.
+  \_  /_/   /.
+   \__/_   <    PhisherPrice
+   /<<< \_\_  Happy Hour Playset
+  /,)^>>_._ \ Version 2.5 
+  (/   \\ /\\\
+       // //```
+======((`((====\e[1;34m
 '
-echo -e '\e[0m \e[1;31m
+ echo -e '\e[3;34m Created by "Sir Cryptic"                 
+                   https://nullsec.online
+\e[0m\e[3;39m \e[1;31m
 Create Your Own Xsploit
 \e[3;39m
 (x1) Windows
@@ -1911,14 +1949,20 @@ fi
 elif [ "$x" == "$option6" ]; then                          #Option6
 clear
 echo -e '\e[1;33m
-   _____          __        ___________      .__  _____ 
-  /  _  \  __ ___/  |_  ____\_   _____/__  __|__|/ ____\
- /  /_\  \|  |  \   __\/  _ \|    __)_\  \/  /  \   __\ 
-/    |    \  |  /|  | (  <_> )        \>    <|  ||  |   
-\____|__  /____/ |__|  \____/_______  /__/\_ \__||__|   
-        \/                          \/      \/       \e[1;34m
-'  
- echo -e '\e[1;31m Exif Tool AutoMated For Easy Conveinience             
+///,        ////
+\  /,      /  >.
+ \  /,   _/  /.
+  \_  /_/   /.
+   \__/_   <    AutoExif Tool
+   /<<< \_\_  PhisherPrice
+  /,)^>>_._ \ Version 2.5 
+  (/   \\ /\\\
+       // //```
+======((`((====\e[1;34m
+'
+ echo -e '\e[3;34m Created by "Sir Cryptic"                 
+                   https://nullsec.online'
+echo -e '\e[1;31m Exif Tool AutoMated For Easy Conveinience             
 \e[3;34m
 Created by "Sir Cryptic"
 https://nullsec.online
@@ -2209,6 +2253,20 @@ fi
 
 elif [ "$x" == "$option7" ]; then                          #Option7
 clear
+echo -e '\e[1;33m
+///,        ////
+\  /,      /  >.
+ \  /,   _/  /.
+  \_  /_/   /.
+   \__/_   <    PhisherPrice
+   /<<< \_\_  Happy Hour Playset
+  /,)^>>_._ \ Version 2.5 
+  (/   \\ /\\\
+       // //```
+======((`((====\e[1;34m
+'
+ echo -e '\e[3;34m Created by "Sir Cryptic"                 
+                   https://nullsec.online'
 echo -e '\e[1;33m
   _________    ___________ ___________           .__   __   .__  __   
  /   _____/    \_   _____/ \__    ___/___   ____ |  | |  | _|__|/  |_ 
