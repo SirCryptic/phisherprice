@@ -53,6 +53,7 @@ sudo apt install -y aircrack-ng
 sudo apt install -y sqldict
 sudo apt install -y john
 sudo apt install -y enum4linux
+sudo apt install -y tlssled
 curl -k -L "https://raw.githubusercontent.com/g0tmi1k/mpc/master/msfpc.sh" > /usr/local/bin/msfpc
 chmod 0755 /usr/local/bin/msfpc
 git clone https://github.com/ZerBea/hcxtools.git
