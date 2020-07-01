@@ -44,3 +44,11 @@ Complete Overhaul / re-write
 added tons more features too many to list
 
 [WIKI](https://github.com/NULL-Security-Team/phisherprice/wiki)
+
+
+**-Credits**
+Sir Crypic , Phisherprice Tool
+https://github.com/SirCryptic
+
+Evict , SSH Scanner
+https://github.com/evict/SSHScan
