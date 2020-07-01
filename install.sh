@@ -55,7 +55,7 @@ cd
 sudo apt-get install python-dev -y
 sudo apt-get install libssl-dev libz-dev libpcap-dev -y
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py -y
-sudo python get-pip.py -y
+sudo python get-pip.py
 rm get-pip.py
 pip install psycopg2 -y
 sudo apt install arp-scan
