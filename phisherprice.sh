@@ -15,7 +15,8 @@ clear
 red='\e[1;31m'
 yellow='\e[0;33m'
 Blue='\e[1;34m'
-
+title="PhisherPrice v2.5"
+echo -e '\033]2;'$title'\007'
 ip=$(ip addr show wlan0 | awk '/inet / {print $2}' | cut -d/ -f 1)
 
 echo -e '\e[1;33m
