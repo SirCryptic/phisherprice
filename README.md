@@ -12,6 +12,8 @@
 - `cd phisherprice`
 -  `sudo bash install.sh`
 
+### **- [ x ] Installing Dependencies**
+- `sudo bash reqs.sh`
 
 **- [ x ] How do i run the script?**
 
