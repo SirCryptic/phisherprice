@@ -33,7 +33,6 @@ chmod +x phisherprice.sh;
 sudo cp phisherprice.sh /usr/bin/;
 sudo cp sshscan.py /usr/bin/;
 rm phisherprice;
-
 if [ -d "/usr/share/doc/phisherprice" ] ;
 then
 echo -e '\e[1;33m
