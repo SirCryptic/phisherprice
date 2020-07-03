@@ -30,6 +30,7 @@ bash /usr/share/doc/phisherprice/phisherprice.sh" '${1+"$@"}' > phisherprice;
 echo "#!/bin/bash 
 python /usr/share/doc/phisherprice/sshscan.py" '${1+"$@"}' > sshscan;
 chmod +x phisherprice.sh;
+chmod +x sshscan.py;
 sudo cp phisherprice.sh /usr/bin/;
 sudo cp sshscan.py /usr/bin/;
 rm phisherprice;
