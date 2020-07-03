@@ -27,7 +27,20 @@ echo "would you like to install? [y/n]"
   
   
 
-echo "add something here........................................................................."
+sudo echo "deb http://http.kali.org/kali kali-rolling main contrib non-free" >> /etc/apt/sources.list
+wget -q -O - archive.kali.org/archive-key.asc | sudo apt-key add -
+sudo apt update
+clear
+echo -e '\e[1;33m
+ _______   ____ ___.____    .____       _________              
+ \      \ |    |   \    |   |    |     /   _____/ ____   ____  
+ /   |   \|    |   /    |   |    |     \_____  \_/ __ \_/ ___\ 
+/    |    \    |  /|    |___|    |___  /        \  ___/\  \___ 
+\____|__  /______/ |_______ \_______ \/_______  /\___  >\___  >
+        \/ Null Security   \/       \/        \/     \/     \/ 
+'
+echo -e '\e[1;36m added kali repo, were good to go ladies & gents
+'
 
 
 clear
