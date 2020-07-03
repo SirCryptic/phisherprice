@@ -354,7 +354,7 @@ echo -e '
  
 '
 clear
-sshscan.py -t $subop9
+sudo sshscan.py -t $subop9
 
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
