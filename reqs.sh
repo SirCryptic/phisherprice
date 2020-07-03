@@ -42,6 +42,8 @@ echo -e '\e[1;33m
 echo -e '\e[1;36m added kali repo, were good to go ladies & gents
 '
 clear
+echo "installing exif"
+sudo apt-get install exif libimage-exiftool-perl libstring-crc32-perl libgd-perl -y
 clear
 echo "installing python 3"
 sudo apt install python3
