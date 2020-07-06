@@ -23,9 +23,16 @@
 -' website: https://nullsec.online ' email:
 -' no-reply@nullsec.online '
 
-### **-BUILD VERSION: 2.0.5**
+### **-BUILD VERSION: 2.0.6**
 
 ### **-Change Log**
+- 06/06/20~23:00
+
+- Added Linux Data Dump
+- Added Sub Menu For Scanners In Auto Exploits Menu
+- Added metasploit Nmap vuln script // all tests
+
+
 30/06/20~@23:40
 
 - Changed Phone API 
