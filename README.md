@@ -32,6 +32,7 @@
 - Added Linux Data Dump
 - Added Sub Menu For Scanners In Auto Exploits Menu
 - Added wifi honeypot cracker
+- Added WP Auto Brute
 
 
 30/06/20~@23:40
