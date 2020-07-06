@@ -657,7 +657,7 @@ clear
 echo -e '\e[1;33m
 MSPLOIT VULN SCANNER \e[1;34m
 '
-echo "Victim's IP:"
+echo "Victim's IP Or Website:"
 read r
 
 msfconsole -q -x "nmap -v --script vuln $r ;exit ;"
