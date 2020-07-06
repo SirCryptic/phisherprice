@@ -1348,11 +1348,11 @@ touch $CURRENT_FILE
 insertHeader $projectName "Passwords"
 
 #This search for clear text passwords TAKES A LONG TIME
-COMMAND_STRING='grep -rnw "/" -ie "PASSWORD" 2> /dev/null'
-insertPartition "Clear_Text_Passwords"
-printf "($COMMAND_STRING)\n" >> $CURRENT_FILE
-eval $COMMAND_STRING >> $CURRENT_FILE
-printf "\n\n" >> $CURRENT_FILE
+#COMMAND_STRING='grep -rnw "/" -ie "PASSWORD" 2> /dev/null'
+#insertPartition "Clear_Text_Passwords"
+#printf "($COMMAND_STRING)\n" >> $CURRENT_FILE
+#eval $COMMAND_STRING >> $CURRENT_FILE
+#printf "\n\n" >> $CURRENT_FILE
 
 runTest "More_Clear_Text_Passwords" 'find . -type f -exec grep -i -I "PASSWORD" {} /dev/null \;'
 runTest "Passwords_In_Memory" 'strings /dev/mem -n10 | grep -i PASS'
