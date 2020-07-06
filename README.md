@@ -29,7 +29,7 @@
 - 06/06/20~23:00
 
 - Added metasploit Nmap vuln script // all tests
-- Added Linux Data Dump
+- Added Linux Data Dump (NOTE: DUMPING CLEAR TEXT PASSWORDS TAKE A WHILE)
 - Added Sub Menu For Scanners In Auto Exploits Menu
 - Added wifi honeypot cracker
 - Added WP Auto Brute
