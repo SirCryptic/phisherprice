@@ -2791,18 +2791,14 @@ echo -e '\e[1;33m
  \e[1;31m
 
  If You Have Any Issues Then Feel Free 
- To Contact Me (Sir Cryptic) Either Via:
-
- FORUMS,DISCORD,EMAIL
- 
- no-reply@nullsec.online
- https://nullsec.online
+ To file a issue on git
 '
 echo -e '\e[1;34m
 I Would Personally Like To Thank \e[1;33mJack \e[1;34m Over @ \e[1;32m Kali Hacking Community Discord Server\e[1;34m
-For Being My Motivation To Keep Making This Tool, You Can Join Using The Link Below.
+For Being My Motivation To Keep Making This Too,
 
-https://discord.com/invite/aTbExhe
+sadly this tool is no longer going to be updated and the original khc community sank
+farewell to all those i personally knew
 
 I Would Also Like To Thank \e[1;35mKiera<3 \e[1;34m over @KCH For Making Me Aware Of Bugs
 Without People Like This I Probably Would Have Been Oblivious. 
