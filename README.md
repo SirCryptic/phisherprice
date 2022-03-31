@@ -19,9 +19,6 @@
 
 -  Type `sudo phisherprice.sh` in any terminal
 
-### **-[ x ] contact info**
--' website: https://nullsec.online ' email:
--' no-reply@nullsec.online '
 
 ### **-BUILD VERSION: 2.0.6**
 
