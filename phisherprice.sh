@@ -31,7 +31,7 @@ echo -e '\e[1;33m
 ======((`((====\e[1;34m
 '
  echo -e '\e[3;34m Created by "Sir Cryptic"                 
-                   https://nullsec.online
+
 \e[0m\e[3;39m
 (1) Recon
 (2) Cracking
@@ -74,7 +74,7 @@ echo -e '\e[1;33m
 ======((`((====\e[1;34m
 '
 echo -e '\e[3;34m Created by "Sir Cryptic"                 
-                   https://nullsec.online
+
 \e[0m\e[3;39m \e[1;31m
 Recon & Auditing
 \e[3;39m
@@ -691,7 +691,7 @@ echo -e '\e[1;33m
 ======((`((====\e[1;34m
 '
  echo -e '\e[3;34m Created by "Sir Cryptic"                 
-                   https://nullsec.online
+
 \e[0m\e[3;39m \e[1;31m
 Cracking / Brute Force
 \e[3;39m
@@ -736,7 +736,7 @@ echo -e '\e[1;33m
 ======((`((====\e[1;34m
 '
  echo -e '\e[3;34m Created by "Sir Cryptic"                 
-                   https://nullsec.online
+
 \e[0m\e[3;39m \e[1;31m
 Hydra Brute Force
 \e[3;39m
@@ -1427,7 +1427,7 @@ echo -e '\e[1;33m
 ======((`((====\e[1;34m
 '
  echo -e '\e[3;34m Created by "Sir Cryptic"                 
-                   https://nullsec.online
+
 \e[0m\e[3;39m \e[1;31m
 Auto Xsploit
 \e[3;39m
@@ -1492,7 +1492,7 @@ echo -e '\e[1;33m
 ======((`((====\e[1;34m
 '
  echo -e '\e[3;34m Created by "Sir Cryptic"                 
-                   https://nullsec.online
+
 \e[0m\e[3;39m \e[1;31m
 Auto Scanners
 \e[3;39m
@@ -1826,7 +1826,7 @@ echo -e '\e[1;33m
 ======((`((====\e[1;34m
 '
  echo -e '\e[3;34m Created by "Sir Cryptic"                 
-                   https://nullsec.online
+
 \e[0m\e[3;39m \e[1;31m
 WI-FI xSploits
 \e[3;39m
@@ -1926,7 +1926,7 @@ echo -e '\e[1;33m
 ======((`((====\e[1;34m
 '
  echo -e '\e[3;34m Created by "Sir Cryptic"                 
-                   https://nullsec.online
+
 \e[0m\e[3;39m \e[1;31m
 Cisco Wifi Routers
 \e[3;39m
@@ -2285,7 +2285,7 @@ echo -e '\e[1;33m
 ======((`((====\e[1;34m
 '
  echo -e '\e[3;34m Created by "Sir Cryptic"                 
-                   https://nullsec.online
+
 \e[0m\e[3;39m \e[1;31m
 Create Your Own Xsploit
 \e[3;39m
@@ -2438,7 +2438,7 @@ echo -e '\e[1;33m
 ======((`((====\e[1;34m
 '
  echo -e '\e[3;34m Created by "Sir Cryptic"                 
-                   https://nullsec.online'
+'
 echo -e '\e[1;31m Exif Tool AutoMated For Easy Conveinience             
 \e[3;34m
 Created by "Sir Cryptic"
@@ -2743,7 +2743,7 @@ echo -e '\e[1;33m
 ======((`((====\e[1;34m
 '
  echo -e '\e[3;34m Created by "Sir Cryptic"                 
-                   https://nullsec.online'
+'
 echo -e '\e[1;33m
   _________    ___________ ___________           .__   __   .__  __   
  /   _____/    \_   _____/ \__    ___/___   ____ |  | |  | _|__|/  |_ 
@@ -2778,7 +2778,7 @@ Th3inspector
 elif [ "$x" == "$update" ]; then                 #Update
 echo "This Script is Only Intended for Kali Linux And Similar OS"
 
-git clone https://github.com/NULL-Security-Team/phisherprice
+git clone https://github.com/SirCryptic/phisherprice
 cd phisherprice && sudo bash ./update.sh
 sudo phisherprice
 
