@@ -8,7 +8,7 @@
 
 ### **- [ x ] How To Install**
 
-- `git clone https://github.com/NULL-Security-Team/phisherprice`
+- `git clone https://github.com/SirCryptic/phisherprice`
 - `cd phisherprice`
 -  `sudo bash install.sh`
 
