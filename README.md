@@ -51,7 +51,7 @@
 </details>
   
 
-**-Credits**
+### - [ x ] Credits
 
 - ⭐ Sir Crypic , Phisherprice Tool
 https://github.com/SirCryptic
