@@ -66,3 +66,5 @@ PhisherPrice Version 2.5 <tagname>
 > Please Refer To Evicts Repo [Here](https://github.com/evict/SSHScan) to update the ssh scanner
 
 ⛔⚠️ potentially one final update we will see...
+  
+This tool also works on termux as expected since it is based on bash aswell as windows (i do aim for cross platform 🙋‍♂️✅) , but i assume and expect limited functionality , your more than welcome to pull a issue request regarding os & or function and i will try my best to get back to you & or update the tool if there is enough interest , from the activity on the repo and posts around social media etc im pretty shocked at how well the tool has been percieved so thankyou to all of you unique cloners and users around the continent.
