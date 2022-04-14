@@ -53,16 +53,16 @@
 
 **-Credits**
 
-- Sir Crypic , Phisherprice Tool
+- ⭐ Sir Crypic , Phisherprice Tool
 https://github.com/SirCryptic
 
-- Evict , SSH Scanner
+- ⭐ Evict , SSH Scanner
 https://github.com/evict/SSHScan
 
 
 PhisherPrice Version 2.5 <tagname>
   
  # Foot Notes
-> Please Refer To Evicts Repo to update the ssh scanner
+> Please Refer To Evicts Repo [Here](https://github.com/evict/SSHScan) to update the ssh scanner
 
 ⛔⚠️ potentially one final update we will see...
