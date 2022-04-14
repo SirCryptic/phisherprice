@@ -61,3 +61,8 @@ https://github.com/evict/SSHScan
 
 
 PhisherPrice Version 2.5 <tagname>
+  
+ # Foot Notes
+> Please Refer To Evicts Repo to update the ssh scanner
+
+⛔⚠️ potentially one final update we will see...
