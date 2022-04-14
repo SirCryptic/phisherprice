@@ -19,10 +19,11 @@
 
 -  Type `sudo phisherprice.sh` in any terminal
 
+### - [ x ] Change Log
+<details>
+  <summary>Click to expand!</summary>
+  
 
-### **-BUILD VERSION: 2.0.6**
-
-### **-Change Log**
 - 06/06/20~23:00
 
 - Added metasploit Nmap vuln script // all tests
@@ -46,6 +47,9 @@
 
 - 2021/4/12
 - Updated The Credits
+  
+</details>
+  
 
 **-Credits**
 
