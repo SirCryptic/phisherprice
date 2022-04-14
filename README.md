@@ -1,4 +1,4 @@
-### # PhisherPrice v2.5
+### # PhisherPrice
 **Multi-Functional Pentest Tool, Command Them All From One Script.**
 
 ![phisherprice](https://user-images.githubusercontent.com/48811414/86302115-ad7e1f80-bbff-11ea-8da0-d3f7a6746eb2.gif)
