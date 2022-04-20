@@ -1,6 +1,9 @@
 ### # PhisherPrice
 **Multi-Functional Pentest Tool, Command Them All From One Script.**
 
+
+There is a light version of this script here -> [S&D aka phisherprice lite ](https://github.com/SirCryptic/snd)
+
 ![phisherprice](https://user-images.githubusercontent.com/48811414/86302115-ad7e1f80-bbff-11ea-8da0-d3f7a6746eb2.gif)
 
 
