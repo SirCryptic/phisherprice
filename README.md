@@ -22,7 +22,12 @@
 ### - [ x ] Change Log
 <details>
   <summary>Click to expand!</summary>
-  
+ 
+- 21/04/2022
+
+- removed stealth ping ( required a key )
+- removed needing a word before option
+- removed website
 
 - 06/06/20~23:00
 
