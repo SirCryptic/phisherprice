@@ -61,14 +61,14 @@ There is a light version of this script here -> [S&D aka phisherprice lite ](htt
 
 ### - [ x ] Credits
 
-- ⭐ Sir Crypic , AutoExif
+- ⭐ Sir Crypic , phisherprice
 https://github.com/SirCryptic
 
-- ⭐ Phil Harvey - Exif Tool
+- ⭐ Evict , ssh scanner
 https://github.com/evict/SSHScan
 
 
-Version AutoExif RJ 4 <tagname>
+Version phisherprice RJ<tagname>
   
  # Foot Notes
 > Please Refer To Evicts Repo [Here](https://github.com/evict/SSHScan) to update the ssh scanner
