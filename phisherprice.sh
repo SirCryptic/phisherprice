@@ -2718,33 +2718,6 @@ fi
 
 
 elif [ "$x" == "$option7" ]; then                          #Option7
-clear
-echo -e '\e[1;33m
-///,        ////
-\  /,      /  >.
- \  /,   _/  /.
-  \_  /_/   /.
-   \__/_   <    PhisherPrice
-   /<<< \_\_  Happy Hour Playset
-  /,)^>>_._ \ Version 2.5 
-  (/   \\ /\\\
-       // //```
-======((`((====\e[1;34m
-'
- echo -e '\e[3;34m Created by "Sir Cryptic"                 
-'
-echo -e '\e[1;33m
-  _________    ___________ ___________           .__   __   .__  __   
- /   _____/    \_   _____/ \__    ___/___   ____ |  | |  | _|__|/  |_ 
- \_____  \      |    __)_    |    | /  _ \ /  _ \|  | |  |/ /  \   __\
- /        \     |        \   |    |(  <_> |  <_> )  |_|    <|  ||  |  
-/_______  / /\ /_______  /   |____| \____/ \____/|____/__|_ \__||__|  
-        \/  \/         \/                                  \/       \e[1;34m
-'  
-echo "Are You Sure You Want To Start SE Toolkit?"
-echo "Press ENTER For Yes Press Any Other Option For No."
-read pi9host
-clear
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ! Starting Social Engineering Toolkit  !
@@ -2752,7 +2725,7 @@ echo -e '
  
 '
 
-$pi9host sudo setoolkit
+sudo setoolkit
 
 elif [ "$x" == "$option8" ]; then                          #Option9
 clear
