@@ -29,9 +29,6 @@ clear
 red='\e[1;31m'
 yellow='\e[0;33m'
 Blue='\e[1;34m'
-
-ip=$(ip addr show wlan0 | awk '/inet / {print $2}' | cut -d/ -f 1)
-service postgresql start
 echo -e '\e[1;33m
 ///,        ////
 \  /,      /  >.
@@ -2812,18 +2809,6 @@ n
 fi
 
 done
-
-	exit 1
-	fi
-	if [[ -z "$dldir" ]]; then
-		dldir=OpenCV
-	fi
-	if ! sudo true; then
-		exit 1
-	fi
-	set -e
-yellow='\e[0;33m'
-Blue='\e[1;34m'
 
 ip=$(ip addr show wlan0 | awk '/inet / {print $2}' | cut -d/ -f 1)
 service postgresql start
