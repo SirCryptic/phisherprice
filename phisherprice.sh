@@ -1,4 +1,5 @@
 #!/bin/bash
+#rjwdlu4eva
 # PhiserPrice2.5
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 
@@ -10,25 +11,11 @@ clear
 while [ $i -lt 1 ]
 do
 clear
-
-#COLOUR
-red='\e[1;31m'#!/bin/bash
-# PhiserPrice2.5
-if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root" 
-   echo "You Forgot To Say The Magic Word, bRuHhh cmon" 
-   exit 1
-fi
-i="0"
-clear
-while [ $i -lt 1 ]
-do
-clear
-
 #COLOUR
 red='\e[1;31m'
 yellow='\e[0;33m'
 Blue='\e[1;34m'
+
 echo -e '\e[1;33m
 ///,        ////
 \  /,      /  >.
