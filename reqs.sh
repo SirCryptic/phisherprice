@@ -222,5 +222,31 @@ echo -e '\e[1;33m
         chmod 0755 /usr/local/bin/msfpc
     fi
     clear
-    echo "Installation complete!"
-fi
+echo "installing Th3inspector"
+git clone https://github.com/Moham3dRiahi/Th3inspector.git
+cd Th3inspector
+chmod +x install.sh && ./install.sh
+
+
+clear
+echo -e '\e[1;33m
+ _______   ____ ___.____    .____       _________              
+ \      \ |    |   \    |   |    |     /   _____/ ____   ____  
+ /   |   \|    |   /    |   |    |     \_____  \_/ __ \_/ ___\ 
+/    |    \    |  /|    |___|    |___  /        \  ___/\  \___ 
+\____|__  /______/ |_______ \_______ \/_______  /\___  >\___  >
+        \/ Null Security   \/       \/        \/     \/     \/ 
+'
+echo "fully installed everything!,Greetz From ~Sir Cryptic"
+echo "sudo phisherprice.sh"
+echo "This Requirements Tool Installer Is BETA"
+
+		exit 1
+	fi
+	if [[ -z "$dldir" ]]; then
+		dldir=OpenCV
+	fi
+	if ! sudo true; then
+		exit 1
+	fi
+	set -e
