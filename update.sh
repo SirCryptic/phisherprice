@@ -42,7 +42,7 @@ cd SirCryptic
 
 clear
 
-git clone https://github.com/NULL-Security-Team/phisherprice
+git clone https://github.com/sircryptic/phisherprice
 
 clear
 
