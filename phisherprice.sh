@@ -118,7 +118,7 @@ sub16='15'
 sub17='16'
 sub18='17'
 sub19='18'
-sub20=s'19'
+sub20='19'
 
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Recon & Audit$Blue]:"
 echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
