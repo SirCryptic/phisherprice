@@ -7,10 +7,13 @@
 #
 #
 # Greetz To
-# NULLSec
+# Mobly
+# R1ff
+# DoubleA
+# LilLucci
 # Jack
 # Kira<3
-# Kali Hacking Community Discord Server
+# Farewell To The OG Kali Hacking Community Discord Server
 
 clear
 
