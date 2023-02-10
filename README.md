@@ -25,6 +25,14 @@ There is a light version of this script here -> [S&D aka phisherprice lite ](htt
 ### - [ x ] Change Log
 <details>
   <summary>Click to expand!</summary>
+
+- 10/02/2023
+- Fixed the following:
+- phone number lookup (Feel free To add your own api key instead)
+- Wi-Fi Honeypot Cracker + Update ✌️
+- Also removed duplicate code 🤦
+
+- NOTE: next update will more than likely include a gui overhaul while some features will be either removed or replaced
  
 - 21/04/2022
 
