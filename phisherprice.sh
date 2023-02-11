@@ -1,7 +1,7 @@
 #!/bin/bash
-
+source .env
 ## rjwdlu4eva
-## PhiserPrice 2.6
+## PhiserPrice 2.7
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 
    echo "You Forgot To Say The Magic Word, bRuHhh cmon" 
@@ -97,6 +97,8 @@ Recon & Auditing
 (17) SQL Map
 (18) SQL Map (Quick/Deep)
 (19) Scan For Vulns (Metasploit)
+(20) BIN Checker
+(21) Email Validator
 CTRL + C To Exit
 Press ENTER To Go To Main Menu
 '
@@ -119,6 +121,8 @@ sub17='16'
 sub18='17'
 sub19='18'
 sub20='19'
+sub21='20'
+sub22='21'
 
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Recon & Audit$Blue]:"
 echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
@@ -494,7 +498,7 @@ echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 '
 curl --request GET "https://api.apilayer.com/number_verification/validate?number=$subop15" \
---header 'apikey: tCTadz7i8ppONywzqkLBEIfEFb23gUa8'
+--header "apikey: $phone_lookup_api_key"
 
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -636,6 +640,41 @@ echo '           Press ENTER to Main Menu '
 echo ' '
 read
 
+read
+
+elif [ "$x" == "$sub21" ]; then                    #sub-Option-21
+clear
+echo -e '\e[1;33m
+BIN Checker \e[1;34m
+'
+echo "Enter The BIN Number:"
+read r
+
+# Send cURL request with bin number
+curl --request GET \
+    --url https://bank-card-bin-num-check.p.rapidapi.com/api/v1/bins/b/$r \
+    --header "X-RapidAPI-Host: bank-card-bin-num-check.p.rapidapi.com" \
+    --header "X-RapidAPI-Key:$bin_checker_api_key"
+echo ' '
+echo '           Press ENTER to Main Menu '
+echo ' '
+read
+
+elif [ "$x" == "$sub22" ]; then                    #sub-Option-22
+clear
+echo -e '\e[1;33m
+Email Validator \e[1;34m
+'
+echo "Enter the email address to verify:"
+
+read email
+
+# Make the API request
+curl --location --request GET "https://api.apilayer.com/email_verification/${email}" \
+--header "apikey: ${email_validator_api_key}"
+echo ' '
+echo '           Press ENTER to Main Menu '
+echo ' '
 read
 
 else 
