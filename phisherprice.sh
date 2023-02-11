@@ -1,7 +1,7 @@
 #!/bin/bash
 source .env
 ## rjwdlu4eva
-## PhiserPrice 2.7
+## PhiserPrice 2.8
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 
    echo "You Forgot To Say The Magic Word, bRuHhh cmon" 
@@ -18,21 +18,22 @@ red='\e[1;31m'
 yellow='\e[0;33m'
 Blue='\e[1;34m'
 
-echo -e '\e[1;33m
+banner='
+\e[1;33m
 ///,        ////
 \  /,      /  >.
  \  /,   _/  /.
   \_  /_/   /.
-   \__/_   <    PhisherPrice
-   /<<< \_\_  Happy Hour Playset
-  /,)^>>_._ \ Version 2.5 
+   \__/_   <   \e[1;31m PhisherPrice \e[1;33m
+   /<<< \_\_ \e[1;31m Happy Hour Playset \e[1;33m
+  /,)^>>_._ \ \e[1;31m Version 2.8 \e[1;33m
   (/   \\ /\\\
        // //```
-======((`((====\e[1;34m
-'
- echo -e '\e[3;34m Created by "Sir Cryptic"                 
-                   
-\e[0m\e[3;39m
+======((`((====\e[1;34m'
+
+	echo -e "${banner}"
+	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"
+	\e[0m\e[3;39m
 (1) Recon
 (2) Cracking
 (3) AutoxSploits
@@ -61,21 +62,9 @@ echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$option1" ]; then                    #Option1
 clear
-echo -e '\e[1;33m
-///,        ////
-\  /,      /  >.
- \  /,   _/  /.
-  \_  /_/   /.
-   \__/_   <    PhisherPrice
-   /<<< \_\_  Happy Hour Playset
-  /,)^>>_._ \ Version 2.5 
-  (/   \\ /\\\
-       // //```
-======((`((====\e[1;34m
-'
-echo -e '\e[3;34m Created by "Sir Cryptic"                 
-                   
-\e[0m\e[3;39m \e[1;31m
+	echo -e "${banner}"
+	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                   
+    \e[0m\e[3;39m \e[1;31m
 Recon & Auditing
 \e[3;39m
 (1) Whois Info
@@ -686,21 +675,9 @@ fi
 
 elif [ "$x" == "$option2" ]; then                          #Option2
 clear
-echo -e '\e[1;33m
-///,        ////
-\  /,      /  >.
- \  /,   _/  /.
-  \_  /_/   /.
-   \__/_   <    PhisherPrice
-   /<<< \_\_  Happy Hour Playset
-  /,)^>>_._ \ Version 2.5 
-  (/   \\ /\\\
-       // //```
-======((`((====\e[1;34m
-'
- echo -e '\e[3;34m Created by "Sir Cryptic"                 
-                   
-\e[0m\e[3;39m \e[1;31m
+	echo -e "${banner}"
+	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                       
+                   \e[0m\e[3;39m \e[1;31m
 Cracking / Brute Force
 \e[3;39m
 (1) Auto-Brute (Hydra)
@@ -730,19 +707,8 @@ echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$subf" ]; then                    #Sub-Option-f
 clear
-echo -e '\e[1;33m
-///,        ////
-\  /,      /  >.
- \  /,   _/  /.
-  \_  /_/   /.
-   \__/_   <    PhisherPrice
-   /<<< \_\_  Happy Hour Playset
-  /,)^>>_._ \ Version 2.5 
-  (/   \\ /\\\
-       // //```
-======((`((====\e[1;34m
-'
- echo -e '\e[3;34m Created by "Sir Cryptic"                 
+	echo -e "${banner}"
+	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                       
                    
 \e[0m\e[3;39m \e[1;31m
 Hydra Brute Force
@@ -1404,19 +1370,8 @@ fi
 
 elif [ "$x" == "$option3" ]; then                          #Option3
 clear
-echo -e '\e[1;33m
-///,        ////
-\  /,      /  >.
- \  /,   _/  /.
-  \_  /_/   /.
-   \__/_   <    PhisherPrice
-   /<<< \_\_  Happy Hour Playset
-  /,)^>>_._ \ Version 2.5 
-  (/   \\ /\\\
-       // //```
-======((`((====\e[1;34m
-'
- echo -e '\e[3;34m Created by "Sir Cryptic"                 
+	echo -e "${banner}"
+	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
                    
 \e[0m\e[3;39m \e[1;31m
 Auto Xsploit
@@ -1469,19 +1424,8 @@ if [ "$x" == "$auto1" ]; then                    #auto-Option-1
 ip=$(ip addr show wlan0 | awk '/inet / {print $2}' | cut -d/ -f 1)
 service postgresql start
 clear
-echo -e '\e[1;33m
-///,        ////
-\  /,      /  >.
- \  /,   _/  /.
-  \_  /_/   /.
-   \__/_   <    PhisherPrice
-   /<<< \_\_  Happy Hour Playset
-  /,)^>>_._ \ Version 2.5 
-  (/   \\ /\\\
-       // //```
-======((`((====\e[1;34m
-'
- echo -e '\e[3;34m Created by "Sir Cryptic"                 
+	echo -e "${banner}"
+	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
                    
 \e[0m\e[3;39m \e[1;31m
 Auto Scanners
@@ -1803,19 +1747,8 @@ fi
 
 elif [ "$x" == "$option4" ]; then                          #Option4
 clear
-echo -e '\e[1;33m
-///,        ////
-\  /,      /  >.
- \  /,   _/  /.
-  \_  /_/   /.
-   \__/_   <    PhisherPrice
-   /<<< \_\_  Happy Hour Playset
-  /,)^>>_._ \ Version 2.5 
-  (/   \\ /\\\
-       // //```
-======((`((====\e[1;34m
-'
- echo -e '\e[3;34m Created by "Sir Cryptic"                 
+	echo -e "${banner}"
+	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
                    
 \e[0m\e[3;39m \e[1;31m
 WI-FI xSploits
@@ -1902,19 +1835,8 @@ read
 
 elif [ "$x" == "$subc" ]; then                    #Sub-Option-c
 clear
-echo -e '\e[1;33m
-///,        ////
-\  /,      /  >.
- \  /,   _/  /.
-  \_  /_/   /.
-   \__/_   <    PhisherPrice
-   /<<< \_\_  Happy Hour Playset
-  /,)^>>_._ \ Version 2.5 
-  (/   \\ /\\\
-       // //```
-======((`((====\e[1;34m
-'
- echo -e '\e[3;34m Created by "Sir Cryptic"                 
+	echo -e "${banner}"
+	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
                    
 \e[0m\e[3;39m \e[1;31m
 Cisco Wifi Routers
@@ -2260,19 +2182,8 @@ fi
 
 elif [ "$x" == "$option5" ]; then                          #Option5
 clear
-echo -e '\e[1;33m
-///,        ////
-\  /,      /  >.
- \  /,   _/  /.
-  \_  /_/   /.
-   \__/_   <    PhisherPrice
-   /<<< \_\_  Happy Hour Playset
-  /,)^>>_._ \ Version 2.5 
-  (/   \\ /\\\
-       // //```
-======((`((====\e[1;34m
-'
- echo -e '\e[3;34m Created by "Sir Cryptic"                 
+	echo -e "${banner}"
+	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
                    
 \e[0m\e[3;39m \e[1;31m
 Create Your Own Xsploit
@@ -2419,19 +2330,14 @@ echo -e '\e[1;33m
   \_  /_/   /.
    \__/_   <    AutoExif Tool
    /<<< \_\_  PhisherPrice
-  /,)^>>_._ \ Version 2.5 
+  /,)^>>_._ \ Version 2.8 
   (/   \\ /\\\
        // //```
 ======((`((====\e[1;34m
 '
- echo -e '\e[3;34m Created by "Sir Cryptic"                 
+ echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                 
                    '
 echo -e '\e[1;31m Exif Tool AutoMated For Easy Conveinience             
-\e[3;34m
-Created by "Sir Cryptic"
-
-\e[0m \e[1;31m
-This Was Created For Educational Purposes Only
 \e[3;39m
 (1) Read Image MetaData (Basic)
 (2) Read Image MetaData (Expert)
@@ -2682,19 +2588,8 @@ fi
 
 elif [ "$x" == "$option7" ]; then                          #Option7
 clear
-echo -e '\e[1;33m
-///,        ////
-\  /,      /  >.
- \  /,   _/  /.
-  \_  /_/   /.
-   \__/_   <    PhisherPrice
-   /<<< \_\_  Happy Hour Playset
-  /,)^>>_._ \ Version 2.5 
-  (/   \\ /\\\
-       // //```
-======((`((====\e[1;34m
-'
- echo -e '\e[3;34m Created by "Sir Cryptic"                 
+	echo -e "${banner}"
+	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                     
                    '
 echo -e '\e[1;33m
   _________    ___________ ___________           .__   __   .__  __   
@@ -2719,13 +2614,17 @@ $pi9host sudo setoolkit
 
 elif [ "$x" == "$option8" ]; then                          #Option9
 clear
+echo "Are You Sure You Want To Start SE Toolkit?"
+echo "Press ENTER For Yes Press Any Other Option For No."
+read pi1337host
+clear
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !   Please Wait Loading Th3inspector   !
 !  To Exit Th3inspector Press ENTER    !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
 '
-Th3inspector
+$pi1337host Th3inspector
 
 elif [ "$x" == "$update" ]; then                 #Update
 echo "This Script is Only Intended for Kali Linux And Similar OS"
@@ -2747,12 +2646,12 @@ echo -e '\e[1;33m
 echo -e '\e[1;34m
 I Would Personally Like To Thank \e[1;33mJack \e[1;34m Over @ \e[1;32m Kali Hacking Community Discord Server\e[1;34m
 For Being My Motivation To Keep Making This Too,
-sadly this tool is no longer going to be updated and the original khc community sank
+sadly this tool is no longer going to be updated much longer and the original khc community sank
 farewell to all those i personally knew
 I Would Also Like To Thank \e[1;35mKiera<3 \e[1;34m over @KCH For Making Me Aware Of Bugs
 Without People Like This I Probably Would Have Been Oblivious. 
 So Thankyou Once Again To All Those That Made This Possible & Gave Me Inspiration. 
-- Sir Cryptic
+- \e[1;31m SirCryptic \e[1;34m
                           Press ENTER To Go Back To The Main Menu
 '
 read
