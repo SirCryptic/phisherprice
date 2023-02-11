@@ -2730,7 +2730,7 @@ Th3inspector
 elif [ "$x" == "$update" ]; then                 #Update
 echo "This Script is Only Intended for Kali Linux And Similar OS"
 
-git clone https://github.com/NULL-Security-Team/phisherprice
+git clone https://github.com/sircryptic/phisherprice
 cd phisherprice && sudo bash ./update.sh
 sudo phisherprice
 
