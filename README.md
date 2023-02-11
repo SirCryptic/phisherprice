@@ -1,6 +1,7 @@
 ### # PhisherPrice
 **Multi-Functional Pentest Tool, Command Them All From One Script.**
 
+NOTE: I WOULD SUGGEST JUST EXECUTING THE SCRIPT FROM THE FOLDER UNTILL SOME BUGS ARE FIXED REGARDING API KEYS BEING READ!
 
 There is a light version of this script here -> [S&D aka phisherprice lite ](https://github.com/SirCryptic/snd)
 
