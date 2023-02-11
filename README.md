@@ -22,6 +22,14 @@ There is a light version of this script here -> [S&D aka phisherprice lite ](htt
 
 -  Type `sudo phisherprice.sh` in any terminal
 
+```
+replace "REPLACE_ME_WITH_YOUR_API_KEY" with your api keys the list of api's is below you will also find info about this on the wiki page eventually
+
+https://rapidapi.com/blackbunny/api/bank-card-bin-num-check
+https://apilayer.com/marketplace/email_verification-api
+https://apilayer.com/marketplace/number_verification-api
+```
+
 ### - [ x ] Change Log
 <details>
   <summary>Click to expand!</summary>
