@@ -29,8 +29,8 @@ echo "#!/bin/bash
 bash /usr/share/doc/phisherprice/phisherprice.sh" '${1+"$@"}' > phisherprice;
 echo "#!/bin/bash 
 python /usr/share/doc/phisherprice/sshscan.py" '${1+"$@"}' > sshscan;
-chmod +x phisherprice;
-sudo cp phisherprice /usr/bin/;
+chmod +x phisherprice.sh;
+sudo cp phisherprice.sh /usr/bin/;
 sudo cp sshscan.py /usr/bin/;
 rm phisherprice;
 if [ -d "/usr/share/doc/phisherprice" ] ;
@@ -41,17 +41,17 @@ __________.__    .__       .__                __________        .__
  |     ___/  |  \|  |/  ___/  |  \_/ __ \_  __ \     ___/\_  __ \  |/ ___\/ __ \ 
  |    |   |   Y  \  |\___ \|   Y  \  ___/|  | \/    |     |  | \/  \  \__\  ___/ 
  |____|   |___|  /__/____  >___|  /\___  >__|  |____|     |__|  |__|\___  >___  >
-               \/        \/     \/     \/ PhisherPrice || Version 2.1   \/    \/\e[1;34m
+               \/        \/     \/     \/ PhisherPrice || Version 2.8   \/    \/\e[1;34m
                                 
                                 Created by "Sir Cryptic ~ NULLSec"
-                    NULL Security Forums | https://nullsec.online\e[1;31m
+                    \e[1;31m
   Usage of PhisherPrice for attacking targets without prior mutual consent is ILLEGAL. 
   The Developer is NOT responsible for any damage caused by this script.
   PhisherPrice is intented FOR EDUCATIONAL PURPOSES ONLY!
 [✔]====================================================================[✔]
 [✔]               phisherprice installed successfully!                 [✔]
 [✔]====================================================================[✔]
-[✔] ✔✔✔  You can execute the script by typing sudo phisherprice !     [✔]
+[✔] ✔✔✔  You can execute the script by typing sudo phisherprice.sh !  [✔]
 [✔]====================================================================[✔]
 \e[1;36m
 '
