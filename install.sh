@@ -23,14 +23,14 @@ fi
 
 echo "[✔] Installing ...";
 echo "";
-git clone https://github.com/NULL-Security-Team/phisherprice /usr/share/doc/phisherprice;
+git clone https://github.com/sircryptic/phisherprice /usr/share/doc/phisherprice;
 sudo cp /usr/share/doc/phisherprice/sshscan.py /usr/bin/;
 echo "#!/bin/bash 
 bash /usr/share/doc/phisherprice/phisherprice.sh" '${1+"$@"}' > phisherprice;
 echo "#!/bin/bash 
 python /usr/share/doc/phisherprice/sshscan.py" '${1+"$@"}' > sshscan;
-chmod +x phisherprice.sh;
-sudo cp phisherprice.sh /usr/bin/;
+chmod +x phisherprice;
+sudo cp phisherprice /usr/bin/;
 sudo cp sshscan.py /usr/bin/;
 rm phisherprice;
 if [ -d "/usr/share/doc/phisherprice" ] ;
@@ -51,7 +51,7 @@ __________.__    .__       .__                __________        .__
 [✔]====================================================================[✔]
 [✔]               phisherprice installed successfully!                 [✔]
 [✔]====================================================================[✔]
-[✔] ✔✔✔  You can execute the script by typing sudo phisherprice.sh !  [✔]
+[✔] ✔✔✔  You can execute the script by typing sudo phisherprice !     [✔]
 [✔]====================================================================[✔]
 \e[1;36m
 '
