@@ -26,6 +26,11 @@ There is a light version of this script here -> [S&D aka phisherprice lite ](htt
 <details>
   <summary>Click to expand!</summary>
 
+- 11/02/2023
+- updated how api keys are stored
+- added email validator
+- added BIN Checker
+
 - 10/02/2023
 - Fixed the following:
 - phone number lookup (Feel free To add your own api key instead)
