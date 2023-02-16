@@ -25,8 +25,6 @@ if [ $input == "n" ]; then
     exit 1
 elif [ $input == "y" ]; then
     echo "installing please wait...."
-    sudo echo "deb http://http.kali.org/kali kali-rolling main contrib non-free" >> /etc/apt/sources.list
-    wget -q -O - archive.kali.org/archive-key.asc | sudo apt-key add -
     sudo apt update
     clear
 echo -e '\e[1;33m
@@ -36,8 +34,6 @@ echo -e '\e[1;33m
 /    |    \    |  /|    |___|    |___  /        \  ___/\  \___ 
 \____|__  /______/ |_______ \_______ \/_______  /\___  >\___  >
         \/NULLSecurity Team\/       \/        \/     \/     \/ \e[1;34m
-'
-    echo -e '\e[1;36m added kali repo, were good to go ladies & gents
 '
     clear
     echo "installing exif"
