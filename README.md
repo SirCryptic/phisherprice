@@ -89,7 +89,11 @@ https://apilayer.com/marketplace/number_verification-api
 
 Version phisherprice RJ<tagname>
 
-- There is a light version of this script here -> [S&D aka phisherprice lite ](https://github.com/SirCryptic/snd)
+
+You can Support me by buying me a coffee ☕
+
+<a href="https://www.buymeacoffee.com/sircryptic"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=sircryptic&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
+
 
 # Foot Notes
 This tool also works on termux as expected since it is based on bash aswell as windows (i do aim for cross platform 🙋‍♂️✅) , but i assume and expect limited functionality , your more than welcome to pull a issue request regarding os & or function and i will try my best to get back to you & or update the tool if there is enough interest , from the activity on the repo and posts around social media etc im pretty shocked at how well the tool has been percieved so thankyou to all of you unique cloners and users around the continent.
