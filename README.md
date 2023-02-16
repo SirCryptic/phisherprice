@@ -19,7 +19,7 @@ NOTE: I WOULD SUGGEST JUST EXECUTING THE SCRIPT FROM THE FOLDER UNTILL SOME BUGS
 
 **- [ x ] How do i run the script?**
 
--  Type `sudo phisherprice.sh` in any terminal
+- `sudo phisherprice.sh` in any terminal
 
 ```
 replace "REPLACE_ME_WITH_YOUR_API_KEY" with your api keys the list of api's is below you will also find info about this on the wiki page eventually
