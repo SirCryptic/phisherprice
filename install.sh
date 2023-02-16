@@ -26,12 +26,9 @@ echo "";
 git clone https://github.com/sircryptic/phisherprice /usr/share/doc/phisherprice;
 sudo cp /usr/share/doc/phisherprice/sshscan.py /usr/bin/;
 echo "#!/bin/bash 
-bash /usr/share/doc/phisherprice/phisherprice.sh" '${1+"$@"}' > phisherprice;
-echo "#!/bin/bash 
-python /usr/share/doc/phisherprice/sshscan.py" '${1+"$@"}' > sshscan;
+bash /usr/share/doc/phisherprice/phisherprice" '${1+"$@"}' > phisherprice;
 chmod +x phisherprice.sh;
 sudo cp phisherprice.sh /usr/bin/;
-sudo cp sshscan.py /usr/bin/;
 rm phisherprice;
 if [ -d "/usr/share/doc/phisherprice" ] ;
 then
