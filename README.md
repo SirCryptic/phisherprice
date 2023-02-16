@@ -3,8 +3,6 @@
 
 NOTE: I WOULD SUGGEST JUST EXECUTING THE SCRIPT FROM THE FOLDER UNTILL SOME BUGS ARE FIXED REGARDING API KEYS BEING READ!
 
-There is a light version of this script here -> [S&D aka phisherprice lite ](https://github.com/SirCryptic/snd)
-
 ![phisherprice](https://user-images.githubusercontent.com/48811414/86302115-ad7e1f80-bbff-11ea-8da0-d3f7a6746eb2.gif)
 
 
@@ -17,6 +15,7 @@ There is a light version of this script here -> [S&D aka phisherprice lite ](htt
 -  `sudo bash install.sh`
 
 ### **- [ x ] Installing Dependencies**
+- ⚠️ I WOULD SUGGEST HOLDING OFF ON THIS UNTILL I FIX SOME STUFF, JUST USE THIS ON THE OS's IT WAS DESIGNED FOR. ⚠️
 - `sudo bash reqs.sh`
 
 **- [ x ] How do i run the script?**
@@ -86,13 +85,12 @@ https://apilayer.com/marketplace/number_verification-api
 
 ### - [ x ] Credits
 
-- ⭐ Sir Crypic , phisherprice
-https://github.com/SirCryptic
+- ⭐ [SirCrypic](https://github.com/SirCryptic) , phisherprice
 
 
 Version phisherprice RJ<tagname>
-  
- # Foot Notes
-⛔⚠️
-  
+
+- There is a light version of this script here -> [S&D aka phisherprice lite ](https://github.com/SirCryptic/snd)
+
+# Foot Notes
 This tool also works on termux as expected since it is based on bash aswell as windows (i do aim for cross platform 🙋‍♂️✅) , but i assume and expect limited functionality , your more than welcome to pull a issue request regarding os & or function and i will try my best to get back to you & or update the tool if there is enough interest , from the activity on the repo and posts around social media etc im pretty shocked at how well the tool has been percieved so thankyou to all of you unique cloners and users around the continent.
