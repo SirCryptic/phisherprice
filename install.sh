@@ -24,7 +24,6 @@ fi
 echo "[✔] Installing ...";
 echo "";
 git clone https://github.com/sircryptic/phisherprice /usr/share/doc/phisherprice;
-sudo cp /usr/share/doc/phisherprice/sshscan.py /usr/bin/;
 echo "#!/bin/bash 
 bash /usr/share/doc/phisherprice/phisherprice" '${1+"$@"}' > phisherprice;
 chmod +x phisherprice.sh;
