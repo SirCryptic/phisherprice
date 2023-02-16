@@ -15,7 +15,6 @@ NOTE: I WOULD SUGGEST JUST EXECUTING THE SCRIPT FROM THE FOLDER UNTILL SOME BUGS
 -  `sudo bash install.sh`
 
 ### **- [ x ] Installing Dependencies**
-- ⚠️ I WOULD SUGGEST HOLDING OFF ON THIS UNTILL I FIX SOME STUFF, JUST USE THIS ON THE OS's IT WAS DESIGNED FOR. ⚠️
 - `sudo bash reqs.sh`
 
 **- [ x ] How do i run the script?**
