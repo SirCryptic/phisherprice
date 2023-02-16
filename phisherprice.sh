@@ -306,26 +306,57 @@ echo -e '
 
 read
 
-elif [ "$x" == "$sub9" ]; then                    #Sub-Option-9
-echo "Enter The Host You Want To Scan."
-read subop9
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!     Scanning Host SSH For Vulns      !
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
+elif [ "$x" == "$sub9" ]; then                    #sshscanner
 clear
-sshscan.py -t $subop9
+function scan_ciphers() {
+  local host="$1"
+  local port="$2"
+
+  printf "Testing available ciphers on %s:%s...\n" "$host" "$port"
+  printf "\n\033[1;33mTesting for weak ciphers...\033[0m\n"
+
+  openssl ciphers -v | awk '{print $1}' | while read cipher; do
+    openssl s_client -cipher "$cipher" -connect "$host:$port" >/dev/null 2>&1 && echo -e "Cipher \033[1;32m$cipher is enabled\033[0m" || echo -e "Cipher \033[1;31m$cipher is disabled\033[0m"
+  done | grep -i -E "NULL|RC4|DES|3DES|MD5|SHA-1"
+
+  printf "\n\033[1;33mTesting for strong ciphers...\033[0m\n"
+
+  openssl ciphers -v | awk '{print $1}' | while read cipher; do
+    openssl s_client -cipher "$cipher" -connect "$host:$port" >/dev/null 2>&1 && echo -e "Cipher \033[1;32m$cipher is enabled\033[0m" || echo -e "Cipher \033[1;31m$cipher is disabled\033[0m"
+  done | grep -v -E "NULL|RC4|DES|3DES|MD5|SHA-1"
+
+  printf "\n\033[1;33mTesting for weak MACs...\033[0m\n"
+
+  openssl s_client -connect "$host:$port" -tls1_2 -cipher AES256-SHA >/dev/null 2>&1 && echo -e "\033[1;32mHMAC-SHA256 is enabled\033[0m" || echo -e "\033[1;31mHMAC-SHA256 is disabled\033[0m"
+  openssl s_client -connect "$host:$port" -tls1_2 -cipher AES128-SHA >/dev/null 2>&1 && echo -e "\033[1;32mHMAC-SHA1 is enabled\033[0m" || echo -e "\033[1;31mHMAC-SHA1 is disabled\033[0m"
+
+  printf "\n\033[1;33mTesting for key exchange methods...\033[0m\n"
+
+  openssl s_client -connect "$host:$port" -tls1_2 -cipher AES256-SHA >/dev/null 2>&1 && echo -e "\033[1;32mECDHE key exchange is enabled\033[0m" || echo -e "\033[1;31mECDHE key exchange is disabled\033[0m"
+  openssl s_client -connect "$host:$port" -tls1_2 -cipher AES256-SHA >/dev/null 2>&1 && echo -e "\033[1;32mDHE key exchange is enabled\033[0m" || echo -e "\033[1;31mDHE key exchange is disabled\033[0m"
 
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Host Scanned Using SSHSCAN/PhiserPrice!
+!   Host Scanned Using PhiserPrice     !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  
 '
+  read -n 1 -s -r -p "Press any key to continue"
+}
+echo -e '
+  _________ _________ ___ ___     _________                                         
+ /   _____//   _____//   |   \   /   _____/ ____ _____    ____   ____   ___________ 
+ \_____  \ \_____  \/    ~    \  \_____  \_/ ___\\__  \  /    \ /    \_/ __ \_  __ \
+ /        \/        \    Y    /  /        \  \___ / __ \|   |  \   |  \  ___/|  | \/
+/_______  /_______  /\___|_  /  /_______  /\___  >____  /___|  /___|  /\___  >__|   
+        \/        \/       \/           \/     \/     \/     \/     \/     \/       
+'
+printf "Enter host: "
+read host
+printf "Enter port: "
+read port
 
-read
+scan_ciphers "$host" "$port"
 elif [ "$x" == "$sub10" ]; then                    #Sub-Option-10
 echo "Enter The Host You Want To Scan.(testsite.com)"
 read subop10
