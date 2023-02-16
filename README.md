@@ -17,7 +17,7 @@ NOTE: I WOULD SUGGEST JUST EXECUTING THE SCRIPT FROM THE FOLDER UNTILL SOME BUGS
 ### **- [ x ] Installing Dependencies**
 - `sudo bash reqs.sh`
 
-**- [ x ] How do i run the script?**
+### **- [ x ] How do i run the script?**
 
 - `sudo phisherprice.sh` in any terminal
 
