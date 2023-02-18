@@ -11,6 +11,7 @@
 - `git clone https://github.com/SirCryptic/phisherprice`
 - `cd phisherprice`
 -  `sudo bash install.sh`
+- `cd /usr/share/doc/phisherprice` - To Change the API Keys, use `nano` or `gedit`
 
 ### **- [ x ] Installing Dependencies**
 - `sudo bash reqs.sh`
