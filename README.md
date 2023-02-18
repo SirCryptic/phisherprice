@@ -1,8 +1,6 @@
 ### # PhisherPrice
 **Multi-Functional Pentest Tool, Command Them All From One Script.**
 
-NOTE: I WOULD SUGGEST JUST EXECUTING THE SCRIPT FROM THE FOLDER UNTILL SOME BUGS ARE FIXED REGARDING API KEYS BEING READ!
-
 ![phisherprice](https://user-images.githubusercontent.com/48811414/86302115-ad7e1f80-bbff-11ea-8da0-d3f7a6746eb2.gif)
 
 
