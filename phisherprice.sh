@@ -1,5 +1,4 @@
 #!/bin/bash
-source .env
 ## rjwdlu4eva
 ## PhiserPrice 2.8
 if [[ $EUID -ne 0 ]]; then
@@ -12,6 +11,10 @@ clear
 while [ $i -lt 1 ]
 do
 clear
+#API KEYS
+phone_lookup_api_key=REPLACE_ME_WITH_YOUR_API_KEY
+bin_checker_api_key=REPLACE_ME_WITH_YOUR_API_KEY
+email_validator_api_key=REPLACE_ME_WITH_YOUR_API_KEY
 
 #COLOUR
 red='\e[1;31m'
