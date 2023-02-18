@@ -10,8 +10,7 @@
 
 - `git clone https://github.com/SirCryptic/phisherprice`
 - `cd phisherprice`
--  `sudo bash install.sh`
-- `cd /usr/share/doc/phisherprice` - To Change the API Keys, use `nano` or `gedit`
+-  `sudo bash install.sh` 
 
 ### **- [ x ] Installing Dependencies**
 - `sudo bash reqs.sh`
@@ -20,6 +19,11 @@
 
 - `sudo phisherprice.sh` in any terminal
 
+
+
+### **- [ x ] Changing the API Keys**
+- `cd /usr/share/doc/phisherprice`
+- use `nano` or `gedit` eg: `nano phisherprice.sh`
 ```
 replace "REPLACE_ME_WITH_YOUR_API_KEY" with your api keys the list of api's is below you will also find info about this on the wiki page eventually
 
@@ -32,11 +36,14 @@ https://apilayer.com/marketplace/number_verification-api
 <details>
   <summary>Click to expand!</summary>
 
+- 18/02/2023
+- updated how API keys are stored
+
 - 16/02/2023
 - Implemented a ssh scanner to scan for weak ciphers/macs/kex
 
 - 11/02/2023
-- updated how api keys are stored
+- updated how API keys are stored
 - added email validator
 - added BIN Checker
 
