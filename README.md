@@ -10,13 +10,14 @@
 
 - `git clone https://github.com/SirCryptic/phisherprice`
 - `cd phisherprice`
+- chmod +x phisherprice.sh
 
 ### **- [ x ] Installing Dependencies**
 - `sudo bash reqs.sh`
 
 ### **- [ x ] How do i run the script?**
 
-- `sudo phisherprice.sh` in any terminal
+- `sudo ./phisherprice.sh`
 
 
 
