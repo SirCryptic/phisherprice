@@ -1,6 +1,6 @@
 #!/bin/bash
 ## rjwdlu4eva
-## PhiserPrice 2.8
+## PhiserPrice 2.9
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 
    echo "You Forgot To Say The Magic Word, bRuHhh cmon" 
@@ -15,6 +15,7 @@ clear
 phone_lookup_api_key=REPLACE_ME_WITH_YOUR_API_KEY
 bin_checker_api_key=REPLACE_ME_WITH_YOUR_API_KEY
 email_validator_api_key=REPLACE_ME_WITH_YOUR_API_KEY
+SHODAN_API_KEY=REPLACE_ME_WITH_YOUR_API_KEY
 
 #COLOUR
 red='\e[1;31m'
@@ -29,7 +30,7 @@ banner='
   \_  /_/   /.
    \__/_   <   \e[1;31m PhisherPrice \e[1;33m
    /<<< \_\_ \e[1;31m Happy Hour Playset \e[1;33m
-  /,)^>>_._ \ \e[1;31m Version 2.8 \e[1;33m
+  /,)^>>_._ \ \e[1;31m Version 2.9 \e[1;33m
   (/   \\ /\\\
        // //```
 ======((`((====\e[1;34m'
@@ -91,6 +92,7 @@ Recon & Auditing
 (19) Scan For Vulns (Metasploit)
 (20) BIN Checker
 (21) Email Validator
+(22) Scan Shodan for vulnrable IOT Devices
 CTRL + C To Exit
 Press ENTER To Go To Main Menu
 '
@@ -115,6 +117,7 @@ sub19='18'
 sub20='19'
 sub21='20'
 sub22='21'
+sub23='22'
 
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Recon & Audit$Blue]:"
 echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
@@ -700,10 +703,88 @@ echo '           Press ENTER to Main Menu '
 echo ' '
 read
 
+elif [ "$x" == "$sub23" ]; then                    #Sub-Option-2
+clear
+echo "Shodan Vulnrability Search${reset}"
+
+OUTPUT_FILE="shodan_results_$(date +%Y%m%d_%H%M%S).txt"
+
+QUERIES=("title:"webcam" port:554")
+QUERIES+=("product:"Apache httpd" version:<2.4.29")
+QUERIES+=("product:"Microsoft-IIS"")
+QUERIES+=("product:"OpenSSH"")
+QUERIES+=("product:"OpenSSH" version:<7.4")
+QUERIES+=("product:"nginx"")
+QUERIES+=("product:"phpMyAdmin"")
+QUERIES+=("product:"Samba"")
+QUERIES+=("product:"MySQL"")
+QUERIES+=("product:"MySQL" port:3306")
+QUERIES+=("product:"PostgreSQL"")
+QUERIES+=("product:"Elasticsearch"")
+QUERIES+=("product:"MongoDB"")
+QUERIES+=("product:"Redis"")
+QUERIES+=("product:"Rsync"")
+QUERIES+=("product:"Hadoop"")
+QUERIES+=("product:"Zookeeper"")
+QUERIES+=("product:"Elasticsearch"")
+QUERIES+=("product:"RabbitMQ"")
+QUERIES+=("port:3389 has_screenshot:true")
+QUERIES+=("port:22 product:"OpenSSH" version:<7.4")
+QUERIES+=("port:1433 country:US product:"Microsoft SQL Server"")
+QUERIES+=("port:21 product:"ProFTPD" version:<1.3.5")
+QUERIES+=("port:445 os:Windows")
+QUERIES+=("port:161 product:"SNMP"")
+QUERIES+=("product:"D-Link Web Management"")
+QUERIES+=("product:"nginx" version:<1.16.1")
+QUERIES+=("product:"nginx" version:<1.19.4")
+QUERIES+=("product:"PHP" version:<7.2")
+QUERIES+=("product:"PHP" version:<7.3")
+QUERIES+=("port:22 has_ipv6:true")
+QUERIES+=("product:"Docker" port:2375")
+QUERIES+=("product:"Microsoft Exchange Server 2013"")
+QUERIES+=("product:"Microsoft Exchange Server 2016"")
+QUERIES+=("product:"Microsoft SQL Server" port:1433")
+QUERIES+=("product:"MongoDB" port:27017")
+QUERIES+=("product:"Elasticsearch" port:9200")
+QUERIES+=("product:"Docker" port:2375")
+QUERIES+=("product:"Cisco ASA"")
+QUERIES+=("product:"Juniper" port:22")
+QUERIES+=("product:"HP iLO"")
+QUERIES+=("product:"Supermicro IPMI"")
+QUERIES+=("product:"NETGEAR ProSafe"")
+QUERIES+=("product:"QNAP"")
+QUERIES+=("product:"OpenSSH" version:<7.6")
+QUERIES+=("product:"OpenSSL" version:<1.0.2")
+QUERIES+=("product:"Exim" version:<4.92")
+QUERIES+=("product:"nginx" version:<1.16.1")
+QUERIES+=("product:"MongoDB" port:27017")
+QUERIES+=("product:"Elasticsearch" port:9200")
+QUERIES+=("product:"Apache Tomcat" version:7.0.0")
+QUERIES+=('port:389 os:"Windows Server 2016"')
+QUERIES+=('port:3389 os:"Windows 10"')
+QUERIES+=("product:\"elasticsearch\" port:9200")
+QUERIES+=("product:\"mongodb\" port:27017")
+QUERIES+=("product:\"rabbitmq\" port:5672")
+QUERIES+=("product:\"activemq\" port:8161")
+QUERIES+=("port:6379 \"redis\"")
+QUERIES+=("product:\"neo4j\" port:7474")
+
+read -p "Do you want to start the search? (y/n) " answer
+if [ "$answer" != "y" ]; then
+    exit
+fi
+for QUERY in "${QUERIES[@]}"
+do
+    echo "Searching for: $QUERY"
+    curl -s "https://api.shodan.io/shodan/host/search?key=$SHODAN_API_KEY&query=$QUERY" | jq 'try (.matches | .[] | {product, ip_str}) catch "API error: $QUERY"' | sed 's/"//g' >> $OUTPUT_FILE
+done    
+echo ""
+echo "Scanning finished saved to $OUTPUT_FILE"
+read
+
 else 
 
 n
-
 
 fi
 
@@ -2364,7 +2445,7 @@ echo -e '\e[1;33m
   \_  /_/   /.
    \__/_   <    AutoExif Tool
    /<<< \_\_  PhisherPrice
-  /,)^>>_._ \ Version 2.8 
+  /,)^>>_._ \ Version 2.9 
   (/   \\ /\\\
        // //```
 ======((`((====\e[1;34m
