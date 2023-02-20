@@ -29,11 +29,15 @@ replace "REPLACE_ME_WITH_YOUR_API_KEY" with your api keys the list of api's is b
 https://rapidapi.com/blackbunny/api/bank-card-bin-num-check
 https://apilayer.com/marketplace/email_verification-api
 https://apilayer.com/marketplace/number_verification-api
+https://www.shodan.io
 ```
 
 ### - [ x ] Change Log
 <details>
   <summary>Click to expand!</summary>
+
+- 20/02/2023
+- Added a shodan search for vulnrable IOT devices connected to the internet
 
 - 18/02/2023
 - updated how API keys are stored
