@@ -98,11 +98,5 @@ https://www.shodan.io
 
 Version phisherprice RJ<tagname>
 
-
-You can Support me by buying me a coffee ☕
-
-<a href="https://www.buymeacoffee.com/sircryptic"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=sircryptic&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
-
-
 # Foot Notes
 This tool also works on termux as expected since it is based on bash (i do aim for cross platform 🙋‍♂️✅) , but i assume and expect limited functionality , your more than welcome to pull a issue request regarding os & or function and i will try my best to get back to you & or update the tool if there is enough interest.
