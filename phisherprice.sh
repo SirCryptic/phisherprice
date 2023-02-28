@@ -3213,7 +3213,7 @@ if [ -d "phisherprice" ]; then
     esac
 fi
 
-git clone https://github.com/sircryptic/phisherprice
+cd&&git clone https://github.com/sircryptic/phisherprice
 cd phisherprice && sudo bash ./update.sh
 sudo phisherprice
 
