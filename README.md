@@ -36,6 +36,9 @@ https://www.shodan.io
 <details>
   <summary>Click to expand!</summary>
 
+- 28/02/2023
+- Complete Re-Write Of almost every function Enjoy 👨‍💻😮‍💨☕
+  
 - 20/02/2023
 - Added a shodan search for vulnrable IOT devices connected to the internet
 
