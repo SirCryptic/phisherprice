@@ -3171,49 +3171,11 @@ else
 fi
 
 read -p "Press Enter to continue."
-# Changed Back The Update Feature For Now but with OS Checks Still..
+# Changed Back The Update Feature For Now
 elif [ "$x" == "$update" ]; then                 #Update
-clear
-if [ -f /etc/debian_version ]; then
-    OS="Debian"
-elif [ -f /etc/arch-release ]; then
-    OS="Arch"
-elif [ -f /etc/lsb-release ]; then
-    . /etc/lsb-release
-    OS=$DISTRIB_ID
-elif [ -f /etc/os-release ]; then
-    . /etc/os-release
-    OS=$NAME
-elif [ -f /etc/backbox-release ]; then
-    OS="BackBox"
-elif [ -f /etc/rpi-issue ]; then
-    OS="Raspbian"
-elif [ -d "$HOME/.termux" ]; then
-    OS="Termux"
-else
-    echo "This script is only intended for Debian, Ubuntu, Arch, Kali, BackBox, Raspbian, and Termux."
-    exit 1
-fi
+echo "This Script is Only Intended for Kali Linux And Similar OS"
 
-if [ "$OS" != "Debian" ] && [ "$OS" != "Ubuntu" ] && [ "$OS" != "Arch" ] && [ "$OS" != "Kali" ] && [ "$OS" != "BackBox" ] && [ "$OS" != "Raspbian" ] && [ "$OS" != "Termux" ]; then
-    echo "This script is only intended for Kali Linux and similar OS."
-    exit 1
-fi
-
-if [ -d "phisherprice" ]; then
-    read -p "The 'phisherprice' directory already exists. Do you want to delete it and download the latest version? [y/n] " choice
-    case "$choice" in
-      y|Y ) 
-        cd&&rm -rf phisherprice
-        ;;
-      * ) 
-        echo "Skipping phisherprice update."
-        exit 1
-        ;;
-    esac
-fi
-
-cd&&git clone https://github.com/sircryptic/phisherprice
+git clone https://github.com/sircryptic/phisherprice
 cd phisherprice && sudo bash ./update.sh
 sudo phisherprice
 
