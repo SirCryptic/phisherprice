@@ -3171,7 +3171,7 @@ else
 fi
 
 read -p "Press Enter to continue."
-
+# Changed Back The Update Feature For Now but with OS Checks Still..
 elif [ "$x" == "$update" ]; then                 #Update
 clear
 if [ -f /etc/debian_version ]; then
@@ -3200,44 +3200,22 @@ if [ "$OS" != "Debian" ] && [ "$OS" != "Ubuntu" ] && [ "$OS" != "Arch" ] && [ "$
     exit 1
 fi
 
-SCRIPT_NAME="phisherprice"
-
-REPO_URL="https://github.com/sircryptic/phisherprice.git"
-
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-LOCAL_REPO_DIR="${SCRIPT_DIR}/${SCRIPT_NAME}"
-
-check_updates() {
-    remote_hash=$(git ls-remote "${REPO_URL}" HEAD | awk '{print $1}')
-
-    cd "${LOCAL_REPO_DIR}"
-    local_hash=$(git rev-parse HEAD)
-
-    if [[ "${remote_hash}" != "${local_hash}" ]]; then
-        read -p "A new version of ${SCRIPT_NAME} is available. Do you want to update? [y/n] " choice
-        case "$choice" in 
-          y|Y ) 
-            git pull
-            echo "${SCRIPT_NAME} updated to the latest version.";;
-          n|N ) 
-            echo "Skipping ${SCRIPT_NAME} update.";;
-          * ) 
-            echo "Invalid choice. Skipping ${SCRIPT_NAME} update.";;
-        esac
-    fi
-}
-
-check_updates
-
-if [[ ! -d "${LOCAL_REPO_DIR}" ]]; then
-    git clone "${REPO_URL}" "${LOCAL_REPO_DIR}"
-else
-    cd "${LOCAL_REPO_DIR}"
-    git pull
+if [ -d "phisherprice" ]; then
+    read -p "The 'phisherprice' directory already exists. Do you want to delete it and download the latest version? [y/n] " choice
+    case "$choice" in
+      y|Y ) 
+        cd&&rm -rf phisherprice
+        ;;
+      * ) 
+        echo "Skipping phisherprice update."
+        exit 1
+        ;;
+    esac
 fi
 
-sudo "${LOCAL_REPO_DIR}/${SCRIPT_NAME}"
+git clone https://github.com/sircryptic/phisherprice
+cd phisherprice && sudo bash ./update.sh
+sudo phisherprice
 
 elif [ "$x" == "$contact" ]; then                 #CONTACTME                    
 
