@@ -2767,7 +2767,7 @@ else
   protocol="http"
 fi
 
-read "Randomize User-Agent header? [y/n]" randomize_ua
+read -p "Randomize User-Agent header? [y/n]" randomize_ua
 
 if [[ $randomize_ua == "y" ]]; then
   ua_flag="-H 'User-Agent: \$(shuf -n 1 user_agents.txt)'"
