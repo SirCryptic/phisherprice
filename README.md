@@ -35,6 +35,10 @@ https://www.shodan.io
 ### - [ x ] Change Log
 <details>
   <summary>Click to expand!</summary>
+  
+
+- 1/03/2023
+- Added DoS Toolkit Menu as a easter egg sub menu (this is so skids dont abuse it thinking they're 1337 although most methods are well protected against now days)
 
 - 28/02/2023
 - Complete Re-Write Of almost every function Enjoy 👨‍💻😮‍💨☕
