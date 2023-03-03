@@ -18,7 +18,7 @@
 ### **- [ x ] How do i run the script?**
 
 - `sudo ./phisherprice.sh`
-- `sudo pp` from any terminal
+- `sudo pp` from any terminal once you run the update option from inside the script
 
 
 
