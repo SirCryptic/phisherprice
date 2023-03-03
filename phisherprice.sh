@@ -3430,10 +3430,39 @@ else
 fi
 
 read -p "Press Enter to continue."
-# Changed Back The Update Feature For Now..
-git clone https://github.com/sircryptic/phisherprice
-cd phisherprice && sudo bash ./update.sh
-sudo phisherprice
+
+elif [ "$x" == "$update" ]; then
+    echo "Updating Phisherprice..."
+    REPO_URL="https://github.com/sircryptic/phisherprice"
+    INSTALL_DIR="/usr/local/bin"
+    RELEASE_FILE="phisherprice.sh"
+    RELEASE_URL="$REPO_URL/releases/latest/download/$RELEASE_FILE"
+
+    echo "Downloading latest release..."
+    wget $RELEASE_URL -O $INSTALL_DIR/$RELEASE_FILE || { echo "Failed to download latest release"; exit 1; }
+
+    chmod +x $INSTALL_DIR/$RELEASE_FILE || { echo "Failed to make $RELEASE_FILE executable"; exit 1; }
+
+    if [ -f $INSTALL_DIR/$RELEASE_FILE.old ]; then
+        echo "Removing old version..."
+        sudo rm $INSTALL_DIR/$RELEASE_FILE.old || { echo "Failed to remove old version"; exit 1; }
+    fi
+
+    if [ -f $INSTALL_DIR/$RELEASE_FILE ]; then
+        echo "Backing up current version..."
+        sudo mv $INSTALL_DIR/$RELEASE_FILE $INSTALL_DIR/$RELEASE_FILE.old || { echo "Failed to move current version to backup"; exit 1; }
+    fi
+
+    echo "Installing latest version..."
+    sudo mv $INSTALL_DIR/$RELEASE_FILE $INSTALL_DIR/ || { echo "Failed to install latest version"; exit 1; }
+
+    echo "Making $RELEASE_FILE executable..."
+    sudo chmod +x $INSTALL_DIR/$RELEASE_FILE || { echo "Failed to make $RELEASE_FILE executable"; exit 1; }
+
+    echo "Update complete!"
+
+    echo "Restarting Phisherprice..."
+    sudo phisherprice || { echo "Failed to restart Phisherprice"; exit 1; }
 elif [ "$x" == "$contact" ]; then                 #CONTACTME                    
 
 clear
