@@ -18,6 +18,7 @@
 ### **- [ x ] How do i run the script?**
 
 - `sudo ./phisherprice.sh`
+- `sudo pp` from any terminal
 
 
 
