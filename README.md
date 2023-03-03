@@ -1,28 +1,44 @@
-### # PhisherPrice
-**Multi-Functional Pentest Tool, Command Them All From One Script.**
+<p align="center">
+    <img width="300" src="https://user-images.githubusercontent.com/48811414/222840263-798ae8dc-a8c2-4f9c-a7e1-b08f49d37e45.png" alt="Null Security Team">
+</p>
+<h3 align="center"> Multi-Functional Pentest Tool, Command Them All From One Script.</h3>
 
-![phisherprice](https://user-images.githubusercontent.com/48811414/86302115-ad7e1f80-bbff-11ea-8da0-d3f7a6746eb2.gif)
+<div align="center">
+  <img src="https://user-images.githubusercontent.com/48811414/86191653-8233fb80-bb3f-11ea-8b2c-5e8737da4464.png">
+  <img src="https://user-images.githubusercontent.com/48811414/86414182-29896d80-bcbb-11ea-9b0b-de6b57eb583d.png">
+  <img src="https://user-images.githubusercontent.com/48811414/86414184-2a220400-bcbb-11ea-89a8-89890f2e3775.png">
+</div>
+  
+<h1 align="center"> How To Install</h1>
+
+```
+git clone https://github.com/SirCryptic/phisherprice
+```
+```
+cd phisherprice`
+```
+```
+chmod +x phisherprice.sh
+```
+<h1 align="center"> Installing Dependencies (Optional) </h1>
+
+```
+sudo bash reqs.sh
+```
+
+<h1 align="center"> How do i run the script? </h1>
+
+```
+sudo ./phisherprice.sh
+```
+```
+sudo pp   //  from any terminal once you run the update option from inside the script
+```
 
 
-![badge](https://user-images.githubusercontent.com/48811414/86191653-8233fb80-bb3f-11ea-8b2c-5e8737da4464.png) ![made-with-bash](https://user-images.githubusercontent.com/48811414/86414182-29896d80-bcbb-11ea-9b0b-de6b57eb583d.png) ![user-friendly](https://user-images.githubusercontent.com/48811414/86414184-2a220400-bcbb-11ea-89a8-89890f2e3775.png)
 
-### **- [ x ] How To Install**
+<h1 align="center"> Changing the API Keys </h1>
 
-- `git clone https://github.com/SirCryptic/phisherprice`
-- `cd phisherprice`
-- `chmod +x phisherprice.sh`
-
-### **- [ x ] Installing Dependencies**
-- `sudo bash reqs.sh`
-
-### **- [ x ] How do i run the script?**
-
-- `sudo ./phisherprice.sh`
-- `sudo pp` from any terminal once you run the update option from inside the script
-
-
-
-### **- [ x ] Changing the API Keys**
 - use `nano` or `gedit` eg: `nano phisherprice.sh`
 ```
 replace "REPLACE_ME_WITH_YOUR_API_KEY" with your api keys the list of api's is below you will also find info about this on the wiki page eventually
@@ -33,7 +49,10 @@ https://apilayer.com/marketplace/number_verification-api
 https://www.shodan.io
 ```
 
-### - [ x ] Change Log
+<h1 align="center"> Change Log </h1>
+
+<center>
+
 <details>
   <summary>Click to expand!</summary>
   
@@ -104,14 +123,26 @@ https://www.shodan.io
 - Updated The Credits
   
 </details>
+
+</center>
+
+<h1 align="center"> Old Preview</h1>
+
+<center>
+
+<details>
+  <summary>Click to expand!</summary>
   
+![phisherprice](https://user-images.githubusercontent.com/48811414/86302115-ad7e1f80-bbff-11ea-8da0-d3f7a6746eb2.gif)
+  
+</details>
 
-### - [ x ] Credits
+</center>
 
-- ⭐ [SirCrypic](https://github.com/SirCryptic) , phisherprice
+<h1 align="center">  Credits </h1>
 
+<p align="center">  ⭐ SirCrypic, phisherprice - Version: ALPHA</p>
 
-Version phisherprice RJ<tagname>
-
-# Foot Notes
+  <h1 align="center"> Foot Notes</h1>
+  
 This tool also works on termux as expected since it is based on bash (i do aim for cross platform 🙋‍♂️✅) , but i assume and expect limited functionality , your more than welcome to pull a issue request regarding os & or function and i will try my best to get back to you & or update the tool if there is enough interest.
