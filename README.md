@@ -36,7 +36,14 @@ https://www.shodan.io
 <details>
   <summary>Click to expand!</summary>
   
-
+- 03/03/2023
+- Added Bluetooth Toolkit
+- Added Archive Cracker
+- Made Dos Toolkit Menu accessible from menu
+- Changed how the script updates
+- Added another email cracker that doesnt use hyrda but i dont intend people to use this and is just a mere idea for future refrence so i have left it out of the menu display options
+- Minor Improvments / Fix's
+  
 - 1/03/2023
 - Added DoS Toolkit Menu as a easter egg sub menu (this is so skids dont abuse it thinking they're 1337 although most methods are well protected against now days)
 
