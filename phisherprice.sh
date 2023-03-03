@@ -3432,37 +3432,37 @@ fi
 read -p "Press Enter to continue."
 
 elif [ "$x" == "$update" ]; then
-    echo "Updating Phisherprice..."
-    REPO_URL="https://github.com/sircryptic/phisherprice"
-    INSTALL_DIR="/usr/local/bin"
-    RELEASE_FILE="phisherprice.sh"
-    RELEASE_URL="$REPO_URL/releases/latest/download/$RELEASE_FILE"
+clear
+echo "Updating Phisherprice..."
+REPO_URL="https://github.com/sircryptic/phisherprice.git"
+INSTALL_DIR="/usr/local/bin/phisherprice"
 
-    echo "Downloading latest release..."
-    wget $RELEASE_URL -O $INSTALL_DIR/$RELEASE_FILE || { echo "Failed to download latest release"; exit 1; }
+echo "Cloning latest release..."
+git clone $REPO_URL $INSTALL_DIR.new || { echo "Failed to clone latest release"; exit 1; }
 
-    chmod +x $INSTALL_DIR/$RELEASE_FILE || { echo "Failed to make $RELEASE_FILE executable"; exit 1; }
+if [ -d $INSTALL_DIR.old ]; then
+    echo "Removing old version..."
+    sudo rm -rf $INSTALL_DIR.old || { echo "Failed to remove old version"; exit 1; }
+fi
 
-    if [ -f $INSTALL_DIR/$RELEASE_FILE.old ]; then
-        echo "Removing old version..."
-        sudo rm $INSTALL_DIR/$RELEASE_FILE.old || { echo "Failed to remove old version"; exit 1; }
-    fi
+if [ -d $INSTALL_DIR ]; then
+    echo "Backing up current version..."
+    sudo mv $INSTALL_DIR $INSTALL_DIR.old || { echo "Failed to move current version to backup"; exit 1; }
+fi
 
-    if [ -f $INSTALL_DIR/$RELEASE_FILE ]; then
-        echo "Backing up current version..."
-        sudo mv $INSTALL_DIR/$RELEASE_FILE $INSTALL_DIR/$RELEASE_FILE.old || { echo "Failed to move current version to backup"; exit 1; }
-    fi
+echo "Installing latest version..."
+sudo mv $INSTALL_DIR.new $INSTALL_DIR || { echo "Failed to install latest version"; exit 1; }
 
-    echo "Installing latest version..."
-    sudo mv $INSTALL_DIR/$RELEASE_FILE $INSTALL_DIR/ || { echo "Failed to install latest version"; exit 1; }
+echo "Making $INSTALL_DIR/phisherprice.sh executable..."
+sudo chmod +x $INSTALL_DIR/phisherprice.sh || { echo "Failed to make phisherprice.sh executable"; exit 1; }
 
-    echo "Making $RELEASE_FILE executable..."
-    sudo chmod +x $INSTALL_DIR/$RELEASE_FILE || { echo "Failed to make $RELEASE_FILE executable"; exit 1; }
+echo "Creating symbolic link for phisherprice.sh as phisherprice..."
+sudo ln -sf $INSTALL_DIR/phisherprice.sh /usr/local/bin/phisherprice || { echo "Failed to create symbolic link"; exit 1; }
 
-    echo "Update complete!"
+echo "Update complete!"
 
-    echo "Restarting Phisherprice..."
-    sudo phisherprice || { echo "Failed to restart Phisherprice"; exit 1; }
+echo "Restarting Phisherprice..."
+sudo phisherprice || { echo "Failed to restart Phisherprice"; exit 1; }
 elif [ "$x" == "$contact" ]; then                 #CONTACTME                    
 
 clear
