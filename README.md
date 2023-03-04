@@ -55,7 +55,10 @@ https://www.shodan.io
 
 <details>
   <summary>Click to expand!</summary>
-  
+
+- 04/03/2023
+- Command history and arrow key support (its the little things in life that matter most ☕👨‍💻
+
 - 03/03/2023
 - Added Bluetooth Toolkit
 - Added Archive Cracker
@@ -65,7 +68,7 @@ https://www.shodan.io
 - Minor Improvments / Fix's
   
 - 1/03/2023
-- Added DoS Toolkit Menu as a easter egg sub menu (this is so skids dont abuse it thinking they're 1337 although most methods are well protected against now days)
+- <del> Added DoS Toolkit Menu as a easter egg sub menu (this is so skids dont abuse it thinking they're 1337 although most methods are well protected against now days) </del>
 
 - 28/02/2023
 - Complete Re-Write Of almost every function Enjoy 👨‍💻😮‍💨☕
