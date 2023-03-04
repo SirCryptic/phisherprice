@@ -159,7 +159,7 @@ else
   echo -e "$response"
   
   echo -e "\nDo you want to save the information to a file? (y/n)"
-  read -p saveToFile
+  read -e saveToFile
   if [[ $saveToFile == "y" ]]; then
     echo -e "$response" > "$domain.txt"
     echo "Information saved to file: $domain.txt"
