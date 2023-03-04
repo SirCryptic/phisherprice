@@ -15,11 +15,22 @@
 git clone https://github.com/SirCryptic/phisherprice
 ```
 ```
-cd phisherprice`
+cd phisherprice
 ```
 ```
 chmod +x phisherprice.sh
 ```
+
+```
+sudo ./phisherprice.sh
+```
+### or
+```
+sudo bash phisherprice.sh
+```
+### Then run the update option and you can type ```sudo pp``` in any terminal
+
+
 <h1 align="center"> Installing Dependencies (Optional) </h1>
 
 ```
@@ -28,9 +39,6 @@ sudo bash reqs.sh
 
 <h1 align="center"> How do i run the script? </h1>
 
-```
-sudo ./phisherprice.sh
-```
 ```
 sudo pp   //  from any terminal once you run the update option from inside the script
 ```
