@@ -51,7 +51,7 @@ sudo pp   //  from any terminal once you run the update option from inside the s
 cd /usr/local/bin/phisherprice
 ```
 
-- use `nano` or `gedit` eg: `nano phisherprice.sh`
+- use `nano` or `gedit` eg: `sudo nano phisherprice.sh`
 ```
 replace "REPLACE_ME_WITH_YOUR_API_KEY" with your api keys the list of api's is below you will also find info about this on the wiki page eventually
 
