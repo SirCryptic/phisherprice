@@ -3658,7 +3658,7 @@ fi
 elif [ "$x" == "$option7" ]; then                          #Option7
 clear
 echo "Are you sure you want to start SE Toolkit?"
-read -p "Press ENTER to confirm or any other key to cancel." confirm
+read -p "Press Y to confirm or any other key to cancel." confirm
 
 if [[ "$confirm" =~ ^([yY][eE][sS]|[yY])$ ]]; then
   clear
@@ -3692,15 +3692,15 @@ elif [ "$x" == "$option8" ]; then                          #Option9
 clear
 
 echo "Are you sure you want to start Th3inspector?"
-read -p "Press ENTER to start or any other key to exit." answer
+read -p "Press Y to confirm or any other key to cancel." confirm
 
-if [[ $answer == "" ]]; then
+if [[ "$confirm" =~ ^([yY][eE][sS]|[yY])$ ]]; then
     clear
     echo -e '\n**************************************************'
     echo "******      Loading Th3inspector...     ******"
     echo -e '**************************************************\n'
 
-    $pi1337host Th3inspector
+    Th3inspector
 
     clear
     echo -e '\n**************************************************'
