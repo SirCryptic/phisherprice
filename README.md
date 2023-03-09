@@ -68,6 +68,9 @@ https://www.shodan.io
 <details>
   <summary>Click to expand!</summary>
 
+- 09/03/2023
+- complete overhaul of the menu
+
 - 04/03/2023
 - Command history and arrow key support (its the little things in life that matter most ☕👨‍💻
 
