@@ -164,3 +164,5 @@ https://www.shodan.io
   <h1 align="center"> Foot Notes</h1>
   
 This tool also works on termux as expected since it is based on bash (i do aim for cross platform 🙋‍♂️✅) , but i assume and expect limited functionality , your more than welcome to pull a issue request regarding os & or function and i will try my best to get back to you & or update the tool if there is enough interest.
+
+![visitor badge](https://visitor-badge.glitch.me/badge?page_id=sircryptic.phisherprice&left_text=My%20Page%20Visitors)
