@@ -13,6 +13,8 @@
     <a href="https://github.com/sircryptic/phisherprice/stargazers"><img src="https://img.shields.io/github/stars/sircryptic/phisherprice.svg" alt="GitHub stars"></a>
     <a href="https://github.com/sircryptic/phisherprice/network"><img src="https://img.shields.io/github/forks/sircryptic/phisherprice.svg" alt="GitHub forks"></a>
     <a href="https://github.com/sircryptic/phisherprice/watchers"><img src="https://img.shields.io/github/watchers/sircryptic/phisherprice.svg?style=social" alt="GitHub watchers"></a>
+    <br>
+    <a href="https://github.com/sircryptic/phisherprice/blob/re-write/LICENSE.md"><img src="https://img.shields.io/badge/license-CUSTOM-green.svg" alt="License"></a>
 </div>
 
 <h1 align="center"> How To Install</h1>
