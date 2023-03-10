@@ -8,7 +8,13 @@
   <img src="https://user-images.githubusercontent.com/48811414/86414182-29896d80-bcbb-11ea-9b0b-de6b57eb583d.png">
   <img src="https://user-images.githubusercontent.com/48811414/86414184-2a220400-bcbb-11ea-89a8-89890f2e3775.png">
 </div>
-  
+
+<div align="center">
+    <img src="https://visitor-badge.glitch.me/badge?page_id=sircryptic.phisherprice&left_text=My%20Page%20Visitors" alt="visitor badge">
+    <a href="https://github.com/sircryptic/phisherprice/stargazers"><img src="https://img.shields.io/github/stars/sircryptic/phisherprice.svg" alt="GitHub stars"></a>
+    <a href="https://github.com/sircryptic/phisherprice/network"><img src="https://img.shields.io/github/forks/sircryptic/phisherprice.svg" alt="GitHub forks"></a>
+</div>
+
 <h1 align="center"> How To Install</h1>
 
 ```
@@ -164,5 +170,3 @@ https://www.shodan.io
   <h1 align="center"> Foot Notes</h1>
   
 This tool also works on termux as expected since it is based on bash (i do aim for cross platform 🙋‍♂️✅) , but i assume and expect limited functionality , your more than welcome to pull a issue request regarding os & or function and i will try my best to get back to you & or update the tool if there is enough interest.
-
-![visitor badge](https://visitor-badge.glitch.me/badge?page_id=sircryptic.phisherprice&left_text=My%20Page%20Visitors)
