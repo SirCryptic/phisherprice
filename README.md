@@ -10,7 +10,6 @@
 </div>
 
 <div align="center">
-    <img src="https://visitor-badge.glitch.me/badge?page_id=sircryptic.phisherprice&left_text=My%20Page%20Visitors" alt="visitor badge">
     <a href="https://github.com/sircryptic/phisherprice/stargazers"><img src="https://img.shields.io/github/stars/sircryptic/phisherprice.svg" alt="GitHub stars"></a>
     <a href="https://github.com/sircryptic/phisherprice/network"><img src="https://img.shields.io/github/forks/sircryptic/phisherprice.svg" alt="GitHub forks"></a>
 </div>
