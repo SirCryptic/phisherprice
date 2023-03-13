@@ -69,88 +69,10 @@ https://apilayer.com/marketplace/number_verification-api
 https://www.shodan.io
 ```
 
-<h1 align="center"> Change Log </h1>
+<h1 align="center">
+  <a href="https://github.com/SirCryptic/phisherprice/blob/re-write/CHANGELOG.md">Change Log</a>
+</h1>
 
-<center>
-
-<details>
-  <summary>Click to expand!</summary>
-
-- 09/03/2023
-- complete overhaul of the menu
-
-- 04/03/2023
-- Command history and arrow key support (its the little things in life that matter most ☕👨‍💻
-
-- 03/03/2023
-- Added Bluetooth Toolkit
-- Added Archive Cracker
-- Made Dos Toolkit Menu accessible from menu
-- Changed how the script updates
-- Added another email cracker that doesnt use hyrda but i dont intend people to use this and is just a mere idea for future refrence so i have left it out of the menu display options
-- Minor Improvments / Fix's
-  
-- 1/03/2023
-- <del> Added DoS Toolkit Menu as a easter egg sub menu (this is so skids dont abuse it thinking they're 1337 although most methods are well protected against now days) </del>
-
-- 28/02/2023
-- Complete Re-Write Of almost every function Enjoy 👨‍💻😮‍💨☕
-  
-- 20/02/2023
-- Added a shodan search for vulnrable IOT devices connected to the internet
-
-- 18/02/2023
-- updated how API keys are stored
-
-- 16/02/2023
-- Implemented a ssh scanner to scan for weak ciphers/macs/kex
-
-- 11/02/2023
-- updated how API keys are stored
-- added email validator
-- added BIN Checker
-
-- 10/02/2023
-- Fixed the following:
-- phone number lookup (Feel free To add your own api key instead)
-- Wi-Fi Honeypot Cracker + Update ✌️
-- Also removed duplicate code 🤦
-
-- NOTE: next update will more than likely include a gui overhaul while some features will be either removed or replaced
- 
-- 21/04/2022
-
-- removed stealth ping ( required a key )
-- removed needing a word before option
-- removed website
-
-- 06/06/20~23:00
-
-- Added metasploit Nmap vuln script // all tests
-- Added Linux Data Dump
-- Added Sub Menu For Scanners In Auto Exploits Menu
-- Added wifi honeypot cracker
-- Added WP Auto Brute
-
-
-30/06/20~@23:40
-
-- Changed Phone API 
-- Added Some Dependencies into installer // Majority Of Them Just A Few Left
--  Also Added Banner For Option Picker Enjoy 😎
-
-- SUB MENU DEDICATED TO HYDRA || SUN/24/MAY/2020
--  Complete Overhaul / re-write
--  added tons more features too many to list
-
-[WIKI](https://github.com/NULL-Security-Team/phisherprice/wiki)
-
-- 2021/4/12
-- Updated The Credits
-  
-</details>
-
-</center>
 
 <h1 align="center"> Old Preview</h1>
 
