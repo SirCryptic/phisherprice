@@ -1,5 +1,8 @@
 # Changelog
 
+## 14/03/2023
+- Added More User Agents
+
 ## 09/03/2023
 - Complete overhaul of the menu
 
