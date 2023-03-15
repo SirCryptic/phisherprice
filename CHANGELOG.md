@@ -15,7 +15,7 @@
 - Minor Improvements / Fixes
 
 ## 1/03/2023
-- Added DoS Toolkit Menu as an easter egg sub-menu (this is so skids don't abuse it thinking they're 1337, although most methods are well-protected against nowadays)
+- ~Added DoS Toolkit Menu as an easter egg sub-menu (this is so skids don't abuse it thinking they're 1337, although most methods are well-protected against nowadays)~
 
 ## 28/02/2023
 - Complete re-write of almost every function Enjoy 👨‍💻😮‍💨☕
