@@ -1,9 +1,17 @@
 # Changelog
 ### Developed on BackBox (INTEDED USE FOR KALI BASED OS)
 
+## 18/03/2023
+- I would just to suggest to exec the script from the directory clone folder `phisherprice` for full functionality unless you want banners then install
+- even then i would just type `sudo pp -b`(with banners) or `sudo pp`(without banners) in the cloned repo directory for full functionality
+- if you dont mind not having the beta features then `sudo pp` in any cli
+
+
+- Changed how things are updated untill further notice
+- No further push's/commits/updates will be made for now
 
 ## 17/03/2023
-- Changed How things are stored to clean things up eg [ in `main` ] (this includes banners/user agents/admin urls)
+- Changed How things are stored to clean things up eg [ in `main` ] (this includes banners)
 - Added Admin Control Panel Finder [BETA/BASH]
 - Added Web App Vulnrability Scanner [BETA/BASH]
 - Ensured That Only Needed/Main Info is stored to bash history
