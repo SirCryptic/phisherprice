@@ -1,4 +1,24 @@
 # Changelog
+### Developed on BackBox (INTEDED USE FOR KALI BASED OS)
+
+
+## 17/03/2023
+- Changed How things are stored to clean things up eg [ in `main` ] (this includes banners/user agents/admin urls)
+- Added Admin Control Panel Finder [BETA/BASH]
+- Added Web App Vulnrability Scanner [BETA/BASH]
+- Ensured That Only Needed/Main Info is stored to bash history
+
+### GUI Overhaul
+- Changed How The Menu is displayed
+- Changed How Banners are displayed using cat + random colors
+- Banner/s are now optional Using
+
+```bash
+-b
+```
+- changed color coding/updated with more colors to support different cli's
+
+- Some ACII Artwork & Ideas Was Provided By [m0nde](https://github.com/sidchoudhuri)
 
 ## 14/03/2023
 - Added More User Agents
