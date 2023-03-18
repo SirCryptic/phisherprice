@@ -995,7 +995,7 @@ echo ' '
 url_prefix="http://"
 
 # Read the user agents from the file
-user_agents=$(cat main/user_agents.txt)
+user_agents=$(cat usr/local/bin/pp/main/user_agents.txt)
 # Clear the cli
 clear
 
@@ -2554,7 +2554,7 @@ if ! [[ $url =~ ^(([0-9]{1,3}\.){3}[0-9]{1,3})|([a-zA-Z]+://.*)$ ]]; then
     printf "${red}Error:${reset} Invalid URL or IP address entered.\n"
 fi
 # Set cURL options to verify SSL certificate
-user_agents_file="./main/user_agents.txt"
+user_agents_file="./usr/local/bin/pp/main/user_agents.txt"
 user_agents=()
 while read -r line; do
     user_agents+=("$line")
@@ -3209,7 +3209,7 @@ read -r -p"└─────► $reset" choice
     echo ""
 
 # Read user agents from file
-    user_agents=$(cat main/user_agents.txt)
+    user_agents=$(cat usr/local/bin/pp/main/user_agents.txt)
 
 # Check for Slowloris attack
     echo "Checking for Slowloris ${yellow}attack...${reset}"
@@ -3262,7 +3262,7 @@ fi
     read -p "Randomize User-Agent header? [y/n]: " randomize_ua
 
     if [[ $randomize_ua == "y" ]]; then
-      ua_flag="-H 'User-Agent: \$(shuf -n 1 main/user_agents.txt)'"
+      ua_flag="-H 'User-Agent: \$(shuf -n 1 usr/local/bin/ppmain/user_agents.txt)'"
     else
       ua_flag=""
     fi
@@ -3377,7 +3377,7 @@ while [ $SECONDS -lt $endtime ]; do
     headers+="\r\n$header_name: $header_value"
   done
   payload=$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w $payload_size | head -n 1)
-  user_agent=$(shuf -n 1 main/user_agents.txt)
+  user_agent=$(shuf -n 1 usr/local/bin/pp/main/user_agents.txt)
   curl -A "$user_agent" -H "$headers" -d "$payload" -X POST "http://$host:$port" >/dev/null 2>&1
   echo "Sent request at $(date)"
 done
