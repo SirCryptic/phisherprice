@@ -95,7 +95,7 @@ banner_files=(
     "/usr/local/bin/phisherprice/main/banners/banner3.txt"
     "/usr/local/bin/phisherprice/main/banners/banner4.txt"
     "/usr/local/bin/phisherprice/main/banners/banner5.txt"
-    "/usr/local/bin/phisherpricemain/banners/banner6.txt"
+    "/usr/local/bin/phisherprice/main/banners/banner6.txt"
 )
 title="PhisherPrice"
 echo -e '\033]2;'$title'\007'
