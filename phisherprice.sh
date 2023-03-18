@@ -233,7 +233,7 @@ else
     echo -e '**************************************************\n'
 fi
         ;;
-      u|U)
+   u|U)
     clear
     echo "${green}Updating Phisherprice...${reset}"
     REPO_URL="https://github.com/sircryptic/phisherprice.git"
@@ -258,6 +258,10 @@ fi
     echo "${yellow}Making $INSTALL_DIR/phisherprice.sh executable...${reset}"
     sudo chmod +x $INSTALL_DIR/phisherprice.sh || { echo "${red}Failed to make phisherprice.sh executable${reset}"; exit 1; }
 
+    echo "${yellow}Copying required files to $INSTALL_DIR...${reset}"
+    sudo cp admin_urls.txt $INSTALL_DIR || { echo "${red}Failed to copy admin_urls.txt${reset}"; exit 1; }
+    sudo cp user_agents.txt $INSTALL_DIR || { echo "${red}Failed to copy user_agents.txt${reset}"; exit 1; }
+
     echo "${yellow}Creating symbolic link for phisherprice.sh as pp...${reset}"
     if [ -L /usr/local/bin/pp ]; then
         echo "${yellow}Removing old symbolic link...${reset}"
@@ -269,7 +273,7 @@ fi
 
     echo "${yellow}Restarting Phisherprice${reset} (${green}now accessible via 'pp'${reset})..."
     sudo pp || { echo "${red}Failed to restart Phisherprice${reset}"; exit 1; }
-        ;;
+    ;;
       c|C)
 clear
 
