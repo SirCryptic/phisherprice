@@ -258,6 +258,9 @@ u|U)
     echo "${yellow}Making $INSTALL_DIR/phisherprice.sh executable...${reset}"
     sudo chmod +x $INSTALL_DIR/phisherprice.sh || { echo "${red}Failed to make phisherprice.sh executable${reset}"; exit 1; }
 
+    # Changing directory to the script directory
+    cd "$(dirname "$0")"
+
     echo "${yellow}Copying admin_urls.txt and user_agents.txt to $INSTALL_DIR...${reset}"
     sudo cp admin_urls.txt user_agents.txt $INSTALL_DIR || { echo "${red}Failed to copy files${reset}"; exit 1; }
 
