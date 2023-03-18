@@ -1087,7 +1087,7 @@ while read url_suffix; do
     echo "-----------------------------------------"
   fi
   urls_checked=$((urls_checked+1))
-done < main/admin_urls.txt
+done < /usr/local/bin/pp/main/admin_urls.txt
 
 # Check if an admin panel was found
 if [[ "$found_admin_panel" == false ]]; then
