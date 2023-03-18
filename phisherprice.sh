@@ -233,11 +233,14 @@ else
     echo -e '**************************************************\n'
 fi
         ;;
-      u|U)
+u|U)
     clear
     echo "${green}Updating Phisherprice...${reset}"
     REPO_URL="https://github.com/sircryptic/phisherprice.git"
     INSTALL_DIR="/usr/local/bin/phisherprice"
+
+    # Change current directory to the directory containing the script
+    cd "$(dirname "$0")"
 
     echo "${yellow}Cloning latest release...${reset}"
     git clone $REPO_URL $INSTALL_DIR.new || { echo "Failed to clone latest release"; exit 1; }
@@ -251,6 +254,10 @@ fi
         echo "${yellow}Backing up current version...${reset}"
         sudo mv $INSTALL_DIR $INSTALL_DIR.old || { echo "${red}Failed to move current version to backup${reset}"; exit 1; }
     fi
+
+    # Copy user_agents.txt and admin_urls.txt to the installation directory
+    sudo cp user_agents.txt $INSTALL_DIR.new/user_agents.txt || { echo "${red}Failed to copy user_agents.txt to installation directory${reset}"; exit 1; }
+    sudo cp admin_urls.txt $INSTALL_DIR.new/admin_urls.txt || { echo "${red}Failed to copy admin_urls.txt to installation directory${reset}"; exit 1; }
 
     echo "${green}Installing latest version...${reset}"
     sudo mv $INSTALL_DIR.new $INSTALL_DIR || { echo "${red}Failed to install latest version${reset}"; exit 1; }
@@ -269,7 +276,7 @@ fi
 
     echo "${yellow}Restarting Phisherprice${reset} (${green}now accessible via 'pp'${reset})..."
     sudo pp || { echo "${red}Failed to restart Phisherprice${reset}"; exit 1; }
-        ;;
+    ;;
       c|C)
 clear
 
