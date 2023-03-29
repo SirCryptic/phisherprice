@@ -36,19 +36,21 @@ sudo ./phisherprice.sh
 ```
 sudo bash phisherprice.sh
 ```
-### Then run the update option and you can type ```sudo pp``` in any terminal
+### Then run the update option and you can type ```sudo pp``` in any terminal or ```sudo pp -b``` to enable banners
 
 
-<h1 align="center"> Installing Dependencies (Optional) </h1>
+<h1 align="center"> Installing Dependencies (Optional/BETA) </h1>
 
 ```
 sudo bash reqs.sh
 ```
 
-<h1 align="center"> How do i run the script? </h1>
+<h1 align="center"> Best way to run the script? </h1>
 
+You can run phisherprice from any cli once you run the update option from inside the script this will give you access to all features beta and non beta for eg admin finder
 ```
-sudo pp   //  from any terminal once you run the update option from inside the script
+sudo pp      //  no banners
+sudo pp -b  //  enable banners
 ```
 
 
