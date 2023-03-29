@@ -91,12 +91,12 @@ colors=(
     "$(tput sgr0)"
 )
 banner_files=(
-    "./main/banners/banner1.txt"
-    "./main/banners/banner2.txt"
-    "./main/banners/banner3.txt"
-    "./main/banners/banner4.txt"
-    "./main/banners/banner5.txt"
-    "./main/banners/banner6.txt"
+    "phisherprice/main/banners/banner1.txt"
+    "phisherprice/main/banners/banner2.txt"
+    "phisherprice/main/banners/banner3.txt"
+    "phisherprice/main/banners/banner4.txt"
+    "phisherprice/main/banners/banner5.txt"
+    "phisherprice/main/banners/banner6.txt"
 )
 title="PhisherPrice"
 echo -e '\033]2;'$title'\007'
@@ -996,7 +996,7 @@ echo ' '
 url_prefix="https://"
 
 # Read the user agents from the file
-user_agents=$(cat ./user_agents.txt)
+user_agents=$(cat phisherprice/user_agents.txt)
 # Clear the cli
 clear
 
@@ -1088,7 +1088,7 @@ while read url_suffix; do
     echo "-----------------------------------------"
   fi
   urls_checked=$((urls_checked+1))
-done < admin_urls.txt
+done < phisherprice/admin_urls.txt
 
 # Check if an admin panel was found
 if [[ "$found_admin_panel" == false ]]; then
@@ -2555,7 +2555,7 @@ if ! [[ $url =~ ^(([0-9]{1,3}\.){3}[0-9]{1,3})|([a-zA-Z]+://.*)$ ]]; then
     printf "${red}Error:${reset} Invalid URL or IP address entered.\n"
 fi
 # Set cURL options to verify SSL certificate
-user_agents_file="./user_agents.txt"
+user_agents_file="phisherprice/user_agents.txt"
 user_agents=()
 while read -r line; do
     user_agents+=("$line")
@@ -3210,7 +3210,7 @@ read -r -p"└─────► $reset" choice
     echo ""
 
 # Read user agents from file
-    user_agents=$(cat ./user_agents.txt)
+    user_agents=$(cat phisherprice/user_agents.txt)
 
 # Check for Slowloris attack
     echo "Checking for Slowloris ${yellow}attack...${reset}"
@@ -3263,7 +3263,7 @@ fi
     read -p "Randomize User-Agent header? [y/n]: " randomize_ua
 
     if [[ $randomize_ua == "y" ]]; then
-      ua_flag="-H 'User-Agent: \$(shuf -n 1 ./user_agents.txt)'"
+      ua_flag="-H 'User-Agent: \$(shuf -n 1 phisherprice/user_agents.txt)'"
     else
       ua_flag=""
     fi
@@ -3378,7 +3378,7 @@ while [ $SECONDS -lt $endtime ]; do
     headers+="\r\n$header_name: $header_value"
   done
   payload=$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w $payload_size | head -n 1)
-  user_agent=$(shuf -n 1 ./user_agents.txt)
+  user_agent=$(shuf -n 1 phisherprice/user_agents.txt)
   curl -A "$user_agent" -H "$headers" -d "$payload" -X POST "http://$host:$port" >/dev/null 2>&1
   echo "Sent request at $(date)"
 done
